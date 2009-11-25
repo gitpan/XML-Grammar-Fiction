@@ -1,26 +1,28 @@
-package XML::Grammar::Fiction::FromProto::Parser;
+package XML::Grammar::Fiction::RNG_Renderer;
 
 use strict;
 use warnings;
 
-use base 'XML::Grammar::Fiction::Base';
+=head1 XML::Grammar::Fiction::RNG_Renderer
 
-1;
+The base class for the Fiction-XML renderer with the common RNG.
 
-=head1 NAME
+=head1 SYNOPSIS
 
-XML::Grammar::Fiction::FromProto::Parser - base class for parsers of the
-Fiction-XML proto-text.
-
-B<For internal use only>.
-
-=head1 VERSION
-
-Version 0.0.2
+For internal use.
 
 =cut
 
-our $VERSION = '0.0.2';
+use Moose;
+
+extends ("XML::Grammar::Fiction::RendererBase");
+
+sub _get_relaxng_base_path
+{
+    my $self = shift;
+
+    return "fiction-xml.rng";
+}
 
 =head1 AUTHOR
 
@@ -34,12 +36,16 @@ L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=XML-Grammar-Fiction>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
 
+
 =head1 ACKNOWLEDGEMENTS
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2007 Shlomi Fish, all rights reserved.
+Copyright 2007 Shlomi Fish.
 
 This program is released under the following license: MIT X11.
 
 =cut
+
+1;
+

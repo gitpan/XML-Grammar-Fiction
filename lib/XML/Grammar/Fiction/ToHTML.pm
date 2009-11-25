@@ -4,24 +4,10 @@ use strict;
 use warnings;
 
 use Carp;
-use File::Spec;
-
-use XML::LibXSLT;
-
-use XML::Grammar::Fiction::ConfigData;
-
-use XML::LibXML;
-use XML::LibXSLT;
-
-use base 'XML::Grammar::Fiction::Base';
 
 use Moose;
 
-
-has '_data_dir' => (isa => 'Str', is => 'rw');
-has '_rng' => (isa => 'XML::LibXML::RelaxNG', is => 'rw');
-has '_xml_parser' => (isa => "XML::LibXML", is => 'rw');
-has '_stylesheet' => (isa => "XML::LibXSLT::StylesheetWrapper", is => 'rw');
+extends( "XML::Grammar::Fiction::RNG_Renderer" );
 
 =head1 NAME
 
@@ -29,11 +15,11 @@ XML::Grammar::Fiction::ToHTML - module that converts the Fiction-XML to HTML.
 
 =head1 VERSION
 
-Version 0.0.1
+Version 0.0.2
 
 =cut
 
-our $VERSION = '0.0.1';
+our $VERSION = '0.0.2';
 
 =head2 new()
 
@@ -46,104 +32,45 @@ Internal - (to settle pod-coverage.).
 
 =cut
 
-sub _init
+sub _get_xslt_base_path
 {
-    my ($self, $args) = @_;
+    my $self = shift;
 
-    my $data_dir = $args->{'data_dir'} ||
-        XML::Grammar::Fiction::ConfigData->config('extradata_install_path')->[0];
-
-    $self->_data_dir($data_dir);
-
-    my $rngschema =
-        XML::LibXML::RelaxNG->new(
-            location =>
-            File::Spec->catfile(
-                $self->_data_dir(), 
-                "fiction-xml.rng"
-            ),
-        );
-
-    $self->_rng($rngschema);
-
-    $self->_xml_parser(XML::LibXML->new());
-
-    my $xslt = XML::LibXSLT->new();
-
-    my $style_doc = $self->_xml_parser()->parse_file(
-            File::Spec->catfile(
-                $self->_data_dir(), 
-                "fiction-xml-to-html.xslt"
-            ),
-        );
-
-    $self->_stylesheet($xslt->parse_stylesheet($style_doc));
-
-    return 0;
+    return "fiction-xml-to-html.xslt";
 }
 
-=head2 $converter->translate_to_html({source => {file => $filename}, output => "string" })
+=head2 translate_to_html
 
-Does the actual conversion. $filename is the filename to translate (currently
-the only available source). 
+=over 4
+
+=item * my $xhtml_source = $converter->translate_to_html({source => {file => $filename}, output => "string" })
+
+=item * my $xhtml_source = $converter->translate_to_html({source => {string_ref => \$buffer}, output => "string" })
+
+=item * my $xhtml_dom = $converter->translate_to_html({source => {file => $filename}, output => "dom" })
+
+=item * my $xhtml_dom = $converter->translate_to_html({source => {dom => $libxml_dom}, output => "dom" })
+
+=back
+
+Does the actual conversion. The C<'source'> argument points to a hash-ref with
+keys and values for the source. If C<'file'> is specified there it points to the
+filename to translate (currently the only available source). If 
+C<'string_ref'> is specified it points to a reference to a string, with the
+contents of the source XML. If C<'dom'> is specified then it points to an XML
+DOM as parsed or constructed by XML::LibXML.
 
 The C<'output'> key specifies the return value. A value of C<'string'> returns 
-the XML as a string, and a value of C<'xml'> returns the XML as an 
+the XML as a string, and a value of C<'dom'> returns the XML as an 
 L<XML::LibXML> DOM object.
 
 =cut
-
-sub _undefize
-{
-    my $v = shift;
-
-    return defined($v) ? $v : "(undef)";
-}
 
 sub translate_to_html
 {
     my ($self, $args) = @_;
 
-    my $source_dom =
-        $self->_xml_parser()->parse_file($args->{source}->{file})
-        ;
-
-    my $ret_code;
-
-    eval
-    {
-        $ret_code = $self->_rng()->validate($source_dom);
-    };
-
-    if (defined($ret_code) && ($ret_code == 0))
-    {
-        # It's OK.
-    }
-    else
-    {
-        confess "RelaxNG validation failed [\$ret_code == "
-            . _undefize($ret_code) . " ; $@]"
-            ;
-    }
-
-    my $stylesheet = $self->_stylesheet();
-
-    my $results = $stylesheet->transform($source_dom);
-
-    my $medium = $args->{output};
-
-    if ($medium eq "string")
-    {
-        return $stylesheet->output_string($results);
-    }
-    elsif ($medium eq "xml")
-    {
-        return $results;
-    }
-    else
-    {
-        confess "Unknown medium";
-    }
+    return $self->generic_translate($args);
 }
 
 =head1 AUTHOR
