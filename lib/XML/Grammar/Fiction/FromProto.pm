@@ -29,11 +29,11 @@ text representing prose to an XML format.
 
 =head1 VERSION
 
-Version 0.0.2
+Version 0.0.3
 
 =cut
 
-our $VERSION = '0.0.2';
+our $VERSION = '0.0.3';
 
 =head2 new()
 
@@ -305,6 +305,7 @@ sub _write_body
     my $id = $body->lookup_attr("id");
 
 =begin foo
+
     my $title =
         first
         { $_->name() eq "title" }
@@ -317,6 +318,7 @@ sub _write_body
         ? (title => $title->_get_childs()->[0])
         : ()
     );
+
 =end foo
 
 =cut
