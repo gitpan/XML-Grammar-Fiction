@@ -3,6 +3,8 @@ package XML::Grammar::Fiction::Base;
 use strict;
 use warnings;
 
+use Moose;
+
 =head1 NAME
 
 XML::Grammar::Fiction::Base - base class for XML::Grammar::Fiction
@@ -10,11 +12,11 @@ classes.
 
 =head1 VERSION
 
-Version 0.0.3
+Version 0.1.0
 
 =cut
 
-our $VERSION = '0.0.3';
+our $VERSION = '0.1.0';
 
 =head1 METHODS
 
@@ -23,18 +25,6 @@ our $VERSION = '0.0.3';
 Constructs a new package
 
 =cut
-
-sub new
-{
-    my $class = shift;
-    my $self = {};
-
-    bless $self, $class;
-
-    $self->_init(@_);
-
-    return $self;
-}
 
 1;
 

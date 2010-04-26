@@ -3,6 +3,20 @@ package rejects::QnD;
 use strict;
 use warnings;
 
+sub _curr_line :lvalue
+{
+    my $self = shift;
+
+    return $self->_lines()->[$self->_curr_line_idx()];
+}
+
+sub _with_curr_line
+{
+    my ($self, $sub_ref) = @_;
+
+    return $sub_ref->( $self->_curr_line_ref() );
+}
+
 # TODO : _parse_saying_first_para and _parse_saying_other_para are
 # very similar - abstract them into one function.
 sub _parse_saying_first_para
@@ -253,3 +267,58 @@ sub _parse_inner_text
     return \@contents;
 }
 
+sub _curr_line_matches
+{
+    my $self = shift;
+    my $re = shift;
+
+    my $l = $self->curr_line_ref();
+
+    return ($$l =~ $re);
+}
+
+=begin Removed
+    This was a removed part of _parse_text.
+
+    # If it's whitespace - return an empty list.
+    if ((scalar(@ret) == 1) && (ref($ret[0]) eq "") && ($ret[0] !~ m{\S}))
+    {
+        return $self->_new_empty_list();
+    }
+
+    return $self->_new_list(\@ret);
+
+=end Removed
+
+=cut
+
+sub _find_next_inner_text
+{
+    my $self = shift;
+
+    my $which_tag;
+    my $text = "";
+
+    my $l = $self->curr_line_ref();
+
+    # Apparently, perl does not always returns true in this
+    # case, so we need the defined($1) ? $1 : "" workaround.
+    $$l =~ m{\G([^\<\[\]\&]*)}cgms;
+
+    $text .= (defined($1) ? $1 : "");
+
+    if ($$l =~ m{\G\&})
+    {
+        $which_tag = "entity";
+    }                
+    elsif ($$l =~ m{\G(?:</|\])})
+    {
+        $which_tag = "close";
+    }
+    elsif ($$l =~ m{\G<})
+    {
+        $which_tag = "open_tag";
+    }
+
+    return ($which_tag, $text);
+}

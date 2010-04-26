@@ -10,11 +10,11 @@ and a lightweight markup language for stories, novels and other fiction.
 
 =head1 VERSION
 
-Version 0.0.3
+Version 0.1.0
 
 =cut
 
-our $VERSION = '0.0.3';
+our $VERSION = '0.1.0';
 
 =head1 SYNOPSIS
 
@@ -40,6 +40,12 @@ L<XML::Grammar::Fiction::App::FromProto>,
 L<XML::Grammar::Fiction::App::ToDocBook> and
 L<XML::Grammar::Fiction::App::ToHTML>, which are modules implementing
 command line applications for their processing.
+
+In order to be able to share the common code and functionality more easily, 
+then L<XML::Grammar::Screenplay>, which provides similar XML grammar and 
+text-based markup language for writing screenplays, is now included in this 
+CPAN distribution, and you can refer to its documentation as well:
+L<XML::Grammar::Screenplay> .
 
 The rest of this page will document the syntax of the custom textual format.
 

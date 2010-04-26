@@ -4,20 +4,13 @@ use strict;
 use warnings;
 
 use Carp;
-
-use base 'XML::Grammar::Fiction::Base';
-
-use XML::Writer;
 use HTML::Entities ();
-
-use XML::Grammar::Fiction::FromProto::Nodes;
 
 use Moose;
 
-use List::Util (qw(first));
+extends("XML::Grammar::FictionBase::TagsTree2XML");
 
-has "_parser" => ('isa' => "XML::Grammar::Fiction::FromProto::Parser", 'is' => "rw");
-has "_writer" => ('isa' => "XML::Writer", 'is' => "rw");
+use List::Util (qw(first));
 
 my $fiction_ns = q{http://web-cpan.berlios.de/modules/XML-Grammar-Fortune/fiction-xml-0.2/};
 my $xml_ns = "http://www.w3.org/XML/1998/namespace";
@@ -29,11 +22,11 @@ text representing prose to an XML format.
 
 =head1 VERSION
 
-Version 0.0.3
+Version 0.1.0
 
 =cut
 
-our $VERSION = '0.0.3';
+our $VERSION = '0.1.0';
 
 =head2 new()
 
@@ -45,22 +38,6 @@ at that point.
 Internal - (to settle pod-coverage.).
 
 =cut
-
-sub _init
-{
-    my ($self, $args) = @_;
-
-    local $Parse::RecDescent::skip = "";
-
-    my $parser_class = 
-        ($args->{parser_class} || "XML::Grammar::Fiction::FromProto::Parser::QnD");
-
-    $self->_parser(
-        $parser_class->new()
-    );
-
-    return 0;
-}
 
 =head2 $self->convert({ source => { file => $path_to_file } })
 
@@ -117,6 +94,68 @@ sub _get_text_start
     }
 }
 
+sub _paragraph_tag
+{
+    return "p";
+}
+
+sub _handle_elem_of_name_title
+{
+    my ($self, $elem) = @_;
+
+    # TODO :
+    # Eliminate the Law-of-Demeter-syndrome here.
+    my $list = $elem->_get_childs()->[0];
+    $self->_output_tag(
+        {
+            start => ["title"],
+            in => sub {
+                $self->_write_elem(
+                    {
+                        elem => $list,
+                    }                            
+                ),
+            },
+        },
+    );
+
+    return;
+}
+
+sub _bold_tag_name
+{
+    return "b";
+}
+
+sub _handle_elem_of_name_i
+{
+    my ($self, $elem) = @_;
+
+    $self->_output_tag_with_childs(
+        {
+            start => ["i"],
+            elem => $elem,
+        }
+    );
+
+    return;
+}
+
+
+sub _handle_text_start
+{
+    my ($self, $elem) = @_;
+
+    $self->_output_tag_with_childs(
+        {
+            start => $self->_get_text_start($elem),
+            elem => $elem,
+        },
+    );
+
+    return;
+}
+
 sub _write_elem
 {
     my ($self, $args) = @_;
@@ -138,7 +177,7 @@ sub _write_elem
     {
         $self->_output_tag_with_childs(
             {
-               start => ["p"],
+                start => [$self->_paragraph_tag()],
                 elem => $elem,
             },
         );
@@ -152,77 +191,11 @@ sub _write_elem
     }
     elsif ($elem->_short_isa("Element"))
     {
-        if ($elem->name() eq "title")
-        {
-            # TODO :
-            # Eliminate the Law-of-Demeter-syndrome here.
-            my $list = $elem->_get_childs()->[0];
-            $self->_output_tag(
-                {
-                    start => ["title"],
-                    in => sub {
-                        $self->_write_elem(
-                            {
-                                elem => $list,
-                            }                            
-                        ),
-                    },
-                },
-            );
-        }
-        elsif ($elem->name() eq "s")
-        {
-            $self->_write_scene({scene => $elem});
-        }
-        elsif ($elem->name() eq "a")
-        {
-            $self->_output_tag_with_childs(
-                {
-                    start => ["ulink", "url" => $elem->lookup_attr("href")],
-                    elem => $elem,
-                }
-            );
-        }
-        elsif ($elem->name() eq "b")
-        {
-            $self->_output_tag_with_childs(
-                {
-                    start => ["b"],
-                    elem => $elem,
-                }
-            );
-        }
-        elsif ($elem->name() eq "i")
-        {
-            $self->_output_tag_with_childs(
-                {
-                    start => ["i"],
-                    elem => $elem,
-                }
-            );
-        }        
-        elsif ($elem->name() eq "br")
-        {
-            $self->_writer->emptyTag("br");
-        }
-        elsif ($elem->_short_isa("InnerDesc"))
-        {
-            $self->_output_tag_with_childs(
-                {
-                    start => ["inlinedesc"],
-                    elem => $elem,
-                }
-            );
-        }
+        $self->_write_Element_elem($elem);
     }
     elsif ($elem->_short_isa("Text"))
     {
-        $self->_output_tag_with_childs(
-            {
-                start => $self->_get_text_start($elem),
-                elem => $elem,
-            },
-        );
+        $self->_handle_text_start($elem);
     }
     elsif ($elem->_short_isa("Comment"))
     {
