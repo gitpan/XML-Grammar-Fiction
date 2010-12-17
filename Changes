@@ -1,5 +1,11 @@
 Revision history for XML-Grammar-Fiction.
 
+0.1.3       Fri Dec 17 19:38:45 IST 2010
+        - Moved some unused source files to the rejects directory.
+        - Convert to the new XML-Grammar-Fiction-Builder which uses
+        File::ShareDir, which will hopefully resolve testing and installation
+        problems.
+
 0.1.2       Thu Apr 29 22:47:04 IDT 2010
         - In the Build.PL - merged 'test_requires' into 'build_requires'. 
         Turns out that 'test_requires' is a Module::Installism.
