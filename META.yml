@@ -16,7 +16,7 @@ configure_requires:
   Module::Build: 0
   strict: 0
   warnings: 0
-generated_by: 'Module::Build version 0.3607'
+generated_by: 'Module::Build version 0.3617'
 keywords:
   - authoring
   - cinema
@@ -44,27 +44,27 @@ name: XML-Grammar-Fiction
 provides:
   XML::Grammar::Fiction:
     file: lib/XML/Grammar/Fiction.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Fiction::App::FromProto:
     file: lib/XML/Grammar/Fiction/App/FromProto.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Fiction::App::ToDocBook:
     file: lib/XML/Grammar/Fiction/App/ToDocBook.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Fiction::App::ToHTML:
     file: lib/XML/Grammar/Fiction/App/ToHTML.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Fiction::Base:
     file: lib/XML/Grammar/Fiction/Base.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Fiction::Err:
     file: lib/XML/Grammar/Fiction/Err.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Fiction::Event:
     file: lib/XML/Grammar/Fiction/Event.pm
   XML::Grammar::Fiction::FromProto:
     file: lib/XML/Grammar/Fiction/FromProto.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Fiction::FromProto::Node:
     file: lib/XML/Grammar/Fiction/FromProto/Nodes.pm
   XML::Grammar::Fiction::FromProto::Node::Comment:
@@ -87,40 +87,40 @@ provides:
     file: lib/XML/Grammar/Fiction/FromProto/Nodes.pm
   XML::Grammar::Fiction::FromProto::Nodes:
     file: lib/XML/Grammar/Fiction/FromProto/Nodes.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Fiction::FromProto::Parser:
     file: lib/XML/Grammar/Fiction/FromProto/Parser.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Fiction::FromProto::Parser::LineIterator:
     file: lib/XML/Grammar/Fiction/FromProto/Parser/LineIterator.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Fiction::FromProto::Parser::QnD:
     file: lib/XML/Grammar/Fiction/FromProto/Parser/QnD.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Fiction::FromProto::Parser::XmlIterator:
     file: lib/XML/Grammar/Fiction/FromProto/Parser/XmlIterator.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Fiction::RNG_Renderer:
     file: lib/XML/Grammar/Fiction/RNG_Renderer.pm
   XML::Grammar::Fiction::RendererBase:
     file: lib/XML/Grammar/Fiction/RendererBase.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Fiction::Struct::Tag:
     file: lib/XML/Grammar/Fiction/Struct/Tag.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Fiction::Struct::Tag::Para:
     file: lib/XML/Grammar/Fiction/Struct/Tag.pm
   XML::Grammar::Fiction::ToDocBook:
     file: lib/XML/Grammar/Fiction/ToDocBook.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Fiction::ToHTML:
     file: lib/XML/Grammar/Fiction/ToHTML.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::FictionBase::TagsTree2XML:
     file: lib/XML/Grammar/FictionBase/TagsTree2XML.pm
   XML::Grammar::Screenplay:
     file: lib/XML/Grammar/Screenplay.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Screenplay::App::FromProto:
     file: lib/XML/Grammar/Screenplay/App/FromProto.pm
   XML::Grammar::Screenplay::App::ToDocBook:
@@ -131,17 +131,17 @@ provides:
     file: lib/XML/Grammar/Screenplay/Base.pm
   XML::Grammar::Screenplay::FromProto:
     file: lib/XML/Grammar/Screenplay/FromProto.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Screenplay::FromProto::Parser:
     file: lib/XML/Grammar/Screenplay/FromProto/Parser.pm
   XML::Grammar::Screenplay::FromProto::Parser::QnD:
     file: lib/XML/Grammar/Screenplay/FromProto/Parser/QnD.pm
   XML::Grammar::Screenplay::ToDocBook:
     file: lib/XML/Grammar/Screenplay/ToDocBook.pm
-    version: v0.1.3
+    version: v0.1.4
   XML::Grammar::Screenplay::ToHTML:
     file: lib/XML/Grammar/Screenplay/ToHTML.pm
-    version: v0.1.3
+    version: v0.1.4
 requires:
   Carp: 0
   Data::Dumper: 0
@@ -160,6 +160,6 @@ requires:
   warnings: 0
 resources:
   homepage: http://web-cpan.berlios.de/modules/XML-Grammar-Fiction/
-  license: http://opensource.org/licenses/mit-license.php
+  license: http://www.opensource.org/licenses/mit-license.php
   repository: https://svn.berlios.de/svnroot/repos/web-cpan/XML-Grammar-Fiction/
-version: v0.1.3
+version: v0.1.4

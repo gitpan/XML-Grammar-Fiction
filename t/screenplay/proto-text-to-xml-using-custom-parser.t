@@ -5,13 +5,13 @@ use warnings;
 
 use Test::More;
 
-use Test::XML tests => 26;
+use Test::XML tests => 30;
 
 use XML::LibXML;
 
-use XML::Grammar::Screenplay::FromProto;
+require XML::Grammar::Screenplay::FromProto;
 
-use XML::Grammar::Screenplay::FromProto::Parser::QnD;
+require XML::Grammar::Screenplay::FromProto::Parser::QnD;
 
 sub load_xml
 {
@@ -34,6 +34,7 @@ my @tests = (qw(
         dialogue-with-several-paragraphs
         with-description
         with-tags-inside-paragraphs
+        with-i-element-inside-paragraphs
         with-internal-description
         with-comments
         with-multi-para-desc
@@ -41,17 +42,18 @@ my @tests = (qw(
         scenes-with-titles
         with-entities
         with-brs
+        with-internal-description-at-start-of-line
     ));
 
-# TEST:$num_texts=13
+# TEST:$num_texts=15
 
 my $grammar = XML::Grammar::Screenplay::FromProto->new({
         parser_class => "XML::Grammar::Screenplay::FromProto::Parser::QnD",
     });
 
 my $rngschema = XML::LibXML::RelaxNG->new(
-        location => "./extradata/screenplay-xml.rng" 
-    );    
+        location => "./extradata/screenplay-xml.rng"
+    );
 
 my $xml_parser = XML::LibXML->new();
 $xml_parser->validation(0);
@@ -75,7 +77,7 @@ foreach my $fn (@tests)
     my $dom = $xml_parser->parse_string($got_xml);
 
     my $code;
-    eval 
+    eval
     {
     $code = $rngschema->validate($dom);
     };
