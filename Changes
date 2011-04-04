@@ -1,5 +1,11 @@
 Revision history for XML-Grammar-Fiction.
 
+0.1.5       Mon Apr  4 23:08:18 IDT 2011
+
+    * Add the tag-release.pl script to tag a release using svn.berlios.de.
+    * Fix the handling of a colon (":") inside a top-level description
+    in XML-Grammar-Screenplay.
+
 0.1.4       Mon Apr  4 00:50:07 IDT 2011
     * ::Screenplay - Fix the innerdesc on the start of the line in the middle 
     of the paragraph. Like:

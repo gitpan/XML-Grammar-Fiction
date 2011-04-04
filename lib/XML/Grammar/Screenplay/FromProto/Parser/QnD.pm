@@ -28,7 +28,7 @@ sub _top_is_para
 {
     my $self = shift;
 
-    return $self->_in_para() && ($self->_top_tag->name() eq "p");
+    return $self->_in_para() && ($self->_top_is('p'));
 }
 
 
@@ -36,7 +36,21 @@ sub _top_is_saying
 {
     my $self = shift;
 
-    return $self->_in_saying() && ($self->_top_tag->name() eq "saying");
+    return $self->_in_saying() && ($self->_top_is('saying'));
+}
+
+sub _top_is
+{
+    my ($self, $want_name) = @_;
+
+    return ($self->_top_tag->name eq $want_name);
+}
+
+sub _top_is_desc
+{
+    my $self = shift;
+
+    return $self->_top_is('desc');
 }
 
 around '_pop_tag' => sub {
@@ -185,7 +199,7 @@ around '_parse_non_tag_text_unit' => sub {
 
     my $l = $self->curr_line_ref();
 
-    if ((pos($$l) == 0) && ($$l =~ m{\A[^\[<][^:]*:}))
+    if ((pos($$l) == 0) && (! $self->_top_is_desc()) && ($$l =~ m{\A[^\[<][^:]*:}))
     {
         return $self->_parse_speech_unit();
     }
@@ -460,7 +474,7 @@ sub _list_valid_tag_events
 after '_handle_open_tag' => sub {
     my $self = shift;
 
-    if ($self->_top_tag()->name() eq "desc")
+    if ($self->_top_is_desc)
     {
         $self->_start_para();
     }
