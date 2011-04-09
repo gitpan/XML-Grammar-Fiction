@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 6;
+use Test::More tests => 8;
 
 use Test::XML;
 
@@ -28,28 +28,13 @@ sub load_xml
 }
 
 my @tests = (qw(
-        nested-s
-        two-nested-s
-        with-dialogue
-        dialogue-with-several-paragraphs
-        with-description
-        with-tags-inside-paragraphs
-        sections-and-paras
-        with-comments
-        with-multi-para-desc
-        with-multi-line-comments
-        scenes-with-titles
-        with-entities
-        with-brs
-    ));
-
-@tests = (qw(
     sections-and-paras
     sections-p-b-i
     sections-p-b-i-comments
+    sections-a-href
     ));
 
-# TEST:$num_texts=3
+# TEST:$num_texts=4
 
 my $grammar = XML::Grammar::Fiction::FromProto->new({
         parser_class => "XML::Grammar::Fiction::FromProto::Parser::QnD",

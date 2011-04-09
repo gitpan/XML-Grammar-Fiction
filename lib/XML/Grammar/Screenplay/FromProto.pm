@@ -13,11 +13,11 @@ text representing a screenplay to an XML format.
 
 =head1 VERSION
 
-Version 0.1.5
+Version 0.1.6
 
 =cut
 
-our $VERSION = '0.1.5';
+our $VERSION = '0.1.6';
 
 =head2 new()
 
@@ -120,6 +120,20 @@ sub _handle_text_start
 sub _paragraph_tag
 {
     return "para";
+}
+
+sub _handle_elem_of_name_a
+{
+    my ($self, $elem) = @_;
+
+    $self->_output_tag_with_childs(
+        {
+            start => ["ulink", "url" => $elem->lookup_attr("href")],
+            elem => $elem,
+        }
+    );
+
+    return;
 }
 
 sub _handle_elem_of_name_section

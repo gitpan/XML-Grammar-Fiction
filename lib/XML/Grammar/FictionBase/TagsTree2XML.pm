@@ -15,7 +15,7 @@ to XML converters.
 
 =head1 VERSION
 
-Version 0.1.5
+Version 0.1.6
 
 =cut
 
@@ -70,19 +70,6 @@ sub _handle_elem_of_name_s
     my ($self, $elem) = @_;
 
     $self->_write_scene({scene => $elem});
-}
-
-sub _handle_elem_of_name_a
-{
-    my ($self, $elem) = @_;
-    $self->_output_tag_with_childs(
-        {
-            start => ["ulink", "url" => $elem->lookup_attr("href")],
-            elem => $elem,
-        }
-    );
-
-    return;
 }
 
 sub _handle_elem_of_name_b
