@@ -579,7 +579,7 @@ sub _generate_tag_event
 
         if ($$l =~ m{\G\&})
         {
-            if ($$l !~ m{\G(\&\w+;)}g)
+            if ($$l !~ m/\G(\&#?\w+;)/g)
             {
                 Carp::confess("Cannot match entity (e.g: \"&quot;\") at line " .
                     $self->line_num()
@@ -737,11 +737,11 @@ B<For internal use only>.
 
 =cut
 
-our $VERSION = '0.1.6';
+our $VERSION = '0.1.7';
 
 =head1 VERSION
 
-Version 0.1.6
+Version 0.1.7
 
 =head1 SYNOPSIS
 
