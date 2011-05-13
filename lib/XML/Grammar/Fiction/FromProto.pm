@@ -23,11 +23,11 @@ text representing prose to an XML format.
 
 =head1 VERSION
 
-Version 0.1.7
+Version 0.2.0
 
 =cut
 
-our $VERSION = '0.1.7';
+our $VERSION = '0.2.0';
 
 =head2 new()
 
@@ -111,6 +111,49 @@ sub _handle_elem_of_name_a
                 "span",
                 [$xlink_ns, "href"] => $elem->lookup_attr("href"),
             ],
+            elem => $elem,
+        }
+    );
+
+    return;
+}
+
+
+sub _handle_elem_of_name_li
+{
+    my ($self, $elem) = @_;
+
+    $self->_output_tag_with_childs(
+        {
+            start => ['li'],
+            elem => $elem,
+        }
+    );
+
+    return;
+}
+
+sub _handle_elem_of_name_ol
+{
+    my ($self, $elem) = @_;
+
+    $self->_output_tag_with_childs(
+        {
+            start => ['ol'],
+            elem => $elem,
+        }
+    );
+
+    return;
+}
+
+sub _handle_elem_of_name_ul
+{
+    my ($self, $elem) = @_;
+
+    $self->_output_tag_with_childs(
+        {
+            start => ['ul'],
             elem => $elem,
         }
     );
