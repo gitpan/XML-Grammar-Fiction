@@ -9,6 +9,8 @@ use Moose;
 
 extends ("XML::Grammar::Fiction::RNG_Renderer");
 
+has '+xslt_transform_basename' => (default => "fiction-xml-to-docbook.xslt");
+
 =head1 NAME
 
 XML::Grammar::Fiction::ToDocBook - module that converts the Fiction-XML to 
@@ -16,11 +18,11 @@ DocBook 5.
 
 =head1 VERSION
 
-Version 0.2.0
+Version 0.3.0
 
 =cut
 
-our $VERSION = '0.2.0';
+our $VERSION = '0.3.0';
 
 =head2 new()
 
@@ -33,12 +35,7 @@ Internal - (to settle pod-coverage.).
 
 =cut
 
-sub _get_xslt_base_path
-{
-    my $self = shift;
 
-    return "fiction-xml-to-docbook.xslt";
-}
 
 =head2 translate_to_docbook
 
@@ -71,7 +68,7 @@ sub translate_to_docbook
 {
     my ($self, $args) = @_;
 
-    return $self->generic_translate($args);
+    return $self->perform_translation($args);
 }
 
 =head1 AUTHOR

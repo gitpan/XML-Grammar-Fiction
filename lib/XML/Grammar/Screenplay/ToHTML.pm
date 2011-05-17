@@ -1,27 +1,10 @@
 package XML::Grammar::Screenplay::ToHTML;
 
-use strict;
-use warnings;
-
-use Carp;
-use File::Spec;
-
-use XML::LibXSLT;
-
-use File::ShareDir ':ALL';
-
-use XML::LibXML;
-use XML::LibXSLT;
-
-use base 'XML::Grammar::Screenplay::Base';
-
 use Moose;
 
+extends('XML::Grammar::Screenplay::XSLT::Base');
 
-has '_data_dir' => (isa => 'Str', is => 'rw');
-has '_rng' => (isa => 'XML::LibXML::RelaxNG', is => 'rw');
-has '_xml_parser' => (isa => "XML::LibXML", is => 'rw');
-has '_stylesheet' => (isa => "XML::LibXSLT::StylesheetWrapper", is => 'rw');
+has '+xslt_transform_basename' => (default => "screenplay-xml-to-html.xslt");
 
 =head1 NAME
 
@@ -30,11 +13,11 @@ XML to HTML.
 
 =head1 VERSION
 
-Version 0.2.0
+Version 0.3.0
 
 =cut
 
-our $VERSION = '0.2.0';
+our $VERSION = '0.3.0';
 
 =head2 new()
 
@@ -44,44 +27,6 @@ at that point.
 =head2 meta()
 
 Internal - (to settle pod-coverage.).
-
-=cut
-
-sub _init
-{
-    my ($self, $args) = @_;
-
-    my $data_dir = $args->{'data_dir'} ||
-        dist_dir( 'XML-Grammar-Fiction');
-
-    $self->_data_dir($data_dir);
-
-    my $rngschema =
-        XML::LibXML::RelaxNG->new(
-            location =>
-            File::Spec->catfile(
-                $self->_data_dir(), 
-                "screenplay-xml.rng"
-            ),
-        );
-
-    $self->_rng($rngschema);
-
-    $self->_xml_parser(XML::LibXML->new());
-
-    my $xslt = XML::LibXSLT->new();
-
-    my $style_doc = $self->_xml_parser()->parse_file(
-            File::Spec->catfile(
-                $self->_data_dir(), 
-                "screenplay-xml-to-html.xslt"
-            ),
-        );
-
-    $self->_stylesheet($xslt->parse_stylesheet($style_doc));
-
-    return 0;
-}
 
 =head2 $converter->translate_to_html({source => {file => $filename}, output => "string" })
 
@@ -98,44 +43,7 @@ sub translate_to_html
 {
     my ($self, $args) = @_;
 
-    my $source_dom =
-        $self->_xml_parser()->parse_file($args->{source}->{file})
-        ;
-
-    my $ret_code;
-
-    eval
-    {
-        $ret_code = $self->_rng()->validate($source_dom);
-    };
-
-    if (defined($ret_code) && ($ret_code == 0))
-    {
-        # It's OK.
-    }
-    else
-    {
-        confess "RelaxNG validation failed [\$ret_code == $ret_code ; $@]";
-    }
-
-    my $stylesheet = $self->_stylesheet();
-
-    my $results = $stylesheet->transform($source_dom);
-
-    my $medium = $args->{output};
-
-    if ($medium eq "string")
-    {
-        return $stylesheet->output_string($results);
-    }
-    elsif ($medium eq "xml")
-    {
-        return $results;
-    }
-    else
-    {
-        confess "Unknown medium";
-    }
+    return $self->perform_translation($args);
 }
 
 =head1 AUTHOR

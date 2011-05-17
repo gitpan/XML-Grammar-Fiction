@@ -9,6 +9,7 @@ extradata/screenplay-xml.dtd
 extradata/screenplay-xml.rng
 extradata/screenplay-xml-to-docbook.xslt
 extradata/screenplay-xml-to-html.xslt
+extradata/screenplay-xml-to-tei.xslt
 extradata/screenplay-xml-to-xsl-fo.xslt
 inc/Test/Run/Builder.pm
 inc/XML/Grammar/Builder.pm
@@ -18,6 +19,7 @@ lib/XML/Grammar/Fiction/App/ToDocBook.pm
 lib/XML/Grammar/Fiction/App/ToHTML.pm
 lib/XML/Grammar/Fiction/Base.pm
 lib/XML/Grammar/FictionBase/TagsTree2XML.pm
+lib/XML/Grammar/FictionBase/XSLT/Converter.pm
 lib/XML/Grammar/Fiction/Err.pm
 lib/XML/Grammar/Fiction/Event.pm
 lib/XML/Grammar/Fiction/FromProto/Nodes.pm
@@ -27,7 +29,6 @@ lib/XML/Grammar/Fiction/FromProto/Parser/QnD.pm
 lib/XML/Grammar/Fiction/FromProto/Parser/XmlIterator.pm
 lib/XML/Grammar/Fiction/FromProto.pm
 lib/XML/Grammar/Fiction.pm
-lib/XML/Grammar/Fiction/RendererBase.pm
 lib/XML/Grammar/Fiction/RNG_Renderer.pm
 lib/XML/Grammar/Fiction/Struct/Tag.pm
 lib/XML/Grammar/Fiction/ToDocBook.pm
@@ -42,12 +43,15 @@ lib/XML/Grammar/Screenplay/FromProto.pm
 lib/XML/Grammar/Screenplay.pm
 lib/XML/Grammar/Screenplay/ToDocBook.pm
 lib/XML/Grammar/Screenplay/ToHTML.pm
+lib/XML/Grammar/Screenplay/ToTEI.pm
+lib/XML/Grammar/Screenplay/XSLT/Base.pm
 Makefile.PL
 MANIFEST
 META.yml # Will be created by "make dist"
 README
 rejects/lib/XML/Grammar/Fiction/FromProto/Parser/PRD.pm
 rejects/lib/XML/Grammar/Fiction/RendererBase.pm
+rejects/lib/XML/Grammar/Fiction/RendererBase.pm.2
 rejects/lib/XML/Grammar/Screenplay/FromProto/Parser/PRD.pm
 rejects/lib/XML/Grammar/Screenplay/Struct/Tag.pm
 rejects/proto-text-to-xml.t
@@ -135,6 +139,23 @@ t/screenplay/data/proto-text/with-multi-line-comments.txt
 t/screenplay/data/proto-text/with-multi-para-desc.txt
 t/screenplay/data/proto-text/with-numeric-entities.txt
 t/screenplay/data/proto-text/with-tags-inside-paragraphs.txt
+t/screenplay/data/tei/dialogue-with-several-paragraphs.tei.xml
+t/screenplay/data/tei/nested-s.tei.xml
+t/screenplay/data/tei/scenes-with-titles.tei.xml
+t/screenplay/data/tei/two-nested-s.tei.xml
+t/screenplay/data/tei/with-brs.tei.xml
+t/screenplay/data/tei/with-colon-inside-description.tei.xml
+t/screenplay/data/tei/with-comments.tei.xml
+t/screenplay/data/tei/with-description.tei.xml
+t/screenplay/data/tei/with-dialogue.tei.xml
+t/screenplay/data/tei/with-entities.tei.xml
+t/screenplay/data/tei/with-i-element-inside-paragraphs.tei.xml
+t/screenplay/data/tei/with-internal-description-at-start-of-line.tei.xml
+t/screenplay/data/tei/with-internal-description.tei.xml
+t/screenplay/data/tei/with-multi-line-comments.tei.xml
+t/screenplay/data/tei/with-multi-para-desc.tei.xml
+t/screenplay/data/tei/with-numeric-entities.tei.xml
+t/screenplay/data/tei/with-tags-inside-paragraphs.tei.xml
 t/screenplay/data/xml/dialogue-with-several-paragraphs.xml
 t/screenplay/data/xml/nested-s.xml
 t/screenplay/data/xml/scenes-with-titles.xml
@@ -157,4 +178,5 @@ t/screenplay/proto-text-invalid.t
 t/screenplay/proto-text-to-xml-using-custom-parser.t
 t/screenplay/qnd-parser-unit.t
 t/screenplay/to-docbook.t
+t/screenplay/to-tei.t
 t/screenplay/to-xhtml.t
