@@ -13,11 +13,11 @@ XML to DocBook.
 
 =head1 VERSION
 
-Version 0.3.0
+Version 0.4.0
 
 =cut
 
-our $VERSION = '0.3.0';
+our $VERSION = '0.4.0';
 
 =head2 new()
 
@@ -55,8 +55,8 @@ Shlomi Fish, L<http://www.shlomifish.org/>.
 =head1 BUGS
 
 Please report any bugs or feature requests to
-C<bug-xml-grammar-screenplay at rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=XML-Grammar-Screenplay>.
+C<bug-xml-grammar-fiction at rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=XML-Grammar-Fiction>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
 

@@ -24,11 +24,11 @@ text representing prose to an XML format.
 
 =head1 VERSION
 
-Version 0.3.0
+Version 0.4.0
 
 =cut
 
-our $VERSION = '0.3.0';
+our $VERSION = '0.4.0';
 
 =head2 new()
 
@@ -112,6 +112,20 @@ sub _handle_elem_of_name_a
                 "span",
                 [$xlink_ns, "href"] => $elem->lookup_attr("href"),
             ],
+            elem => $elem,
+        }
+    );
+
+    return;
+}
+
+sub _handle_elem_of_name_blockquote
+{
+    my ($self, $elem) = @_;
+
+    $self->_output_tag_with_childs(
+        {
+            start => ['blockquote'],
             elem => $elem,
         }
     );
