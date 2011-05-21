@@ -16,11 +16,11 @@ B<For internal use only>.
 
 =head1 VERSION
 
-Version 0.4.1
+Version 0.5.0
 
 =cut
 
-our $VERSION = '0.4.1';
+our $VERSION = '0.5.0';
 
 has 'name' => (is => "rw", isa => "Str");
 has 'line' => (is => "rw", isa => "Int");
@@ -34,6 +34,12 @@ has 'children' => (
 sub append_children
 {
     my ($self, $children) = @_;
+
+    # This is an assert / sanity check.
+    if (List::MoreUtils::any { !defined ($_) } @$children)
+    {
+        Carp::confess("append_children with undef.");
+    }
 
     push @{$self->children()}, @$children;
 

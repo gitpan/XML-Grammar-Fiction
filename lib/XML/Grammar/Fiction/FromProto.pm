@@ -24,11 +24,11 @@ text representing prose to an XML format.
 
 =head1 VERSION
 
-Version 0.4.1
+Version 0.5.0
 
 =cut
 
-our $VERSION = '0.4.1';
+our $VERSION = '0.5.0';
 
 =head2 new()
 
@@ -142,6 +142,56 @@ sub _handle_elem_of_name_li
         {
             start => ['li'],
             elem => $elem,
+        }
+    );
+
+    return;
+}
+
+sub _handle_elem_of_name_programlisting
+{
+    my ($self, $elem) = @_;
+
+    my $throw_found_tag_exception = sub {
+        XML::Grammar::Fiction::Err::Parse::ProgramListingContainsTags->throw(
+            error => "<programlisting> tag cannot contain other tags.",
+            line => $elem->open_line(),
+        );
+    };
+
+    return $self->_output_tag(
+        {
+            start => ['programlisting'],
+            elem => $elem,
+            'in' => sub {
+                foreach my $child (@{ $elem->_get_childs() })
+                {
+                    if ($child->_short_isa("Paragraph"))
+                    {
+                        foreach my $text_node (
+                            @{ $child->children()->contents() }
+                        )
+                        {
+                            if ($text_node->_short_isa("Text"))
+                            {
+                                $self->_write_elem({elem => $text_node});
+                            }
+                            else
+                            {
+                                $throw_found_tag_exception->();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        $throw_found_tag_exception->();
+                    }
+                    # End of paragraph.
+                    $self->_writer->characters("\n\n");
+                }
+
+                return;
+            },
         }
     );
 

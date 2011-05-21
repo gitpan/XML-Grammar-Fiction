@@ -12,11 +12,11 @@ use in XML::Grammar::Fiction::FromProto.
 
 =head1 VERSION
 
-Version 0.4.1
+Version 0.5.0
 
 =cut
 
-our $VERSION = '0.4.1';
+our $VERSION = '0.5.0';
 
 package XML::Grammar::Fiction::FromProto::Node;
 
@@ -61,6 +61,7 @@ extends("XML::Grammar::Fiction::FromProto::Node::WithContent");
 
 has 'name' => (isa => 'Str', is => 'rw');
 has 'attrs' => (isa => 'ArrayRef', is => 'rw');
+has 'open_line' => (isa => 'Maybe[Int]', is => 'rw');
 
 sub lookup_attr
 {

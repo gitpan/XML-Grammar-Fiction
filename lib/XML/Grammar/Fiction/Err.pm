@@ -11,11 +11,11 @@ XML::Grammar::Fiction
 
 =head1 VERSION
 
-Version 0.4.1
+Version 0.5.0
 
 =cut
 
-our $VERSION = '0.4.1';
+our $VERSION = '0.5.0';
 
 use Exception::Class
     (
@@ -46,6 +46,10 @@ use Exception::Class
         {
             isa => "XML::Grammar::Fiction::Err::Parse::LineError",
         },
+        "XML::Grammar::Fiction::Err::Parse::ProgramListingContainsTags" =>
+        {
+            isa => "XML::Grammar::Fiction::Err::Parse::LineError",
+        }
     )
     ;
 1;

@@ -112,6 +112,7 @@ sub _create_elem
                 name => $open->name(),
                 children => $children,
                 attrs => $open->attrs(),
+                open_line => $open->line(),
             }
         );
 }
@@ -141,6 +142,15 @@ sub _new_para
         )
     {
         Carp::confess (qq{Para contains a saying.});
+    }
+
+    # This is an assert
+    if (List::MoreUtils::any 
+        { !defined($_) }
+        @{$contents || []}
+        )
+    {
+        Carp::confess (qq{Para contains an undef member.});
     }
 
 
@@ -737,11 +747,11 @@ B<For internal use only>.
 
 =cut
 
-our $VERSION = '0.4.1';
+our $VERSION = '0.5.0';
 
 =head1 VERSION
 
-Version 0.4.1
+Version 0.5.0
 
 =head1 SYNOPSIS
 
