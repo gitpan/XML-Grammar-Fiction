@@ -21,11 +21,11 @@ B<For internal use only>.
 
 =cut
 
-our $VERSION = '0.4.0';
+our $VERSION = '0.4.1';
 
 =head1 VERSION
 
-Version 0.4.0
+Version 0.4.1
 
 =head1 SYNOPSIS
 
@@ -194,6 +194,11 @@ Skip multiline space.
 sub skip_multiline_space
 {
     my $self = shift;
+
+    if (${$self->curr_line_ref()} =~ m{\G.*?\S})
+    {
+        return;
+    }
 
     $self->consume(qr{\s});
 
