@@ -1,4 +1,4 @@
-package XML::Grammar::Fiction::FromProto::Parser::LineIterator;
+package XML::Grammar::FictionBase::FromProto::Parser::LineIterator;
 
 use strict;
 use warnings;
@@ -14,18 +14,18 @@ has "_lines" => (isa => "ArrayRef", is => "rw");
 
 =head1 NAME
 
-XML::Grammar::Fiction::FromProto::Parser::LineIterator - line iterator base
+XML::Grammar::FictionBase::FromProto::Parser::LineIterator - line iterator base
 class for the parser.
 
 B<For internal use only>.
 
 =cut
 
-our $VERSION = '0.5.1';
+our $VERSION = '0.6.0';
 
 =head1 VERSION
 
-Version 0.5.1
+Version 0.6.0
 
 =head1 SYNOPSIS
 
@@ -92,6 +92,19 @@ sub curr_pos
     my $self = shift;
 
     return pos(${$self->curr_line_ref()});
+}
+
+=head2 $self->at_line_start()
+
+Returns if at start of line (curr_pos == 0).
+
+=cut
+
+sub at_line_start
+{
+    my $self = shift;
+
+    return ($self->curr_pos == 0);
 }
 
 =head2 my ($line_ref, $pos) = $self->curr_line_and_pos();
@@ -352,6 +365,18 @@ sub _check_if_line_starts_with_whitespace
     }
 }
 
+=head2 eof()
+
+Returns if the parser reached the end of the file.
+
+=cut
+
+sub eof
+{
+    my $self = shift;
+
+    return (!defined( ${ $self->curr_line_ref() } ));
+}
 
 =head2 $self->meta()
 

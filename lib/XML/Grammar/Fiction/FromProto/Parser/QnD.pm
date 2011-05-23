@@ -5,12 +5,13 @@ use warnings;
 
 use Moose;
 
-extends("XML::Grammar::Fiction::FromProto::Parser::XmlIterator");
+extends("XML::Grammar::FictionBase::FromProto::Parser::XmlIterator");
 
 use XML::Grammar::Fiction::FromProto::Nodes;
 
 use XML::Grammar::Fiction::Struct::Tag;
 use XML::Grammar::Fiction::Err;
+use XML::Grammar::FictionBase::Event;
 
 =head1 NAME
 
@@ -21,11 +22,11 @@ B<For internal use only>.
 
 =head1 VERSION
 
-Version 0.5.1
+Version 0.6.0
 
 =cut
 
-our $VERSION = '0.5.1';
+our $VERSION = '0.6.0';
 
 sub _non_tag_text_unit_consume_regex {
     return qr{(?:[\<]|^\n?$)}ms;
@@ -35,7 +36,7 @@ sub _generate_non_tag_text_event
 {
     my $self = shift;
 
-    my $is_para = ($self->curr_pos() == 0);
+    my $is_para = $self->at_line_start;
 
     my $status = $self->_parse_non_tag_text_unit();
 
@@ -51,21 +52,15 @@ sub _generate_non_tag_text_event
     if ($is_para && !$in_para)
     {
         $self->_enqueue_event(
-            XML::Grammar::Fiction::Event->new(
+            XML::Grammar::FictionBase::Event->new(
                { type => "open", tag => "para", }
             ),
         );
         $in_para = 1;
     }
 
-    # This is an assert / sanity check.
-    if (!defined($elem))
-    {
-        Carp::confess ('$elem is undefined');
-    }
-
     $self->_enqueue_event(
-        XML::Grammar::Fiction::Event->new(
+        XML::Grammar::FictionBase::Event->new(
             {type => "elem", elem => $elem}
         )
     );
@@ -73,7 +68,7 @@ sub _generate_non_tag_text_event
     if ($is_para_end && $in_para)
     {
         $self->_enqueue_event(
-            XML::Grammar::Fiction::Event->new(
+            XML::Grammar::FictionBase::Event->new(
                 { type => "close", tag => "para" }
             )
         );
@@ -87,23 +82,29 @@ before '_generate_text_unit_events' => sub {
     my $self = shift;
 
     $self->skip_multiline_space();
+
+    return;
 };
 
-sub _handle_open_para
+sub _calc_open_para
 {
-    my ($self, $event) = @_;
+    my $self = shift;
 
-    my $new_elem = 
+    return
         XML::Grammar::Fiction::Struct::Tag::Para->new(
             name => "p",
             is_standalone => 0,
             line => $self->line_num(),
             attrs => [],
+            children => [],
         );
+}
 
-    $new_elem->children([]);
+sub _handle_open_para
+{
+    my ($self, $event) = @_;
 
-    $self->_push_tag($new_elem);
+    $self->_push_tag($self->_calc_open_para());
 
     $self->_in_para(1);
 

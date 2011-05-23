@@ -1,4 +1,4 @@
-package XML::Grammar::Fiction::FromProto::Parser::XmlIterator;
+package XML::Grammar::FictionBase::FromProto::Parser::XmlIterator;
 
 use strict;
 use warnings;
@@ -7,9 +7,9 @@ use Moose;
 
 use XML::Grammar::Fiction::Err;
 use XML::Grammar::Fiction::Struct::Tag;
-use XML::Grammar::Fiction::Event;
+use XML::Grammar::FictionBase::Event;
 
-extends("XML::Grammar::Fiction::FromProto::Parser::LineIterator");
+extends("XML::Grammar::FictionBase::FromProto::Parser::LineIterator");
 
 has "_tags_stack" =>
 (
@@ -29,7 +29,7 @@ has "_tags_stack" =>
 
 has "_events_queue" =>
 (
-    isa => "ArrayRef[XML::Grammar::Fiction::Event]",
+    isa => "ArrayRef[XML::Grammar::FictionBase::Event]",
     # isa => "ArrayRef",
     is => "rw", 
     default => sub { []; },
@@ -38,6 +38,8 @@ has "_events_queue" =>
     {
         _enqueue_event => 'push',
         _extract_event => 'shift',
+        _no_events => 'is_empty',
+        _clear_events => 'clear',
     },
 );
 
@@ -51,6 +53,21 @@ has '_ret_tag' =>
 
 # Whether we are inside a paragraph or not.
 has "_in_para" => (isa => "Bool", is => "rw", default => 0,);
+
+has '_tag_names_to_be_handled' =>
+(
+    is => 'ro',
+    isa => 'HashRef[Bool]',
+    lazy => 1,
+    builder => '_build_tag_names_to_be_handled',
+);
+
+sub _build_tag_names_to_be_handled
+{
+    my $self = shift;
+
+    return { map { $_ => 1 } @{$self->_list_valid_tag_events} };
+}
 
 sub _get_id_regex
 {
@@ -130,29 +147,46 @@ sub _new_list
     );
 }
 
+sub _generic_para_contents_assert
+{
+    my ($self, $predicate, $message, $contents) = @_;
+
+    if (List::MoreUtils::any { $predicate->($_) } @{$contents || []})
+    {
+        Carp::confess ($message);
+    }
+
+    return;
+}
+
+sub _assert_not_contains_saying
+{
+    my ($self, $contents) = @_;
+
+    return $self->_generic_para_contents_assert(
+        sub { ref($_) ne "" && $_->isa("XML::Grammar::Fiction::FromProto::Node::Saying") },
+        qq{Para contains a saying.},
+        $contents
+    );
+}
+
+sub _assert_not_contains_undef
+{
+    my ($self, $contents) = @_;
+
+    return $self->_generic_para_contents_assert(
+        sub { !defined($_) },
+        qq{Para contains an undef member.},
+        $contents
+    );
+}
+
 sub _new_para
 {
-    my $self = shift;
-    my $contents = shift;
+    my ($self, $contents) = @_;
 
-    # This is an assert
-    if (List::MoreUtils::any 
-        { ref($_) ne "" && $_->isa("XML::Grammar::Fiction::FromProto::Node::Saying") }
-        @{$contents || []}
-        )
-    {
-        Carp::confess (qq{Para contains a saying.});
-    }
-
-    # This is an assert
-    if (List::MoreUtils::any 
-        { !defined($_) }
-        @{$contents || []}
-        )
-    {
-        Carp::confess (qq{Para contains an undef member.});
-    }
-
+    $self->_assert_not_contains_saying($contents);
+    $self->_assert_not_contains_undef($contents);
 
     return $self->_new_node(
         {
@@ -206,26 +240,33 @@ sub _parse_opening_tag_attrs
     return \@attrs;
 }
 
+sub _opening_tag_asserts
+{
+    my $self = shift;
+
+    if ($self->eof)
+    {
+        Carp::confess (qq{Reached EOF in _parse_opening_tag.});
+    }
+
+    if (!defined($self->curr_pos()))
+    {
+        Carp::confess (qq{curr_pos is not defined in _parse_opening_tag.});
+    }
+
+    return;
+}
+
 sub _parse_opening_tag
 {
     my $self = shift;
+
+    $self->_opening_tag_asserts;
 
     my $l = $self->curr_line_ref();
 
     my $id_regex = $self->_get_id_regex();
 
-    # This is an assert
-    if (!defined($$l))
-    {
-        Carp::confess (qq{Reached EOF in _parse_opening_tag.});
-    }
-
-    # This is an assert
-    if (!defined($self->curr_pos()))
-    {
-        Carp::confess (qq{curr_pos is not defined in _parse_opening_tag.});
-    }
-    
     if ($$l !~ m{\G<($id_regex)}cg)
     {
         $self->throw_text_error(
@@ -331,25 +372,32 @@ sub _handle_event
     return;
 }
 
+sub _handle_specific_tag_event
+{
+    my ($self, $event) = @_;
+
+    my $tag_name = $event->tag();
+    my $type = $event->is_open() ? "open" : "close";
+
+    my $method = "_handle_${type}_${tag_name}";
+
+    $self->$method($event);
+
+    return 1;
+}
+
 sub _check_and_handle_tag_event
 {
     my ($self, $event) = @_;
 
-    foreach my $tag_name (@{$self->_list_valid_tag_events()})
+    if ($event->tag && exists($self->_tag_names_to_be_handled->{$event->tag}))
     {
-        if ($event->is_tag_of_name($tag_name))
-        {
-            my $type = $event->is_open() ? "open" : "close";
-            
-            my $method = "_handle_${type}_${tag_name}";
-
-            $self->$method($event);
-
-            return 1;
-        }
+        return $self->_handle_specific_tag_event($event);
     }
-
-    return;
+    else
+    {
+        return;
+    }
 }
 
 sub _handle_para_event
@@ -473,14 +521,11 @@ sub _look_ahead_for_comment
     }
 }
 
-sub _parse_non_tag_text_unit
+sub _decode_entities_in_text
 {
-    my $self = shift;
+    my ($self, $orig_text) = @_;
 
-    my $orig_text = $self->consume_up_to($self->_non_tag_text_unit_consume_regex);
-
-    
-    my $text = '';
+    my $ret = '';
 
     # Incrementally parse $text for entities.
     pos($orig_text) = 0;
@@ -489,13 +534,13 @@ sub _parse_non_tag_text_unit
     {
         my ($before, $indicator) = ($1, $2);
 
-        $text .= $before;
+        $ret .= $before;
 
         if ($indicator eq '&')
         {
             if ($orig_text =~ m{\G(\#?\w+;)}cg)
             {
-                $text .= HTML::Entities::decode_entities("&$1");
+                $ret .= HTML::Entities::decode_entities("&$1");
             }
             else
             {
@@ -510,11 +555,18 @@ sub _parse_non_tag_text_unit
         }
     }
 
-    $text =~ s{(\&#?\w+;)}{HTML::Entities::decode_entities($1)}eg;
+    return $ret;
+}
 
-    if ($text =~ m{\&})
-    {
-    }
+sub _parse_non_tag_text_unit
+{
+    my $self = shift;
+
+    my $orig_text = $self->consume_up_to(
+        $self->_non_tag_text_unit_consume_regex
+    );
+
+    my $text = $self->_decode_entities_in_text($orig_text);
 
     my $l = $self->curr_line_ref();
 
@@ -523,7 +575,11 @@ sub _parse_non_tag_text_unit
 
     # Demote the cursor to before the < of the tag.
     #
-    if (pos($$l) > 0)
+    if ($self->at_line_start)
+    {
+        $is_para_end = 1;
+    }
+    else
     {
         pos($$l)--;
         if (substr($$l, pos($$l), 1) eq "\n")
@@ -531,11 +587,7 @@ sub _parse_non_tag_text_unit
             $is_para_end = 1;
         }
     }
-    else
-    {
-        $is_para_end = 1;
-    }
-    
+
     if ($text !~ /\S/)
     {
         return;
@@ -565,20 +617,30 @@ sub _parse_text_unit
     }
 }
 
+sub _flush_events 
+{
+    my $self = shift;
+
+    my @ret = @{$self->_events_queue()};
+
+    $self->_clear_events;
+
+    return \@ret;
+}
+
 sub _parse_text
 {
     my $self = shift;
 
     my @ret;
+
     while (my $unit = $self->_parse_text_unit())
     {
         push @ret, $unit;
-        my $type = $unit->{'type'};
-        if (($type eq "close") || ($type eq "open"))
+
+        if ($unit->is_open_or_close)
         {
-            push @ret, @{$self->_events_queue()};
-            $self->_events_queue([]);
-            return \@ret;
+            return [@ret, @{$self->_flush_events()}];
         }
     }
 
@@ -625,7 +687,7 @@ sub _generate_tag_event
         pos($$l) = $orig_pos;
 
         $self->_enqueue_event(
-            XML::Grammar::Fiction::Event->new(
+            XML::Grammar::FictionBase::Event->new(
                 {'type' => ($self->_is_closing_tag($tag_start) ? "close" : "open")}
             ),
         );
@@ -659,10 +721,12 @@ sub _handle_open_tag
             return;
         }
     }
+    else
+    {
+        $self->_push_tag($open);
 
-    $self->_push_tag($open);
-
-    return;
+        return;
+    }
 }
 
 sub _generate_text_unit_events
@@ -711,22 +775,32 @@ sub _parse_all
     return $self->_flush_ret_tag();
 }
 
-sub _main_loop_iter
+sub _assert_not_eof
 {
     my $self = shift;
 
-    # This is an assert.
-    if (!defined(${$self->curr_line_ref()}) && (! @{$self->_events_queue()}))
+    if ($self->eof() && $self->_no_events())
     {
         Carp::confess (qq{Reached EOF.});
     }
     
-    if ($self->_look_ahead_for_comment())
+    return;
+}
+
+sub _main_loop_iter
+{
+    my $self = shift;
+
+    $self->_assert_not_eof;
+
+    if ($self->_look_ahead_for_comment)
     {
         return;
     }
-
-    return $self->_main_loop_iter_body();
+    else
+    {
+        return $self->_main_loop_iter_body;
+    }
 }
 
 sub _attempt_to_calc_new_ret_tag
@@ -752,18 +826,18 @@ sub _main_loop_iter_body
 
 =head1 NAME
 
-XML::Grammar::Fiction::FromProto::Parser::XmlIterator - line iterator base
+XML::Grammar::FictionBase::FromProto::Parser::XmlIterator - line iterator base
 class with some nested XMLisms.
 
 B<For internal use only>.
 
 =cut
 
-our $VERSION = '0.5.1';
+our $VERSION = '0.6.0';
 
 =head1 VERSION
 
-Version 0.5.1
+Version 0.6.0
 
 =head1 SYNOPSIS
 

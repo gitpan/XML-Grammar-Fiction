@@ -5,16 +5,18 @@ use warnings;
 
 use Moose;
 
-extends( 'XML::Grammar::Fiction::FromProto::Parser::XmlIterator' );
+extends( 'XML::Grammar::FictionBase::FromProto::Parser::XmlIterator' );
 
 use XML::Grammar::Fiction::FromProto::Nodes;
 use XML::Grammar::Fiction::Struct::Tag;
+use XML::Grammar::FictionBase::Event;
 
 use List::Util ();
 use List::MoreUtils ();
 
 has "_in_saying" => (isa => "Bool", is => "rw");
 has "_prev_line_is_empty" => (isa => "Bool", is => "rw", default => 1);
+has '_is_start' => (isa => 'Bool', is => 'rw');
 
 before 'next_line_ref' => sub {
     my $self = shift;
@@ -116,50 +118,74 @@ sub _get_desc_name
     return ($self->_in_para() ? "innerdesc" : "desc");
 }
 
+sub _create_closing_desc_tag {
+    my $self = shift;
+
+    return XML::Grammar::Fiction::Struct::Tag->new(
+        name => $self->_get_desc_name(),
+        line => $self->line_num(),
+    );
+}
+
+sub _detect_closing_desc_tag
+{
+    my $self = shift;
+
+    return (${ $self->curr_line_ref() } =~ m{\G\]}cg);
+}
+
 around '_parse_closing_tag' => sub {
     my ($orig, $self) = @_;
 
-    my $l = $self->curr_line_ref();
-
-    if ($$l =~ m{\G\]}cg)
-    {
-        return XML::Grammar::Fiction::Struct::Tag->new(
-            name => $self->_get_desc_name(),
-            line => $self->line_num(),
-        );
-    }
-    else
-    {
-        return $self->$orig();
-    }
+    return 
+        $self->_detect_closing_desc_tag
+        ? $self->_create_closing_desc_tag
+        : $self->$orig();
 };
+
+sub _detect_open_desc_tag
+{
+    my $self = shift;
+
+    return (${ $self->curr_line_ref } =~ m{\G\[}cg);
+}
+
+sub _create_open_desc_tag
+{
+    my ($self) = @_;
+
+    my $not_inline = 0;
+    if ($self->_is_start && $self->_prev_line_is_empty())
+    {
+        $self->_close_top_tags();
+        $not_inline = 1;
+    }
+
+    return XML::Grammar::Fiction::Struct::Tag->new(
+        name => $not_inline ? "desc" : $self->_get_desc_name(),
+        line => $self->line_num(),
+        attrs => [],
+    );
+}
+
+sub _set_is_start
+{
+    my $self = shift;
+
+    $self->_is_start($self->at_line_start);
+
+    return;
+}
 
 around '_parse_opening_tag' => sub {
     my ($orig, $self) = @_;
 
-    my $l = $self->curr_line_ref();
+    $self->_set_is_start;
 
-    my $is_start = ($self->curr_pos() == 0);
-
-    if ($$l =~ m{\G\[}cg)
-    {
-        my $not_inline = 0;
-        if ($is_start && $self->_prev_line_is_empty())
-        {
-            $self->_close_top_tags();
-            $not_inline = 1;
-        }
-
-        return XML::Grammar::Fiction::Struct::Tag->new(
-            name => $not_inline ? "desc" : $self->_get_desc_name(),
-            line => $self->line_num(),
-            attrs => [],
-        );
-    }
-    else
-    {
-        return $self->$orig();
-    }
+    return 
+        $self->_detect_open_desc_tag
+        ? $self->_create_open_desc_tag
+        : $self->$orig();
 };
 
 sub _parse_speech_unit
@@ -194,19 +220,29 @@ sub _non_tag_text_unit_consume_regex
     return qr{(?:[\<\[\]]|^\n?$)}ms;
 }
 
-around '_parse_non_tag_text_unit' => sub {
-    my ($orig, $self) = @_;
+sub _is_there_a_speech_unit
+{
+    my $self = shift;
 
     my $l = $self->curr_line_ref();
 
-    if ((pos($$l) == 0) && (! $self->_top_is_desc()) && ($$l =~ m{\A[^\[<][^:]*:}))
-    {
-        return $self->_parse_speech_unit();
-    }
-    else
-    {
-        return $self->$orig();
-    }
+    return
+    (
+        $self->at_line_start()
+        && (! $self->_top_is_desc())
+        && ($$l =~ m{\A[^\[<][^:]*:})
+    );
+}
+
+around '_parse_non_tag_text_unit' => sub {
+    my ($orig, $self) = @_;
+
+    return
+    (
+        $self->_is_there_a_speech_unit()
+        ? $self->_parse_speech_unit()
+        : $self->$orig()
+    );
 };
 
 sub _look_for_tag_opener
@@ -246,11 +282,6 @@ sub _generate_non_tag_text_event
     my $elem = $status->{'elem'};
     my $is_para_end = $status->{'para_end'};
     my $is_saying = $elem->isa("XML::Grammar::Fiction::FromProto::Node::Saying");
-    #my $is_para =
-    #    (($self->curr_pos() == 0) && 
-    #     (${$self->curr_line_ref()} =~ m{\G\n?\z})
-    #    );
-    # Trying out this one:
     my $is_para = $elem->isa("XML::Grammar::Fiction::FromProto::Node::Paragraph");
 
     my $in_para = $self->_in_para();
@@ -259,7 +290,7 @@ sub _generate_non_tag_text_event
     if ( ($is_saying || $is_para) && $in_para)
     {
         $self->_enqueue_event(
-            XML::Grammar::Fiction::Event->new(
+            XML::Grammar::FictionBase::Event->new(
                 {type => "close", tag => "para"}
             )
         );
@@ -269,7 +300,7 @@ sub _generate_non_tag_text_event
     if ( $is_saying && $self->_in_saying())
     {
         $self->_enqueue_event(
-            XML::Grammar::Fiction::Event->new(
+            XML::Grammar::FictionBase::Event->new(
                 {type => "close", tag => "saying"}
             )
         );
@@ -278,14 +309,14 @@ sub _generate_non_tag_text_event
     if ($is_saying)
     {
         $self->_enqueue_event(
-            XML::Grammar::Fiction::Event->new(
+            XML::Grammar::FictionBase::Event->new(
                 {type => "open", tag => "saying", tag_elem => $elem, },
             ),
         );
         $was_already_enqueued = 1;
 
         $self->_enqueue_event(
-            XML::Grammar::Fiction::Event->new(
+            XML::Grammar::FictionBase::Event->new(
                 {type => "open", tag => "para"}
             )
         );
@@ -294,7 +325,7 @@ sub _generate_non_tag_text_event
     elsif ($is_para && !$in_para)
     {
         $self->_enqueue_event(
-            XML::Grammar::Fiction::Event->new(
+            XML::Grammar::FictionBase::Event->new(
                 {type => "open", tag => "para"}
             ),
         );
@@ -307,14 +338,14 @@ sub _generate_non_tag_text_event
         if (!$in_para)
         {
             $self->_enqueue_event(
-                XML::Grammar::Fiction::Event->new(
+                XML::Grammar::FictionBase::Event->new(
                     {type => "open", tag => "para"},
                 )
             );
             $in_para = 1;
         }
         $self->_enqueue_event(
-            XML::Grammar::Fiction::Event->new(
+            XML::Grammar::FictionBase::Event->new(
                 {type => "elem", elem => $elem, }
             )
         );
@@ -349,50 +380,71 @@ sub _handle_close_saying
     return;
 }
 
-sub _close_para
+sub _assert_top_is_para
 {
-    my $self = shift;
-    my $open = $self->_pop_tag();
+    my ($self, $open) = @_;
 
-    # This is an assert.
     if ($open->name() ne "p")
     {
-        Carp::confess (qq{Not a para tag.});    
+        Carp::confess (qq{Not a para tag.});
     }
+
+    return;
+}
+
+sub _process_closed_para
+{
+    my ($self, $open) = @_;
 
     my $children = $open->detach_children();
 
     # Filter away empty paragraphs.
     if (defined($children) && @$children)
     {
-        my $new_elem =
+        $self->_add_to_top_tag(
             $self->_new_para(
                 $children
-            );
-
-        $self->_add_to_top_tag($new_elem);
+            )
+        );
     }
+
+    return;
+}
+
+sub _close_para
+{
+    my $self = shift;
+
+    my $open = $self->_pop_tag();
+
+    $self->_assert_top_is_para($open);
+
+    $self->_process_closed_para($open);
 
     $self->_in_para(0);
 
     return;
 }
 
+sub _create_start_para
+{
+    my $self = shift;
+
+    return
+        XML::Grammar::Fiction::Struct::Tag::Para->new(
+            name => "p",
+            is_standalone => 0,
+            line => $self->line_num(),
+            attrs => [],
+            children => [],
+        );
+}
+
 sub _start_para
 {
     my $self = shift;
 
-    my $new_elem = 
-    XML::Grammar::Fiction::Struct::Tag::Para->new(
-        name => "p",
-        is_standalone => 0,
-        line => $self->line_num(),
-        attrs => [],
-    );
-
-    $new_elem->children([]);
-
-    $self->_push_tag($new_elem);
+    $self->_push_tag($self->_create_start_para());
 
     $self->_in_para(1);
 
@@ -430,12 +482,12 @@ sub _handle_open_para
     return $self->_start_para();
 }
 
-sub _handle_open_saying
+sub _create_open_saying_tag
 {
     my $self = shift;
     my $event = shift;
 
-    my $new_tag =
+    return
         XML::Grammar::Fiction::Struct::Tag->new(
             {
                 name => "saying",
@@ -444,12 +496,16 @@ sub _handle_open_saying
                 # from the called-to layers.
                 line => $self->line_num(),
                 attrs => [{key => "character", value => $event->tag_elem->character()}],
+                children => [],
             }
         );
+}
 
-    $new_tag->children([]);
+sub _handle_open_saying
+{
+    my ($self, $event) = @_;
 
-    $self->_push_tag($new_tag);
+    $self->_push_tag($self->_create_open_saying_tag($event));
 
     $self->_in_saying(1);
 
@@ -501,35 +557,45 @@ sub _look_ahead_for_tag
     return ($is_tag_cond, $is_close);
 }
 
+sub _main_loop_iter_on_empty_line
+{
+    my $self = shift;
+
+    if ($self->_top_is_para())
+    {
+        $self->_close_para();
+    }
+
+    $self->next_line_ref();
+
+    return;
+}
+
+sub _main_loop_iter_on_whitepsace
+{
+    my $self = shift;
+
+    $self->_add_to_top_tag( $self->_new_text([" "]) );
+
+    $self->next_line_ref();
+
+    return;
+}
+
 sub _main_loop_iter_body_prelude
 {
     my $self = shift;
 
-    my ($l, $p) = $self->curr_line_and_pos();
+    my $l = $self->curr_line_ref();
 
-    if ($$l eq "\n")
-    {
-        if ($self->_top_is_para())
-        {
-            $self->_close_para();
-        }
-        $self->next_line_ref();
-        return;
-    }
-    
-    if ($$l =~ m{\G([ \t]+)\n?\z})
-    {
-        if (length($1))
-        {
-            $self->_add_to_top_tag( $self->_new_text([" "]) );
-        }
-
-        $self->next_line_ref();
-
-        return;
-    }
-    
-    return 1;
+    return
+    (
+        ($$l eq "\n")
+        ? $self->_main_loop_iter_on_empty_line
+        : ($$l =~ m{\G[ \t]+\n?\z})
+        ? $self->_main_loop_iter_on_whitepsace
+        : 1
+    );
 }
 
 
