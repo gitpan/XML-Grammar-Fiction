@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version = '1.0'
     xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
     xmlns:fic="http://web-cpan.berlios.de/modules/XML-Grammar-Fortune/fiction-xml-0.2/"
@@ -31,9 +32,10 @@
 
 <xsl:template match="fic:section">
     <section>
-        <xsl:attribute name="xml:id">
-            <xsl:value-of select="@xml:id" />
-        </xsl:attribute>
+        <xsl:copy-of select="@xml:id" />
+        <xsl:if test="@xml:lang">
+            <xsl:copy-of select="@xml:lang" />
+        </xsl:if>
         <!-- Make the title the title attribute or "ID" if does not exist. -->
         <info>
         <title>
@@ -100,18 +102,28 @@
 </xsl:template>
 
 <xsl:template match="fic:span">
-    <xsl:choose>
-        <xsl:when test="@xlink:href">
-            <link>
-                <xsl:attribute name="xlink:href">
-                    <xsl:value-of select="@xlink:href" />
-                </xsl:attribute>
-                <xsl:apply-templates/>
-            </link>
-        </xsl:when>
-        <xsl:otherwise>
-            <xsl:apply-templates/>
-        </xsl:otherwise>
-    </xsl:choose>
+    <xsl:variable name="tag_name">
+        <xsl:choose>
+            <xsl:when test="@xlink:href">
+                <xsl:value-of select="'link'" />
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="'phrase'" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
+    <xsl:element name="{$tag_name}">
+        <xsl:if test="@xlink:href">
+            <xsl:copy-of select="@xlink:href" />
+        </xsl:if>
+        <xsl:if test="@xml:lang">
+            <xsl:copy-of select="@xml:lang" />
+        </xsl:if>
+        <xsl:if test="@xml:id">
+            <xsl:copy-of select="@xml:id" />
+        </xsl:if>
+        <xsl:apply-templates/>
+    </xsl:element>
 </xsl:template>
+
 </xsl:stylesheet>

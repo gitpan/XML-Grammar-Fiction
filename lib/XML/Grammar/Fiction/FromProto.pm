@@ -24,11 +24,11 @@ text representing prose to an XML format.
 
 =head1 VERSION
 
-Version 0.6.0
+Version 0.7.0
 
 =cut
 
-our $VERSION = '0.6.0';
+our $VERSION = '0.7.0';
 
 =head2 new()
 
@@ -78,6 +78,55 @@ sub _output_tag_with_childs
         });
 }
 
+sub _output_tag_with_childs_and_common_attributes
+{
+    my ($self, $elem, $tag_name, $args) = @_;
+
+    my $id = $elem->lookup_attr("id");
+    my $lang = $elem->lookup_attr("lang");
+    my $href = $elem->lookup_attr("href");
+
+    my @attr;
+
+    if (!defined($id))
+    {
+        if (! $args->{optional_id} )
+        {
+            Carp::confess($args->{missing_id_msg} || "Unspecified id!");
+        }
+    }
+    else
+    {
+        push @attr, ([$xml_ns, "id"] => $id);
+    }
+
+    if (defined($lang))
+    {
+        push @attr, ([$xml_ns, 'lang'] => $lang);
+    }
+
+    if (! defined($href))
+    {
+        if ($args->{required_href})
+        {
+            Carp::confess(
+                $args->{missing_href_msg} || 'Unspecified href in tag!'
+            );
+        }
+    }
+    else
+    {
+        push @attr, ([$xlink_ns, 'href'] => $href);
+    }
+
+    return $self->_output_tag_with_childs(
+        {
+            'start' => [$tag_name, @attr,],
+            elem => $elem,
+        }
+    );
+}
+
 sub _get_text_start
 {
     my ($self, $elem) = @_;
@@ -105,15 +154,14 @@ sub _handle_elem_of_name_a
 {
     my ($self, $elem) = @_;
 
-    $self->_output_tag_with_childs(
+    $self->_output_tag_with_childs_and_common_attributes(
+        $elem,
+        'span',
         {
-            start =>
-            [
-                "span",
-                [$xlink_ns, "href"] => $elem->lookup_attr("href"),
-            ],
-            elem => $elem,
-        }
+            optional_id => 1,
+            required_href => 1,
+            missing_href_msg => 'Unspecified href in a tag.',
+        },
     );
 
     return;
@@ -207,6 +255,22 @@ sub _handle_elem_of_name_ol
             start => ['ol'],
             elem => $elem,
         }
+    );
+
+    return;
+}
+
+sub _handle_elem_of_name_span
+{
+    my ($self, $elem) = @_;
+
+    $self->_output_tag_with_childs_and_common_attributes(
+        $elem,
+        'span',
+        {
+            optional_id => 1,
+            missing_id_msg => "Unspecified id for span!",
+        },
     );
 
     return;
@@ -330,18 +394,10 @@ sub _write_scene
     
     if (($tag eq "s") || ($tag eq "scene"))
     {
-        my $id = $scene->lookup_attr("id");
-
-        if (!defined($id))
-        {
-            Carp::confess("Unspecified id for scene!");
-        }
-
-        $self->_output_tag_with_childs(
-            {
-                'start' => ["section", [$xml_ns, "id"] => $id],
-                elem => $scene,
-            }
+        $self->_output_tag_with_childs_and_common_attributes(
+            $scene,
+            "section",
+            { missing_id_msg => "Unspecified id for scene!", },
         );
     }
     else
@@ -392,8 +448,6 @@ sub _write_body
         confess "Improper body tag - should be '<body>'!";
     }
 
-    my $id = $body->lookup_attr("id");
-
 =begin foo
 
     my $title =
@@ -413,11 +467,10 @@ sub _write_body
 
 =cut
 
-    $self->_output_tag_with_childs(
-        {
-            'start' => ["body", [$xml_ns, "id"] => $id],
-            elem => $body,
-        }
+    $self->_output_tag_with_childs_and_common_attributes(
+        $body,
+        'body',
+        { missing_id_msg => "Unspecified id for body tag!", },
     );
 
     return;
