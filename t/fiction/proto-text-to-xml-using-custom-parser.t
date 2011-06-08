@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 25;
+use Test::More tests => 29;
 
 use Test::XML;
 
@@ -40,9 +40,11 @@ my @tests = (qw(
     with-xml-lang-attr-in-section
     with-span
     a-href-with-id-and-lang
+    with-blockquote-with-lang-and-id
+    with-style-tag-at-start-of-paragraph
     ));
 
-# TEST:$num_texts=12
+# TEST:$num_texts=14
 
 my $grammar = XML::Grammar::Fiction::FromProto->new({
         parser_class => "XML::Grammar::Fiction::FromProto::Parser::QnD",

@@ -10,11 +10,11 @@ screenplays.
 
 =head1 VERSION
 
-Version 0.7.0
+Version 0.8.0
 
 =cut
 
-our $VERSION = '0.7.0';
+our $VERSION = '0.8.0';
 
 =head1 SYNOPSIS
 
@@ -114,7 +114,46 @@ character talks.
 
 =head2 EXAMPLES
 
-Examples can be found in the C<t/data> directory, and here:
+=head3 Comprehensive Example
+
+    <s id="top">
+
+    <s id="david_and_goliath">
+
+    [David and <a href="http://en.wikipedia.org/wiki/Goliath">Goliath</a> are 
+    standing by each other.]
+
+    David: I will kill you.
+
+    Goliath: no way, you little idiot!
+
+    David: yes way!
+
+    ++++: In the name of <a href="http://real-allah.tld/">Allah, the 
+    <b>merciful</b>, real merciful</a>, I will show you
+    the [sarcastically] power of my sling. 
+
+    ++: I shall sling you and bing you till infinity.
+
+    [David takes his sling.]
+
+    Goliath: I'm still <a href="http://wait.tld/">waiting</a>.
+
+    David: so you are.
+
+    [David puts a stone in his sling and shoots Goliath. He hits.]
+
+    David: as is written in the wikipedia [See <a href="http://wiki.tld/">the
+    Wiki site</a> for more information], you are now dead, having been shot with
+    my sling.
+
+    </s>
+
+    </s>
+
+=head3 More Examples
+
+Other examples can be found in the C<t/data> directory, and here:
 
 =over 4
 
@@ -154,14 +193,6 @@ C<bug-xml-grammar-fiction at rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=XML-Grammar-Fiction>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
-
-=head1 TODO
-
-=over 4
-
-=item * Empty
-
-=back
 
 =head1 SUPPORT
 

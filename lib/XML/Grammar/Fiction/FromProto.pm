@@ -24,11 +24,11 @@ text representing prose to an XML format.
 
 =head1 VERSION
 
-Version 0.7.0
+Version 0.8.0
 
 =cut
 
-our $VERSION = '0.7.0';
+our $VERSION = '0.8.0';
 
 =head2 new()
 
@@ -171,11 +171,12 @@ sub _handle_elem_of_name_blockquote
 {
     my ($self, $elem) = @_;
 
-    $self->_output_tag_with_childs(
+    $self->_output_tag_with_childs_and_common_attributes(
+        $elem,
+        'blockquote',
         {
-            start => ['blockquote'],
-            elem => $elem,
-        }
+            optional_id => 1,
+        },
     );
 
     return;

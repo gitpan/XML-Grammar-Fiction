@@ -3,6 +3,8 @@ package XML::Grammar::Fiction;
 use warnings;
 use strict;
 
+=encoding utf8
+
 =head1 NAME
 
 XML::Grammar::Fiction - CPAN distribution implementing an XML grammar 
@@ -10,11 +12,11 @@ and a lightweight markup language for stories, novels and other fiction.
 
 =head1 VERSION
 
-Version 0.7.0
+Version 0.8.0
 
 =cut
 
-our $VERSION = '0.7.0';
+our $VERSION = '0.8.0';
 
 =head1 SYNOPSIS
 
@@ -114,7 +116,8 @@ a backslash (C<\>) or their SGML/XML entity (e.g: C<&qout;>).
 =head3 Paragraphs
 
 These are not delimited by anything - just a paragraph of text not containing
-an empty line.
+an empty line. If a paragraph starts with a Plus sign ( C<+> ) then it is 
+immediately expected to be followed by a styling tag (as opposed to a 
 
 =head3 <ol>
 
@@ -125,6 +128,42 @@ This is an ordered list with <li>s, similar to its purpose in XHTML.
 An unordered list.
 
 =head2 EXAMPLES
+
+=head3 Examples Document.
+
+    <body id="index" lang="en-UK">
+
+    <title>David vs. Goliath - Part I</title>
+
+    <s id="top">
+
+    <title>The Top Section</title>
+
+    <!-- David has Green hair here -->
+
+    King <a href="http://en.wikipedia.org/wiki/David">David</a> and Goliath
+    were standing by each other.
+
+    David said unto Goliath: “I will shoot you. I <b>swear</b> I will”
+
+    <s id="goliath">
+
+    <title>Goliath's Response</title>
+
+    <!-- Goliath has to reply to that. -->
+
+    Goliath was not amused.
+
+    He said to David: “Oh, really. <i>David</i>, the red-headed!”.
+
+    </s>
+
+    </s>
+
+    </body>
+
+
+=head3 Other Examples
 
 Examples can be found in the C<t/data> directory, and here:
 
@@ -147,30 +186,6 @@ C<bug-xml-grammar-fiction at rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=XML-Grammar-Fiction>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
-
-=head1 TODO
-
-=over 4
-
-=item * Implement the correct handlind of leading special characters in lines.
-
-=item * Check that SGML entities work properly.
-
-=item * Convert the parsing errors from Carp::confess to Exception::Class
-
-This will allow a friendlier diagnostic. Carp::confess was implemented due to
-laziness on the programmers' part.
-
-=item * Merge the duplicate code from XML-Grammar-Fiction
-
-XML::Grammar::Fiction was forked from L<XML::Grammar::Screenplay>
-and they still share a lot of common code. This needs to be merged in time.
-
-=item * Refactor the Prototext parser and other parts.
-
-Currently the code is relatively hairy and easy-to-break. Try to refactor it.
-
-=back
 
 =head1 MOTIVATION
 

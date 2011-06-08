@@ -11,11 +11,11 @@ XML::Grammar::Fiction
 
 =head1 VERSION
 
-Version 0.7.0
+Version 0.8.0
 
 =cut
 
-our $VERSION = '0.7.0';
+our $VERSION = '0.8.0';
 
 use Exception::Class
     (
@@ -49,7 +49,11 @@ use Exception::Class
         "XML::Grammar::Fiction::Err::Parse::ProgramListingContainsTags" =>
         {
             isa => "XML::Grammar::Fiction::Err::Parse::LineError",
-        }
+        },
+        "XML::Grammar::Fiction::Err::Parse::ParaOpenPlusNotFollowedByTag" =>
+        {
+            isa => "XML::Grammar::Fiction::Err::Parse::LineError",
+        },
     )
     ;
 1;

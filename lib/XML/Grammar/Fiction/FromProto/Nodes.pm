@@ -12,11 +12,11 @@ use in XML::Grammar::Fiction::FromProto.
 
 =head1 VERSION
 
-Version 0.7.0
+Version 0.8.0
 
 =cut
 
-our $VERSION = '0.7.0';
+our $VERSION = '0.8.0';
 
 package XML::Grammar::Fiction::FromProto::Node;
 
@@ -92,6 +92,13 @@ package XML::Grammar::Fiction::FromProto::Node::Text;
 use Moose;
 
 extends("XML::Grammar::Fiction::FromProto::Node::WithContent");
+
+sub get_text
+{
+    my ($self, $re) = @_;
+
+    return $self->children->contents->[0];
+}
 
 package XML::Grammar::Fiction::FromProto::Node::Saying;
 

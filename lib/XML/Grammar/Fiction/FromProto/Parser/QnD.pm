@@ -22,11 +22,11 @@ B<For internal use only>.
 
 =head1 VERSION
 
-Version 0.7.0
+Version 0.8.0
 
 =cut
 
-our $VERSION = '0.7.0';
+our $VERSION = '0.8.0';
 
 sub _non_tag_text_unit_consume_regex {
     return qr{(?:[\<]|^\n?$)}ms;
@@ -59,11 +59,26 @@ sub _generate_non_tag_text_event
         $in_para = 1;
     }
 
-    $self->_enqueue_event(
-        XML::Grammar::FictionBase::Event->new(
-            {type => "elem", elem => $elem}
-        )
-    );
+    if (my ($rest) = $elem->get_text() =~ m{\A\+(.*)}ms)
+    {
+        if ( length($rest) )
+        {
+            $self->throw_text_error(
+                'XML::Grammar::Fiction::Err::Parse::ParaOpenPlusNotFollowedByTag',
+                "Got a paragraph opening plus sign not followed by a tag.",
+            );
+        }
+        # Else - do nothing - just ignore the + sign before the
+        # style tag.
+    }
+    else
+    {
+        $self->_enqueue_event(
+            XML::Grammar::FictionBase::Event->new(
+                {type => "elem", elem => $elem}
+            )
+        );
+    }
 
     if ($is_para_end && $in_para)
     {

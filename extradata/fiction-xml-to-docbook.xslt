@@ -3,6 +3,7 @@
     xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
     xmlns:fic="http://web-cpan.berlios.de/modules/XML-Grammar-Fortune/fiction-xml-0.2/"
     xmlns="http://docbook.org/ns/docbook"
+    xmlns:db="http://docbook.org/ns/docbook"
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
 <xsl:output method="xml" encoding="UTF-8" indent="yes"
@@ -21,11 +22,11 @@
             <xsl:value-of select="@xml:lang" />
         </xsl:attribute>
         <xsl:attribute name="version">5.0</xsl:attribute>
-        <info>
-            <title>
+        <db:info>
+            <db:title>
                 <xsl:value-of select="fic:title" />
-            </title>
-        </info>
+            </db:title>
+        </db:info>
         <xsl:apply-templates select="fic:section" />
     </article>
 </xsl:template>
@@ -37,91 +38,96 @@
             <xsl:copy-of select="@xml:lang" />
         </xsl:if>
         <!-- Make the title the title attribute or "ID" if does not exist. -->
-        <info>
-        <title>
-            <xsl:choose>
-                <xsl:when test="fic:title">
-                    <xsl:value-of select="fic:title" />
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="@xml:id" />
-                </xsl:otherwise>
-            </xsl:choose> 
-        </title>
-    </info>
+        <db:info>
+            <db:title>
+                <xsl:choose>
+                    <xsl:when test="fic:title">
+                        <xsl:value-of select="fic:title" />
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="@xml:id" />
+                    </xsl:otherwise>
+                </xsl:choose> 
+            </db:title>
+        </db:info>
         <xsl:apply-templates select="fic:section|fic:blockquote|fic:p|fic:ol|fic:ul|fic:programlisting" />
     </section>
 </xsl:template>
 
 <xsl:template match="fic:p">
-    <para>
+    <db:para>
         <xsl:apply-templates />
-    </para>
+    </db:para>
 </xsl:template>
 
 <xsl:template match="fic:b">
-    <emphasis role="bold">
+    <db:emphasis role="bold">
         <xsl:apply-templates/>
-    </emphasis>
+    </db:emphasis>
+</xsl:template>
+
+<xsl:template name="common_attributes">
+    <xsl:if test="@xlink:href">
+        <xsl:copy-of select="@xlink:href" />
+    </xsl:if>
+    <xsl:if test="@xml:lang">
+        <xsl:copy-of select="@xml:lang" />
+    </xsl:if>
+    <xsl:if test="@xml:id">
+        <xsl:copy-of select="@xml:id" />
+    </xsl:if>
 </xsl:template>
 
 <xsl:template match="fic:blockquote">
-    <blockquote>
+    <db:blockquote>
+        <xsl:call-template name="common_attributes" />
         <xsl:apply-templates/>
-    </blockquote>
+    </db:blockquote>
 </xsl:template>
 
 <xsl:template match="fic:i">
-    <emphasis>
+    <db:emphasis>
         <xsl:apply-templates/>
-    </emphasis>
+    </db:emphasis>
 </xsl:template>
 
 <xsl:template match="fic:ol">
-    <orderedlist>
+    <db:orderedlist>
         <xsl:apply-templates/>
-    </orderedlist>
+    </db:orderedlist>
 </xsl:template>
 
 <xsl:template match="fic:ul">
-    <itemizedlist>
+    <db:itemizedlist>
         <xsl:apply-templates/>
-    </itemizedlist>
+    </db:itemizedlist>
 </xsl:template>
 
 <xsl:template match="fic:programlisting">
-    <programlisting>
+    <db:programlisting>
         <xsl:apply-templates/>
-    </programlisting>
+    </db:programlisting>
 </xsl:template>
 
 <xsl:template match="fic:li">
-    <listitem>
+    <db:listitem>
         <xsl:apply-templates/>
-    </listitem>
+    </db:listitem>
 </xsl:template>
 
 <xsl:template match="fic:span">
     <xsl:variable name="tag_name">
         <xsl:choose>
             <xsl:when test="@xlink:href">
-                <xsl:value-of select="'link'" />
+                <xsl:value-of select="'db:link'" />
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="'phrase'" />
+                <xsl:value-of select="'db:phrase'" />
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
     <xsl:element name="{$tag_name}">
-        <xsl:if test="@xlink:href">
-            <xsl:copy-of select="@xlink:href" />
-        </xsl:if>
-        <xsl:if test="@xml:lang">
-            <xsl:copy-of select="@xml:lang" />
-        </xsl:if>
-        <xsl:if test="@xml:id">
-            <xsl:copy-of select="@xml:id" />
-        </xsl:if>
+        <xsl:call-template name="common_attributes" />
         <xsl:apply-templates/>
     </xsl:element>
 </xsl:template>
