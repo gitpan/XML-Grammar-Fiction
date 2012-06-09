@@ -60,6 +60,7 @@ scripts/run_agg_tests.t
 t/00-load.t
 tag-release.pl
 t/app-to-html.t
+t/base/line-iterator-unit.t
 t/boilerplate.t
 t/fiction/data/docbook/a-href-with-id-and-lang.docbook.xml
 t/fiction/data/docbook/sections-a-href.docbook.xml
@@ -181,3 +182,4 @@ t/screenplay/qnd-parser-unit.t
 t/screenplay/to-docbook.t
 t/screenplay/to-tei.t
 t/screenplay/to-xhtml.t
+META.json

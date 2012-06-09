@@ -2,6 +2,7 @@ package XML::Grammar::Fiction::App::ToHTML;
 
 use strict;
 use warnings;
+use autodie;
 
 use base 'Exporter';
 
@@ -18,11 +19,11 @@ Fiction-XML file to HTML
 
 =head1 VERSION
 
-Version 0.8.0
+Version 0.8.1
 
 =cut
 
-our $VERSION = '0.8.0';
+our $VERSION = '0.8.1';
 
 =head1 SYNOPSIS
 
