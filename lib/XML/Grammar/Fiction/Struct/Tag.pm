@@ -3,31 +3,33 @@ package XML::Grammar::Fiction::Struct::Tag;
 use strict;
 use warnings;
 
-use Moose;
+use Mouse;
+
+use List::MoreUtils;
 
 use XML::Grammar::Fiction::FromProto::Nodes;
 
 =head1 NAME
 
-XML::Grammar::Fiction::Struct::Tag - information about an XML/SGML opening or 
+XML::Grammar::Fiction::Struct::Tag - information about an XML/SGML opening or
 closing tag.
 
 B<For internal use only>.
 
 =head1 VERSION
 
-Version 0.8.1
+Version 0.9.0
 
 =cut
 
-our $VERSION = '0.8.1';
+our $VERSION = '0.9.0';
 
 has 'name' => (is => "rw", isa => "Str");
 has 'line' => (is => "rw", isa => "Int");
 has 'is_standalone' => (is => "rw", isa => "Bool");
 has 'attrs' => (is => "rw", isa => "ArrayRef");
 has 'children' => (
-    is => "rw", 
+    is => "rw",
     isa => "Maybe[ArrayRef]",
 );
 
@@ -66,7 +68,7 @@ sub detach_children
 
 package XML::Grammar::Fiction::Struct::Tag::Para;
 
-use Moose;
+use Mouse;
 
 extends("XML::Grammar::Fiction::Struct::Tag");
 

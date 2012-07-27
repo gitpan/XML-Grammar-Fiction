@@ -1,6 +1,6 @@
 package XML::Grammar::Screenplay::ToDocBook;
 
-use Moose;
+use Mouse;
 
 extends('XML::Grammar::Screenplay::XSLT::Base');
 
@@ -13,11 +13,11 @@ XML to DocBook.
 
 =head1 VERSION
 
-Version 0.8.1
+Version 0.9.0
 
 =cut
 
-our $VERSION = '0.8.1';
+our $VERSION = '0.9.0';
 
 =head2 new()
 
@@ -33,10 +33,10 @@ Internal - (to settle pod-coverage.).
 =head2 $converter->translate_to_docbook({source => {file => $filename}, output => "string" })
 
 Does the actual conversion. $filename is the filename to translate (currently
-the only available source). 
+the only available source).
 
-The C<'output'> key specifies the return value. A value of C<'string'> returns 
-the XML as a string, and a value of C<'xml'> returns the XML as an 
+The C<'output'> key specifies the return value. A value of C<'string'> returns
+the XML as a string, and a value of C<'xml'> returns the XML as an
 L<XML::LibXML> DOM object.
 
 =cut

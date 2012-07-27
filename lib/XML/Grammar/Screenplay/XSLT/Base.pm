@@ -1,6 +1,6 @@
 package XML::Grammar::Screenplay::XSLT::Base;
 
-use Moose;
+use Mouse;
 
 extends('XML::Grammar::FictionBase::XSLT::Converter');
 
@@ -17,7 +17,7 @@ XSLT conversions.
 
 =head1 VERSION
 
-Version 0.8.1
+Version 0.9.0
 
 =head1 AUTHOR
 

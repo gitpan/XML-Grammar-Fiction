@@ -23,11 +23,11 @@ to convert from a well-formed plaintext format to Fiction-XML.
 
 =head1 VERSION
 
-Version 0.8.1
+Version 0.9.0
 
 =cut
 
-our $VERSION = '0.8.1';
+our $VERSION = '0.9.0';
 
 =head1 SYNOPSIS
 
@@ -77,11 +77,11 @@ sub run
     if ($e = Exception::Class->caught("XML::Grammar::Fiction::Err::Parse::TagsMismatch"))
     {
         warn $e->error(), "\n";
-        warn "Open: ", $e->opening_tag->name(), 
+        warn "Open: ", $e->opening_tag->name(),
             " at line ", $e->opening_tag->line(), "\n"
             ;
-        warn "Close: ", 
-            $e->closing_tag->name(), " at line ", 
+        warn "Close: ",
+            $e->closing_tag->name(), " at line ",
             $e->closing_tag->line(), "\n";
 
         exit(-1);

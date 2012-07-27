@@ -28,7 +28,7 @@ my $builder = XML::Grammar::Fiction::Builder->new(
         'XML::LibXML' => 0,
         'XML::SemanticDiff' => '1.0000',
     },
-    requires => 
+    requires =>
     {
         'autodie' => 0,
         'Carp' => 0,
@@ -39,7 +39,8 @@ my $builder = XML::Grammar::Fiction::Builder->new(
         'Getopt::Long' => 0,
         'HTML::Entities' => 0,
         'List::Util' => 0,
-        'Moose' => 0,
+        'Mouse' => 0,
+        'Mouse::Meta::Attribute::Custom::Trait::Array' => 0,
         'Parse::RecDescent' => 0,
         'strict' => 0,
         'warnings' => 0,

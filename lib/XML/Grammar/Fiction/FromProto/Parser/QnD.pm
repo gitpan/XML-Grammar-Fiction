@@ -3,7 +3,7 @@ package XML::Grammar::Fiction::FromProto::Parser::QnD;
 use strict;
 use warnings;
 
-use Moose;
+use Mouse;
 
 extends("XML::Grammar::FictionBase::FromProto::Parser::XmlIterator");
 
@@ -22,11 +22,11 @@ B<For internal use only>.
 
 =head1 VERSION
 
-Version 0.8.1
+Version 0.9.0
 
 =cut
 
-our $VERSION = '0.8.1';
+our $VERSION = '0.9.0';
 
 sub _non_tag_text_unit_consume_regex {
     return qr{(?:[\<]|^\n?$)}ms;
@@ -149,7 +149,7 @@ sub _list_valid_tag_events
     return [qw(para)];
 }
 
-before '_handle_close_tag' => sub { 
+before '_handle_close_tag' => sub {
     my $self = shift;
 
     $self->skip_space();
@@ -192,7 +192,7 @@ Processes the text and returns the parse tree.
 
 =head2 $self->meta()
 
-Leftover from Moose.
+Leftover from Mouse.
 
 =head1 AUTHOR
 

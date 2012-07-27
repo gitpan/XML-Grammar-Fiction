@@ -1,6 +1,6 @@
 package XML::Grammar::FictionBase::TagsTree2XML;
 
-use Moose;
+use Mouse;
 
 use XML::Writer;
 use HTML::Entities ();
@@ -15,7 +15,7 @@ to XML converters.
 
 =head1 VERSION
 
-Version 0.8.1
+Version 0.9.0
 
 =cut
 
@@ -28,18 +28,16 @@ has '_parser_class' =>
 );
 
 has "_parser" => (
-    'isa' => "XML::Grammar::Fiction::FromProto::Parser", 
+    'isa' => "XML::Grammar::Fiction::FromProto::Parser",
     'is' => "rw",
     lazy => 1,
-    default => sub { 
-        my $self = shift; 
+    default => sub {
+        my $self = shift;
         return $self->_parser_class->new();
     },
 );
 
 has "_writer" => ('isa' => "XML::Writer", 'is' => "rw");
-
-has '_buffer' => ('isa' => "ScalarRef[Str]", is => "rw");
 
 sub _write_Element_elem
 {
@@ -64,7 +62,7 @@ sub _write_Element_elem
         return;
     }
 }
-    
+
 sub _handle_elem_of_name_s
 {
     my ($self, $elem) = @_;

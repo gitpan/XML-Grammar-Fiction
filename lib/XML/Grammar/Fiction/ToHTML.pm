@@ -5,7 +5,7 @@ use warnings;
 
 use Carp;
 
-use Moose;
+use Mouse;
 
 extends( 'XML::Grammar::Fiction::RNG_Renderer' );
 
@@ -15,11 +15,11 @@ XML::Grammar::Fiction::ToHTML - module that converts the Fiction-XML to HTML.
 
 =head1 VERSION
 
-Version 0.8.1
+Version 0.9.0
 
 =cut
 
-our $VERSION = '0.8.1';
+our $VERSION = '0.9.0';
 
 =head2 new()
 
@@ -49,13 +49,13 @@ has '+xslt_transform_basename' => (default => "fiction-xml-to-html.xslt", );
 
 Does the actual conversion. The C<'source'> argument points to a hash-ref with
 keys and values for the source. If C<'file'> is specified there it points to the
-filename to translate (currently the only available source). If 
+filename to translate (currently the only available source). If
 C<'string_ref'> is specified it points to a reference to a string, with the
 contents of the source XML. If C<'dom'> is specified then it points to an XML
 DOM as parsed or constructed by XML::LibXML.
 
-The C<'output'> key specifies the return value. A value of C<'string'> returns 
-the XML as a string, and a value of C<'dom'> returns the XML as an 
+The C<'output'> key specifies the return value. A value of C<'string'> returns
+the XML as a string, and a value of C<'dom'> returns the XML as an
 L<XML::LibXML> DOM object.
 
 =cut
