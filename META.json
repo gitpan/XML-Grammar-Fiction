@@ -64,6 +64,7 @@
             "File::ShareDir" : "1.00",
             "Getopt::Long" : "0",
             "HTML::Entities" : "0",
+            "List::MoreUtils" : "0",
             "List::Util" : "0",
             "Mouse" : "0",
             "Mouse::Meta::Attribute::Custom::Trait::Array" : "0",
@@ -80,27 +81,27 @@
    "provides" : {
       "XML::Grammar::Fiction" : {
          "file" : "lib/XML/Grammar/Fiction.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Fiction::App::FromProto" : {
          "file" : "lib/XML/Grammar/Fiction/App/FromProto.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Fiction::App::ToDocBook" : {
          "file" : "lib/XML/Grammar/Fiction/App/ToDocBook.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Fiction::App::ToHTML" : {
          "file" : "lib/XML/Grammar/Fiction/App/ToHTML.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Fiction::Err" : {
          "file" : "lib/XML/Grammar/Fiction/Err.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Fiction::FromProto" : {
          "file" : "lib/XML/Grammar/Fiction/FromProto.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Fiction::FromProto::Node" : {
          "file" : "lib/XML/Grammar/Fiction/FromProto/Nodes.pm",
@@ -144,15 +145,15 @@
       },
       "XML::Grammar::Fiction::FromProto::Nodes" : {
          "file" : "lib/XML/Grammar/Fiction/FromProto/Nodes.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Fiction::FromProto::Parser" : {
          "file" : "lib/XML/Grammar/Fiction/FromProto/Parser.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Fiction::FromProto::Parser::QnD" : {
          "file" : "lib/XML/Grammar/Fiction/FromProto/Parser/QnD.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Fiction::RNG_Renderer" : {
          "file" : "lib/XML/Grammar/Fiction/RNG_Renderer.pm",
@@ -160,7 +161,7 @@
       },
       "XML::Grammar::Fiction::Struct::Tag" : {
          "file" : "lib/XML/Grammar/Fiction/Struct/Tag.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Fiction::Struct::Tag::Para" : {
          "file" : "lib/XML/Grammar/Fiction/Struct/Tag.pm",
@@ -168,11 +169,11 @@
       },
       "XML::Grammar::Fiction::ToDocBook" : {
          "file" : "lib/XML/Grammar/Fiction/ToDocBook.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Fiction::ToHTML" : {
          "file" : "lib/XML/Grammar/Fiction/ToHTML.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::FictionBase::Event" : {
          "file" : "lib/XML/Grammar/FictionBase/Event.pm",
@@ -180,11 +181,11 @@
       },
       "XML::Grammar::FictionBase::FromProto::Parser::LineIterator" : {
          "file" : "lib/XML/Grammar/FictionBase/FromProto/Parser/LineIterator.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::FictionBase::FromProto::Parser::XmlIterator" : {
          "file" : "lib/XML/Grammar/FictionBase/FromProto/Parser/XmlIterator.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::FictionBase::TagsTree2XML" : {
          "file" : "lib/XML/Grammar/FictionBase/TagsTree2XML.pm",
@@ -192,11 +193,11 @@
       },
       "XML::Grammar::FictionBase::XSLT::Converter" : {
          "file" : "lib/XML/Grammar/FictionBase/XSLT/Converter.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Screenplay" : {
          "file" : "lib/XML/Grammar/Screenplay.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Screenplay::App::FromProto" : {
          "file" : "lib/XML/Grammar/Screenplay/App/FromProto.pm",
@@ -216,7 +217,7 @@
       },
       "XML::Grammar::Screenplay::FromProto" : {
          "file" : "lib/XML/Grammar/Screenplay/FromProto.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Screenplay::FromProto::Parser" : {
          "file" : "lib/XML/Grammar/Screenplay/FromProto/Parser.pm",
@@ -228,15 +229,15 @@
       },
       "XML::Grammar::Screenplay::ToDocBook" : {
          "file" : "lib/XML/Grammar/Screenplay/ToDocBook.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Screenplay::ToHTML" : {
          "file" : "lib/XML/Grammar/Screenplay/ToHTML.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Screenplay::ToTEI" : {
          "file" : "lib/XML/Grammar/Screenplay/ToTEI.pm",
-         "version" : "v0.9.1"
+         "version" : "v0.9.2"
       },
       "XML::Grammar::Screenplay::XSLT::Base" : {
          "file" : "lib/XML/Grammar/Screenplay/XSLT/Base.pm",
@@ -253,5 +254,5 @@
          "url" : "https://bitbucket.org/shlomif/fiction-xml"
       }
    },
-   "version" : "v0.9.1"
+   "version" : "v0.9.2"
 }
