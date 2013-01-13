@@ -1,6 +1,6 @@
 package XML::Grammar::Screenplay::ToDocBook;
 
-use Mouse;
+use MooX 'late';
 
 extends('XML::Grammar::Screenplay::XSLT::Base');
 
@@ -11,13 +11,19 @@ has '+xslt_transform_basename' => (default => "screenplay-xml-to-docbook.xslt");
 XML::Grammar::Screenplay::ToDocBook - module that converts the Screenplay
 XML to DocBook.
 
+=head1 METHODS
+
+=head2 xslt_transform_basename()
+
+Inherited - (to settle pod-coverage).
+
 =head1 VERSION
 
-Version 0.9.3
+Version 0.10.0
 
 =cut
 
-our $VERSION = '0.9.3';
+our $VERSION = '0.10.0';
 
 =head2 new()
 

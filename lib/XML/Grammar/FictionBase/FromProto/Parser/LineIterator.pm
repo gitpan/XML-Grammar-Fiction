@@ -3,7 +3,7 @@ package XML::Grammar::FictionBase::FromProto::Parser::LineIterator;
 use strict;
 use warnings;
 
-use Mouse;
+use MooX 'late';
 
 use XML::Grammar::Fiction::Err;
 
@@ -21,11 +21,11 @@ B<For internal use only>.
 
 =cut
 
-our $VERSION = '0.9.3';
+our $VERSION = '0.10.0';
 
 =head1 VERSION
 
-Version 0.9.3
+Version 0.10.0
 
 =head1 SYNOPSIS
 
@@ -380,7 +380,7 @@ sub eof
 
 =head2 $self->meta()
 
-Leftover from Mouse.
+Leftover from Moo.
 
 =head1 AUTHOR
 

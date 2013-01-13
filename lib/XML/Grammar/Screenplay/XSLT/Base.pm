@@ -1,6 +1,6 @@
 package XML::Grammar::Screenplay::XSLT::Base;
 
-use Mouse;
+use MooX 'late';
 
 extends('XML::Grammar::FictionBase::XSLT::Converter');
 
@@ -17,7 +17,13 @@ XSLT conversions.
 
 =head1 VERSION
 
-Version 0.9.3
+Version 0.10.0
+
+=head1 METHODS
+
+=head2 rng_schema_basename()
+
+Inherited - (to settle pod-coverage).
 
 =head1 AUTHOR
 

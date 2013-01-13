@@ -1,6 +1,6 @@
 package XML::Grammar::FictionBase::TagsTree2XML;
 
-use Mouse;
+use MooX 'late';
 
 use XML::Writer;
 use HTML::Entities ();
@@ -15,7 +15,7 @@ to XML converters.
 
 =head1 VERSION
 
-Version 0.9.3
+Version 0.10.0
 
 =cut
 

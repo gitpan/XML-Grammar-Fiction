@@ -3,7 +3,7 @@ package XML::Grammar::Screenplay::ToTEI;
 use strict;
 use warnings;
 
-use Mouse;
+use MooX 'late';
 
 extends('XML::Grammar::Screenplay::XSLT::Base');
 
@@ -16,11 +16,11 @@ XML to TEI (Text Encoding Initiative).
 
 =head1 VERSION
 
-Version 0.9.3
+Version 0.10.0
 
 =cut
 
-our $VERSION = '0.9.3';
+our $VERSION = '0.10.0';
 
 =head2 new()
 
@@ -29,7 +29,11 @@ at that point.
 
 =head2 meta()
 
-Internal - (to settle pod-coverage.).
+Internal - (to settle pod-coverage).
+
+=head2 xslt_transform_basename()
+
+Inherited - (to settle pod-coverage).
 
 =head2 $converter->translate_to_tei({source => {file => $filename}, output => "string" })
 
