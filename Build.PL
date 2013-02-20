@@ -1,88 +1,63 @@
+
 use strict;
 use warnings;
 
-use File::Spec;
-use lib File::Spec->catdir(File::Spec->curdir(), "inc");
+use Module::Build 0.3601;
+use lib qw{inc}; use XML::Grammar::Builder;
 
-use XML::Grammar::Fiction::Builder;
-
-my $builder = XML::Grammar::Fiction::Builder->new(
-    module_name         => 'XML::Grammar::Fiction',
-    license             => 'mit',
-    dist_author         => 'Shlomi Fish <shlomif@cpan.org>',
-    dist_version_from   => 'lib/XML/Grammar/Fiction.pm',
-    configure_requires => {
-        'strict' => 0,
-        'warnings' => 0,
-        'File::Spec' => 0,
-        'Module::Build' => 0,
-    },
-    build_requires => {
-        'Config' => 0,
-        'File::Find' => 0,
-        'File::Spec' => 0,
-        'strict' => 0,
-        'Test::More' => 0,
-        'Test::XML' => '0.08',
-        'warnings' => 0,
-        'XML::LibXML' => 0,
-        'XML::SemanticDiff' => '1.0000',
-    },
-    requires =>
-    {
-        'autodie' => 0,
-        'Carp' => 0,
-        'Exporter' => 0,
-        'Data::Dumper' => 0,
-        'Exception::Class' => 0,
-        'File::ShareDir' => 0,
-        'Getopt::Long' => 0,
-        'HTML::Entities' => 0,
-        'List::MoreUtils' => 0,
-        'List::Util' => 0,
-        'Moo' => 0,
-        'MooX' => 0,
-        'MooX::late' => 0,
-        'Parse::RecDescent' => 0,
-        'strict' => 0,
-        'warnings' => 0,
-        'XML::LibXML' => 0,
-        'XML::LibXSLT' => 0,
-        'XML::Writer' => 0,
-    },
-    add_to_cleanup      => [ 'XML-Grammar-Fiction-*' ],
-    create_makefile_pl => 'passthrough',
-    meta_merge =>
-    {
-        resources =>
-        {
-            repository => "https://bitbucket.org/shlomif/fiction-xml",
-            homepage => "http://www.shlomifish.org/open-source/projects/XML-Grammar/Fiction/",
-        },
-        keywords =>
-        [
-            "authoring",
-            "cinema",
-            "creative writing",
-            "films",
-            "grammar",
-            "movies",
-            "parsing",
-            "fiction",
-            "story",
-            "stories",
-            "noveilla",
-            "noveillas",
-            "novels",
-            "novel",
-            "writing",
-            "xml",
-            "xml-libxml",
-            "xslt",
-        ],
-    },
-    # In order to run the screenplay tests.
-    test_files => "t/*.t t/*/*.t",
+my %module_build_args = (
+  "build_requires" => {
+    "Config" => 0,
+    "File::Find" => 0,
+    "File::Temp" => 0,
+    "Module::Build" => "0.3601",
+    "Test::More" => 0,
+    "Test::XML::Ordered" => 0,
+    "parent" => 0,
+    "utf8" => 0
+  },
+  "configure_requires" => {
+    "ExtUtils::MakeMaker" => "6.30",
+    "Module::Build" => "0.3601"
+  },
+  "dist_abstract" => "CPAN distribution implementing an XML grammar\nand a lightweight markup language for stories, novels and other fiction.",
+  "dist_author" => [
+    "Shlomi Fish <shlomif\@cpan.org>"
+  ],
+  "dist_name" => "XML-Grammar-Fiction",
+  "dist_version" => "0.11.0",
+  "license" => "mit",
+  "module_name" => "XML::Grammar::Fiction",
+  "recommends" => {},
+  "recursive_test_files" => 1,
+  "requires" => {
+    "Carp" => 0,
+    "Data::Dumper" => 0,
+    "Exception::Class" => 0,
+    "Exporter" => 0,
+    "File::ShareDir" => 0,
+    "File::Spec" => 0,
+    "Getopt::Long" => 0,
+    "HTML::Entities" => 0,
+    "List::MoreUtils" => 0,
+    "List::Util" => 0,
+    "MooX" => 0,
+    "XML::Grammar::Fiction::FromProto::Node" => 0,
+    "XML::Grammar::Fiction::FromProto::Node::Element" => 0,
+    "XML::Grammar::Fiction::FromProto::Node::Text" => 0,
+    "XML::Grammar::Fiction::FromProto::Node::WithContent" => 0,
+    "XML::LibXML" => 0,
+    "XML::LibXSLT" => 0,
+    "XML::Writer" => 0,
+    "autodie" => 0,
+    "base" => 0,
+    "strict" => 0,
+    "warnings" => 0
+  },
+  "script_files" => []
 );
 
-$builder->create_build_script();
+
+my $build = XML::Grammar::Builder->new(%module_build_args);
+
+$build->create_build_script;

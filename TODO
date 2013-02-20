@@ -1,4 +1,11 @@
-* Add a test script to test for trailing space and get rid of trailing space.
+Pressing:
+---------
+
+* Make sure «dzil test --all» runs all the tests in the sub-directories
+(«t/*/*.t») using runtest.
+
+Long term:
+----------
 
 * ::Fiction: Implement the correct handling of leading special characters in
 lines. Currently, they are processed as they are, without generating an error.

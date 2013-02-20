@@ -3,9 +3,11 @@
 use strict;
 use warnings;
 
-use Test::More;
+use lib './t/lib';
 
-use Test::XML tests => 51;
+use Test::More tests => 54;
+
+use XmlGrammarTestXML qw(my_is_xml);
 
 use XML::LibXML;
 
@@ -17,7 +19,7 @@ sub load_xml
 {
     my $path = shift;
 
-    open my $in, "<", $path;
+    open my $in, "<:encoding(utf8)", $path;
     my $contents;
     {
         local $/;
@@ -35,6 +37,7 @@ my @tests = (qw(
         with-description
         with-tags-inside-paragraphs
         with-i-element-inside-paragraphs
+        with-img-element-inside-paragraphs
         with-internal-description
         with-comments
         with-multi-para-desc
@@ -47,7 +50,7 @@ my @tests = (qw(
         with-numeric-entities
     ));
 
-# TEST:$num_texts=17
+# TEST:$num_texts=18
 
 my $grammar = XML::Grammar::Screenplay::FromProto->new({
         parser_class => "XML::Grammar::Screenplay::FromProto::Parser::QnD",
@@ -75,7 +78,9 @@ foreach my $fn (@tests)
     unlike ($got_xml, qr{^<!DOCTYPE}ms, "No doctype in \"$fn\"");
 
     # TEST*$num_texts
-    is_xml ($got_xml, load_xml("t/screenplay/data/xml/$fn.xml"),
+    my_is_xml (
+        [ string => $got_xml, ],
+        [ string => load_xml("t/screenplay/data/xml/$fn.xml"), ],
         "Output of the Proto Text \"$fn\""
     );
 

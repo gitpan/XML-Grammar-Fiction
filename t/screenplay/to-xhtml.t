@@ -5,7 +5,9 @@ use warnings;
 
 use Test::More;
 
-use Test::XML tests => 3;
+use lib './t/lib';
+
+use Test::More tests => 6;
 
 use File::Spec;
 
@@ -15,6 +17,7 @@ use XML::Grammar::Screenplay::ToHTML;
 
 my @tests = (qw(
         with-internal-description
+        with-img-element-inside-paragraphs
     ));
 
 sub load_xml
@@ -31,7 +34,7 @@ sub load_xml
     return $contents;
 }
 
-# TEST:$num_texts=1
+# TEST:$num_texts=2
 
 my $converter = XML::Grammar::Screenplay::ToHTML->new({
         data_dir => File::Spec->catdir(File::Spec->curdir(), "extradata"),
