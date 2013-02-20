@@ -6,7 +6,7 @@ use warnings;
 use List::Util ();
 
 
-our $VERSION = '0.11.0';
+our $VERSION = '0.11.1';
 
 package XML::Grammar::Fiction::FromProto::Node;
 
@@ -144,7 +144,7 @@ use in XML::Grammar::Fiction::FromProto.
 
 =head1 VERSION
 
-version 0.11.0
+version 0.11.1
 
 =head1 DESCRIPTION
 
@@ -152,7 +152,7 @@ Contains several nodes.
 
 =head1 VERSION
 
-Version 0.11.0
+Version 0.11.1
 
 =head1 AUTHOR
 

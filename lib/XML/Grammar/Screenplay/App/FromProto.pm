@@ -13,6 +13,8 @@ use Getopt::Long;
 use XML::Grammar::Screenplay::FromProto;
 use XML::Grammar::Screenplay::FromProto::Parser::QnD;
 
+our $VERSION = '0.11.1';
+
 
 sub run
 {
@@ -60,12 +62,16 @@ Screenplay XML.
 
 =head1 VERSION
 
-version 0.11.0
+version 0.11.1
 
 =head1 SYNOPSIS
 
     perl -MXML::Grammar::Screenplay::App::FromProto -e 'run()' -- \
 	-o $@ $<
+
+=head1 VERSION
+
+0.11.0
 
 =head1 FUNCTIONS
 

@@ -19,7 +19,7 @@ my $xml_ns = "http://www.w3.org/XML/1998/namespace";
 my $xlink_ns = "http://www.w3.org/1999/xlink";
 
 
-our $VERSION = '0.11.0';
+our $VERSION = '0.11.1';
 
 
 
@@ -495,11 +495,11 @@ text representing prose to an XML format.
 
 =head1 VERSION
 
-version 0.11.0
+version 0.11.1
 
 =head1 VERSION
 
-Version 0.11.0
+Version 0.11.1
 
 =head2 new()
 

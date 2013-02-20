@@ -12,6 +12,8 @@ use Getopt::Long;
 
 use XML::Grammar::Screenplay::ToHTML;
 
+our $VERSION = '0.11.1';
+
 
 sub run
 {
@@ -57,7 +59,11 @@ a command line application to convert a Screenplay XML file to HTML
 
 =head1 VERSION
 
-version 0.11.0
+version 0.11.1
+
+=head1 VERSION
+
+0.11.0
 
 =head1 FUNCTIONS
 

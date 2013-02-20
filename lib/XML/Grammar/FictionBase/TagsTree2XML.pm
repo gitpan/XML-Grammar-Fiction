@@ -110,11 +110,11 @@ to XML converters.
 
 =head1 VERSION
 
-version 0.11.0
+version 0.11.1
 
 =head1 VERSION
 
-Version 0.11.0
+Version 0.11.1
 
 =head2 meta()
 

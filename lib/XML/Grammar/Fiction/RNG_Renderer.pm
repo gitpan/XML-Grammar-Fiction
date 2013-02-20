@@ -3,6 +3,8 @@ package XML::Grammar::Fiction::RNG_Renderer;
 use strict;
 use warnings;
 
+our $VERSION = '0.11.1';
+
 
 use MooX 'late';
 
@@ -21,7 +23,7 @@ __END__
 
 =head1 VERSION
 
-version 0.11.0
+version 0.11.1
 
 =head1 SYNOPSIS
 
@@ -30,6 +32,10 @@ For internal use.
 =head1 XML::Grammar::Fiction::RNG_Renderer
 
 The base class for the Fiction-XML renderer with the common RNG.
+
+=head1 VERSION
+
+0.11.0
 
 =head1 METHODS
 

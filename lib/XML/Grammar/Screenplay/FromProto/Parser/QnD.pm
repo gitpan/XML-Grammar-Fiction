@@ -14,6 +14,8 @@ use XML::Grammar::FictionBase::Event;
 use List::Util ();
 use List::MoreUtils ();
 
+our $VERSION = '0.11.1';
+
 has "_in_saying" => (isa => "Bool", is => "rw");
 has "_prev_line_is_empty" => (isa => "Bool", is => "rw", default => 1);
 has '_is_start' => (isa => 'Bool', is => 'rw');
@@ -617,7 +619,11 @@ B<For internal use only>.
 
 =head1 VERSION
 
-version 0.11.0
+version 0.11.1
+
+=head1 VERSION
+
+0.11.0
 
 =head1 METHODS
 
