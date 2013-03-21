@@ -21,11 +21,11 @@ XSLT conversions.
 
 =head1 VERSION
 
-version 0.11.1
+version 0.12.0
 
 =head1 VERSION
 
-Version 0.11.1
+Version 0.12.0
 
 =head1 METHODS
 

@@ -57,30 +57,26 @@ foreach my $fn (@tests)
     my $xpc = XML::LibXML::XPathContext->new();
     $xpc->registerNs('x', q{http://www.w3.org/1999/xhtml});
     # TEST*$num_texts
+    my $r = $xpc->find(q{//x:html}, $doc);
     is (
-        scalar(() = $xpc->find(q{//x:html}, $doc)),
+        $r->size(),
         1,
         "Found one article with id index",
     );
 
+    $r = $xpc->find(q{//x:div[@class='saying']}, $doc);
     # TEST*$num_texts
     ok (
-        (scalar(() = $xpc->find(q{//x:div[@class='saying']}, $doc))
-            >=
-            1
-        ),
+        ($r->size() >= 1),
         "Found role=description sections",
     );
 
+    $r = $xpc->find(q{//x:div[@class='saying']/x:p/x:strong[@class='sayer']}, $doc);
     # TEST*$num_texts
     ok (
-        (scalar(() = $xpc->find(q{//x:div[@class='saying']/x:p/x:strong[@class='sayer']}, $doc))
-            >=
-            1
-        ),
+        ( $r->size() >= 1 ),
         "Found role=description sections",
     );
-
 }
 
 1;

@@ -1,98 +1,18 @@
-package XML::Grammar::FictionBase::TagsTree2XML;
+package XML::Grammar::Fiction::FromProto::Node::Text;
+
+use strict;
+use warnings;
 
 use MooX 'late';
 
-use XML::Writer;
-use HTML::Entities ();
-
-use XML::Grammar::Fiction::FromProto::Nodes;
+extends("XML::Grammar::Fiction::FromProto::Node::WithContent");
 
 
-
-has '_parser_class' =>
-(
-    is => "ro",
-    isa => "Str",
-    init_arg => "parser_class",
-    default => "XML::Grammar::Fiction::FromProto::Parser::QnD",
-);
-
-has "_parser" => (
-    'isa' => "XML::Grammar::Fiction::FromProto::Parser",
-    'is' => "rw",
-    lazy => 1,
-    default => sub {
-        my $self = shift;
-        return $self->_parser_class->new();
-    },
-);
-
-has "_writer" => ('isa' => "XML::Writer", 'is' => "rw");
-
-sub _write_Element_elem
+sub get_text
 {
-    my ($self, $elem) = @_;
+    my ($self, $re) = @_;
 
-    if ($elem->_short_isa("InnerDesc"))
-    {
-        $self->_output_tag_with_childs(
-            {
-                start => ["inlinedesc"],
-                elem => $elem,
-            }
-        );
-        return;
-    }
-    else
-    {
-        my $method = "_handle_elem_of_name_" . $elem->name();
-
-        $self->$method($elem);
-
-        return;
-    }
-}
-
-sub _handle_elem_of_name_s
-{
-    my ($self, $elem) = @_;
-
-    $self->_write_scene({scene => $elem});
-}
-
-sub _handle_elem_of_name_b
-{
-    my ($self, $elem) = @_;
-
-    $self->_output_tag_with_childs(
-        {
-            start => [$self->_bold_tag_name()],
-            elem => $elem,
-        }
-    );
-}
-
-sub _handle_elem_of_name_br
-{
-    my ($self, $elem) = @_;
-
-    $self->_writer->emptyTag("br");
-
-    return;
-}
-
-sub _handle_elem_of_name_i
-{
-    my ($self, $elem) = @_;
-
-    $self->_output_tag_with_childs(
-        {
-            start => [$self->_italics_tag_name],
-            elem => $elem,
-        }
-    );
-
-    return;
+    return $self->children->contents->[0];
 }
 
 1;
@@ -103,22 +23,15 @@ __END__
 
 =encoding utf-8
 
-=head1 NAME
-
-XML::Grammar::FictionBase::TagsTree2XML - base class for the tags-tree
-to XML converters.
-
 =head1 VERSION
 
 version 0.12.0
 
-=head1 VERSION
+=head1 METHODS
 
-Version 0.12.0
+=head2 $self->get_text($regex)
 
-=head2 meta()
-
-Internal - (to settle pod-coverage.).
+Internal use.
 
 =head1 AUTHOR
 

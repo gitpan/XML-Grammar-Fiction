@@ -41,10 +41,6 @@ my %WriteMakefileArgs = (
     "List::MoreUtils" => 0,
     "List::Util" => 0,
     "MooX" => 0,
-    "XML::Grammar::Fiction::FromProto::Node" => 0,
-    "XML::Grammar::Fiction::FromProto::Node::Element" => 0,
-    "XML::Grammar::Fiction::FromProto::Node::Text" => 0,
-    "XML::Grammar::Fiction::FromProto::Node::WithContent" => 0,
     "XML::LibXML" => 0,
     "XML::LibXSLT" => 0,
     "XML::Writer" => 0,
@@ -53,7 +49,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.11.1",
+  "VERSION" => "0.12.0",
   "test" => {
     "TESTS" => "t/*.t t/base/*.t t/fiction/*.t t/screenplay/*.t"
   }

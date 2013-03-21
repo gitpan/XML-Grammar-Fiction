@@ -12,7 +12,7 @@ use Getopt::Long;
 
 use XML::Grammar::Screenplay::ToDocBook;
 
-our $VERSION = '0.11.1';
+our $VERSION = '0.12.0';
 
 
 sub run
@@ -59,7 +59,7 @@ a command line application to convert a Screenplay XML file to docbook.
 
 =head1 VERSION
 
-version 0.11.1
+version 0.12.0
 
 =head1 VERSION
 

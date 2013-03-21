@@ -10,7 +10,8 @@ use MooX 'late';
 extends( 'XML::Grammar::Fiction::RNG_Renderer' );
 
 
-our $VERSION = '0.11.1';
+our $VERSION = '0.12.0';
+
 
 has '+xslt_transform_basename' => (default => "fiction-xml-to-html.xslt", );
 
@@ -36,11 +37,11 @@ XML::Grammar::Fiction::ToHTML - module that converts the Fiction-XML to HTML.
 
 =head1 VERSION
 
-version 0.11.1
+version 0.12.0
 
 =head1 VERSION
 
-Version 0.11.1
+Version 0.12.0
 
 =head1 METHODS
 
