@@ -25,7 +25,7 @@ my %module_build_args = (
     "Shlomi Fish <shlomif\@cpan.org>"
   ],
   "dist_name" => "XML-Grammar-Fiction",
-  "dist_version" => "0.12.0",
+  "dist_version" => "0.12.1",
   "license" => "mit",
   "module_name" => "XML::Grammar::Fiction",
   "recommends" => {},
@@ -42,6 +42,7 @@ my %module_build_args = (
     "List::MoreUtils" => 0,
     "List::Util" => 0,
     "MooX" => 0,
+    "MooX::late" => "0.007",
     "XML::LibXML" => 0,
     "XML::LibXSLT" => 0,
     "XML::Writer" => 0,

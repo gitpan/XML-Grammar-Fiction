@@ -8,7 +8,7 @@ use List::Util ();
 use XML::Grammar::Fiction::FromProto::Node;
 
 
-our $VERSION = '0.12.0';
+our $VERSION = '0.12.1';
 
 use XML::Grammar::Fiction::FromProto::Node::WithContent;
 use XML::Grammar::Fiction::FromProto::Node::Element;
@@ -35,7 +35,7 @@ use in XML::Grammar::Fiction::FromProto.
 
 =head1 VERSION
 
-version 0.12.0
+version 0.12.1
 
 =head1 DESCRIPTION
 
@@ -43,7 +43,7 @@ Contains several nodes.
 
 =head1 VERSION
 
-Version 0.12.0
+Version 0.12.1
 
 =head1 AUTHOR
 

@@ -22,7 +22,7 @@ has 'rng_schema_basename' => (is => 'ro', isa => 'Str', required => 1,);
 has 'xslt_transform_basename' => (is => 'ro', isa => 'Str', required => 1,);
 
 
-our $VERSION = '0.12.0';
+our $VERSION = '0.12.1';
 
 
 sub BUILD
@@ -154,11 +154,11 @@ file to a different XML file using an XSLT transform.
 
 =head1 VERSION
 
-version 0.12.0
+version 0.12.1
 
 =head1 VERSION
 
-Version 0.12.0
+Version 0.12.1
 
 =head1 METHODS
 

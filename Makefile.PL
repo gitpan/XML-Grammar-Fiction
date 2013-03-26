@@ -41,6 +41,7 @@ my %WriteMakefileArgs = (
     "List::MoreUtils" => 0,
     "List::Util" => 0,
     "MooX" => 0,
+    "MooX::late" => "0.007",
     "XML::LibXML" => 0,
     "XML::LibXSLT" => 0,
     "XML::Writer" => 0,
@@ -49,7 +50,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.12.0",
+  "VERSION" => "0.12.1",
   "test" => {
     "TESTS" => "t/*.t t/base/*.t t/fiction/*.t t/screenplay/*.t"
   }
