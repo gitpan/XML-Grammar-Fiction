@@ -3,7 +3,7 @@ package XML::Grammar::Fiction::RNG_Renderer;
 use strict;
 use warnings;
 
-our $VERSION = '0.12.1';
+our $VERSION = '0.12.2';
 
 
 use MooX 'late';
@@ -23,7 +23,7 @@ __END__
 
 =head1 VERSION
 
-version 0.12.1
+version 0.12.2
 
 =head1 SYNOPSIS
 

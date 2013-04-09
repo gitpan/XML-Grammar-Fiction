@@ -143,6 +143,7 @@ t/screenplay/app-to-html.t
 t/screenplay/boilerplate.t
 t/screenplay/data/docbook/with-internal-description.docbook.xml
 t/screenplay/data/proto-text-invalid/inner-desc-inside-char-addressing.txt
+t/screenplay/data/proto-text-invalid/non-terminated-desc.txt
 t/screenplay/data/proto-text/dialogue-with-several-paragraphs.txt
 t/screenplay/data/proto-text/nested-s.txt
 t/screenplay/data/proto-text/scenes-with-titles.txt

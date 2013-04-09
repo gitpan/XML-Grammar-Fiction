@@ -5,14 +5,19 @@ use warnings;
 
 
 
-our $VERSION = '0.12.1';
+our $VERSION = '0.12.2';
 
 use Exception::Class
     (
         "XML::Grammar::Fiction::Err::Base",
-        "XML::Grammar::Fiction::Err::Parse::TagsMismatch" =>
+        "XML::Grammar::Fiction::Err::Base::WithOpenTag" =>
         {
             isa => "XML::Grammar::Fiction::Err::Base",
+            fields => [qw(opening_tag)],
+        },
+        "XML::Grammar::Fiction::Err::Parse::TagsMismatch" =>
+        {
+            isa => "XML::Grammar::Fiction::Err::Base::WithOpenTag",
             fields => [qw(opening_tag closing_tag)],
         },
         "XML::Grammar::Fiction::Err::Parse::LineError" =>
@@ -44,6 +49,10 @@ use Exception::Class
         {
             isa => "XML::Grammar::Fiction::Err::Parse::LineError",
         },
+        "XML::Grammar::Fiction::Err::Parse::TagNotClosedAtEOF" =>
+        {
+            isa => "XML::Grammar::Fiction::Err::Base::WithOpenTag",
+        },
     )
     ;
 1;
@@ -61,7 +70,7 @@ XML::Grammar::Fiction
 
 =head1 VERSION
 
-version 0.12.1
+version 0.12.2
 
 =head1 SYNOPSIS
 
@@ -82,7 +91,7 @@ These are exceptions for L<XML::Grammar::Fiction> based on L<Exception::Class>
 
 =head1 VERSION
 
-Version 0.12.1
+Version 0.12.2
 
 =head1 AUTHOR
 

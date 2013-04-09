@@ -50,7 +50,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.12.1",
+  "VERSION" => "0.12.2",
   "test" => {
     "TESTS" => "t/*.t t/base/*.t t/fiction/*.t t/screenplay/*.t"
   }

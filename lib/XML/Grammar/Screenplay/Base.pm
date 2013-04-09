@@ -3,7 +3,7 @@ package XML::Grammar::Screenplay::Base;
 use strict;
 use warnings;
 
-our $VERSION = '0.12.1';
+our $VERSION = '0.12.2';
 
 
 sub new
@@ -33,7 +33,7 @@ classes.
 
 =head1 VERSION
 
-version 0.12.1
+version 0.12.2
 
 =encoding utf8
 

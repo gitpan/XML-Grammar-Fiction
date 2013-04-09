@@ -13,7 +13,7 @@ has "_curr_line_idx" => (isa => "Int", is => "rw", reader => "line_idx",);
 has "_lines" => (isa => "ArrayRef", is => "rw");
 
 
-our $VERSION = '0.12.1';
+our $VERSION = '0.12.2';
 
 
 sub setup_text
@@ -81,7 +81,9 @@ sub next_line_ref
 
     $self->_curr_line_idx($self->_curr_line_idx()+1);
 
-    pos(${$self->curr_line_ref()}) = 0;
+    if (! $self->eof() ) {
+        pos(${$self->curr_line_ref()}) = 0;
+    }
 
     return $self->curr_line_ref();
 }
@@ -251,7 +253,7 @@ B<For internal use only>.
 
 =head1 VERSION
 
-version 0.12.1
+version 0.12.2
 
 =head1 SYNOPSIS
 
@@ -264,7 +266,7 @@ and process it incrementally.
 
 =head1 VERSION
 
-Version 0.12.1
+Version 0.12.2
 
 =head1 METHODS
 

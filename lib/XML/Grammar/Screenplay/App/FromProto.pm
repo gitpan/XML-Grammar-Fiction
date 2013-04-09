@@ -13,7 +13,7 @@ use Getopt::Long;
 use XML::Grammar::Screenplay::FromProto;
 use XML::Grammar::Screenplay::FromProto::Parser::QnD;
 
-our $VERSION = '0.12.1';
+our $VERSION = '0.12.2';
 
 
 sub run
@@ -33,15 +33,16 @@ sub run
         parser_class => "XML::Grammar::Screenplay::FromProto::Parser::QnD",
     });
 
-    my $output_xml = $converter->convert({
-            source => { file => shift(@ARGV), },
+    $converter->_convert_while_handling_errors(
+        {
+            convert_args =>
+            {
+                source => { file => shift(@ARGV), },
+            },
+            output_filename => $output_filename,
         }
     );
 
-    open my $out, ">", $output_filename;
-    binmode $out, ":utf8";
-    print {$out} $output_xml;
-    close($out);
 
     exit(0);
 }
@@ -62,7 +63,7 @@ Screenplay XML.
 
 =head1 VERSION
 
-version 0.12.1
+version 0.12.2
 
 =head1 SYNOPSIS
 

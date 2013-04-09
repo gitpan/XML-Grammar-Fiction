@@ -95,6 +95,67 @@ sub _handle_elem_of_name_i
     return;
 }
 
+sub _convert_while_handling_errors
+{
+    my ($self, $args) = @_;
+
+    eval {
+        my $output_xml = $self->convert(
+            $args->{convert_args},
+        );
+
+        open my $out, ">", $args->{output_filename};
+        binmode $out, ":utf8";
+        print {$out} $output_xml;
+        close($out);
+    };
+
+    # Error handling.
+
+    my $e;
+    if ($e = Exception::Class->caught("XML::Grammar::Fiction::Err::Parse::TagsMismatch"))
+    {
+        warn $e->error(), "\n";
+        warn "Open: ", $e->opening_tag->name(),
+            " at line ", $e->opening_tag->line(), "\n"
+            ;
+        warn "Close: ",
+            $e->closing_tag->name(), " at line ",
+            $e->closing_tag->line(), "\n";
+
+        exit(-1);
+    }
+    elsif ($e = Exception::Class->caught("XML::Grammar::Fiction::Err::Parse::LineError"))
+    {
+        warn $e->error(), "\n";
+        warn "At line ", $e->line(), "\n";
+        exit(-1);
+    }
+    elsif ($e = Exception::Class->caught("XML::Grammar::Fiction::Err::Parse::TagNotClosedAtEOF"))
+    {
+        warn $e->error(), "\n";
+        warn "Open: ", $e->opening_tag->name(),
+            " at line ", $e->opening_tag->line(), "\n"
+            ;
+
+        exit(-1);
+    }
+    elsif ($e = Exception::Class->caught())
+    {
+        if (ref($e))
+        {
+            $e->rethrow();
+        }
+        else
+        {
+            die $e;
+        }
+    }
+
+    return;
+}
+
+
 1;
 
 __END__
@@ -110,11 +171,11 @@ to XML converters.
 
 =head1 VERSION
 
-version 0.12.1
+version 0.12.2
 
 =head1 VERSION
 
-Version 0.12.1
+Version 0.12.2
 
 =head2 meta()
 

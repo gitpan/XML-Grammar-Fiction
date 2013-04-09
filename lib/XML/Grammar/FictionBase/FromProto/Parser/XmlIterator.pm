@@ -843,7 +843,17 @@ sub _assert_not_eof
 
     if ($self->eof() && $self->_no_events())
     {
-        Carp::confess (qq{Reached EOF.});
+        if (! $self->_tag_stack_is_empty() )
+        {
+            XML::Grammar::Fiction::Err::Parse::TagNotClosedAtEOF->throw(
+                error => "Tag not closed at EOF.",
+                opening_tag => $self->_top_tag(),
+            );
+        }
+        else
+        {
+            Carp::confess (qq{Reached EOF.});
+        }
     }
 
     return;
@@ -887,7 +897,7 @@ sub _main_loop_iter_body
 }
 
 
-our $VERSION = '0.12.1';
+our $VERSION = '0.12.2';
 
 
 sub process_text
@@ -917,7 +927,7 @@ B<For internal use only>.
 
 =head1 VERSION
 
-version 0.12.1
+version 0.12.2
 
 =head1 SYNOPSIS
 
@@ -959,7 +969,7 @@ XML-like grammars.
 
 =head1 VERSION
 
-Version 0.12.1
+Version 0.12.2
 
 =head1 METHODS
 
