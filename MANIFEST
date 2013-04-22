@@ -6,7 +6,7 @@ MANIFEST.SKIP
 META.yml
 Makefile.PL
 README
-TODO
+TODO.quicktask
 contrib/docbook-to-fiction-xml-txt.pl
 dist.ini
 extradata/fiction-xml-to-docbook.xslt
@@ -66,6 +66,7 @@ rejects/Screenplay_Parser_QnD.pm
 rejects/lib/XML/Grammar/Fiction/FromProto/Parser/PRD.pm
 rejects/lib/XML/Grammar/Fiction/RendererBase.pm
 rejects/lib/XML/Grammar/Fiction/RendererBase.pm.2
+rejects/lib/XML/Grammar/Screenplay.pm
 rejects/lib/XML/Grammar/Screenplay/FromProto/Parser/PRD.pm
 rejects/lib/XML/Grammar/Screenplay/Struct/Tag.pm
 rejects/process-screenplay.pl
@@ -205,5 +206,4 @@ t/screenplay/to-docbook.t
 t/screenplay/to-tei.t
 t/screenplay/to-xhtml.t
 t/style-trailing-space.t
-tags
 weaver.ini

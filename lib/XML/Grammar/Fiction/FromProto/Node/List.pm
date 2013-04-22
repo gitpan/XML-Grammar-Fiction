@@ -2,6 +2,8 @@ package XML::Grammar::Fiction::FromProto::Node::List;
 
 use MooX 'late';
 
+our $VERSION = '0.12.3';
+
 extends("XML::Grammar::Fiction::FromProto::Node");
 
 has 'contents' => (isa => "ArrayRef", is => "rw");
@@ -16,7 +18,7 @@ __END__
 
 =head1 VERSION
 
-version 0.12.2
+version 0.12.3
 
 =head1 AUTHOR
 

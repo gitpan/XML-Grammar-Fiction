@@ -19,11 +19,27 @@ my $xml_ns = "http://www.w3.org/XML/1998/namespace";
 my $xlink_ns = "http://www.w3.org/1999/xlink";
 
 
-our $VERSION = '0.12.2';
+our $VERSION = '0.12.3';
 
 
 
 use Data::Dumper;
+
+my %lookup = (map { $_ => $_ } qw( li ol ul ));
+
+around '_calc_passthrough_cb' => sub
+{
+    my $orig = shift;
+    my $self = shift;
+    my ($name) = @_;
+
+    if ($lookup{$name})
+    {
+        return $name;
+    }
+
+    return $orig->($self, @_);
+};
 
 sub _output_tag
 {
@@ -158,20 +174,6 @@ sub _handle_elem_of_name_blockquote
 }
 
 
-sub _handle_elem_of_name_li
-{
-    my ($self, $elem) = @_;
-
-    $self->_output_tag_with_childs(
-        {
-            start => ['li'],
-            elem => $elem,
-        }
-    );
-
-    return;
-}
-
 sub _handle_elem_of_name_programlisting
 {
     my ($self, $elem) = @_;
@@ -222,20 +224,6 @@ sub _handle_elem_of_name_programlisting
     return;
 }
 
-sub _handle_elem_of_name_ol
-{
-    my ($self, $elem) = @_;
-
-    $self->_output_tag_with_childs(
-        {
-            start => ['ol'],
-            elem => $elem,
-        }
-    );
-
-    return;
-}
-
 sub _handle_elem_of_name_span
 {
     my ($self, $elem) = @_;
@@ -247,20 +235,6 @@ sub _handle_elem_of_name_span
             optional_id => 1,
             missing_id_msg => "Unspecified id for span!",
         },
-    );
-
-    return;
-}
-
-sub _handle_elem_of_name_ul
-{
-    my ($self, $elem) = @_;
-
-    $self->_output_tag_with_childs(
-        {
-            start => ['ul'],
-            elem => $elem,
-        }
     );
 
     return;
@@ -495,11 +469,11 @@ text representing prose to an XML format.
 
 =head1 VERSION
 
-version 0.12.2
+version 0.12.3
 
 =head1 VERSION
 
-Version 0.12.2
+Version 0.12.3
 
 =head2 new()
 

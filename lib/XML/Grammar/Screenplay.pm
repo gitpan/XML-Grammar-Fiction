@@ -4,7 +4,7 @@ use warnings;
 use strict;
 
 
-our $VERSION = '0.12.2';
+our $VERSION = '0.12.3';
 
 
 1;
@@ -22,7 +22,7 @@ screenplays.
 
 =head1 VERSION
 
-version 0.12.2
+version 0.12.3
 
 =head1 SYNOPSIS
 
@@ -54,7 +54,7 @@ The rest of this page will document the syntax of the custom textual format.
 
 =head1 VERSION
 
-Version 0.12.2
+Version 0.12.3
 
 =head1 FORMAT
 
@@ -179,22 +179,19 @@ L<http://www.shlomifish.org/humour/TOWTF/>
 
 L<http://www.shlomifish.org/humour/humanity/>
 
-=item * Star Trek - "We The Living Dead"
+=item * Star Trek - “We The Living Dead”
 
 L<http://www.shlomifish.org/humour/Star-Trek/We-the-Living-Dead/>
 
+=item * Selina Mandrake - The Slayer
+
+L<http://www.shlomifish.org/humour/Selina-Mandrake/>
+
+=item * Summerschool at the NSA
+
+L<http://www.shlomifish.org/humour/Summerschool-at-the-NSA/>
+
 =back
-
-=head1 DEBUGGING
-
-When trying to convert the well-formed text to XML, one will often
-encounter an obscure "Parse Error". This is caused by L<Parse::RecDescent>,
-which is used for parsing. The best way I found to deal with it is to
-gradually eliminate parts of the document until the offending markup is
-isolated.
-
-In the future, I plan on writing a custom parser that will provide better
-diagnostics and will hopefully also be faster.
 
 =head1 AUTHOR
 

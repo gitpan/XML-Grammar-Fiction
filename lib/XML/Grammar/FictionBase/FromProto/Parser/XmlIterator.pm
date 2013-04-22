@@ -28,7 +28,7 @@ sub _get_tag
     return $self->_tags_stack->[$idx];
 }
 
-sub _tag_stack_is_empty
+sub _tags_stack_is_empty
 {
     my $self = shift;
 
@@ -388,7 +388,7 @@ sub _check_for_open_tag
 {
     my $self = shift;
 
-    if ($self->_tag_stack_is_empty())
+    if ($self->_tags_stack_is_empty())
     {
         $self->throw_text_error(
             'XML::Grammar::Fiction::Err::Parse::CannotMatchOpeningTag',
@@ -532,7 +532,7 @@ sub _merge_tag
             $self->_new_list($open_tag->detach_children()),
         );
 
-    if (! $self->_tag_stack_is_empty())
+    if (! $self->_tags_stack_is_empty())
     {
         $self->_add_to_top_tag($new_elem);
         return;
@@ -843,7 +843,7 @@ sub _assert_not_eof
 
     if ($self->eof() && $self->_no_events())
     {
-        if (! $self->_tag_stack_is_empty() )
+        if (! $self->_tags_stack_is_empty() )
         {
             XML::Grammar::Fiction::Err::Parse::TagNotClosedAtEOF->throw(
                 error => "Tag not closed at EOF.",
@@ -897,7 +897,7 @@ sub _main_loop_iter_body
 }
 
 
-our $VERSION = '0.12.2';
+our $VERSION = '0.12.3';
 
 
 sub process_text
@@ -927,7 +927,7 @@ B<For internal use only>.
 
 =head1 VERSION
 
-version 0.12.2
+version 0.12.3
 
 =head1 SYNOPSIS
 
@@ -945,7 +945,7 @@ XML-like grammars.
     {
         '_push_tag' => 'push',
         '_grep_tags_stack' => 'grep',
-        '_tag_stack_is_empty' => 'is_empty',
+        '_tags_stack_is_empty' => 'is_empty',
         '_pop_tag' => 'pop',
         '_get_tag' => 'get',
     },
@@ -969,7 +969,7 @@ XML-like grammars.
 
 =head1 VERSION
 
-Version 0.12.2
+Version 0.12.3
 
 =head1 METHODS
 

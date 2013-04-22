@@ -29,9 +29,47 @@ has "_parser" => (
 
 has "_writer" => ('isa' => "XML::Writer", 'is' => "rw");
 
+my %passthrough_elem =
+(
+    b => sub { return shift->_bold_tag_name(); },
+    i => sub { return shift->_italics_tag_name(); },
+);
+
+sub _calc_passthrough_cb
+{
+    my ($self, $name) = @_;
+
+    if (exists($passthrough_elem{$name}))
+    {
+        return $passthrough_elem{$name};
+    }
+    else
+    {
+        return undef();
+    }
+}
+
+sub _calc_passthrough_name
+{
+    my ($self, $name, $elem) = @_;
+
+    my $cb = $self->_calc_passthrough_cb($name);
+
+    if (ref($cb) eq 'CODE')
+    {
+        return $cb->($self, $name, $elem,);
+    }
+    else
+    {
+        return $cb;
+    }
+}
+
 sub _write_Element_elem
 {
     my ($self, $elem) = @_;
+
+    my $name = $elem->name();
 
     if ($elem->_short_isa("InnerDesc"))
     {
@@ -43,9 +81,18 @@ sub _write_Element_elem
         );
         return;
     }
+    elsif (defined(my $out_name = $self->_calc_passthrough_name($name, $elem)))
+    {
+        return $self->_output_tag_with_childs(
+            {
+                start => [$out_name],
+                elem => $elem,
+            }
+        );
+    }
     else
     {
-        my $method = "_handle_elem_of_name_" . $elem->name();
+        my $method = "_handle_elem_of_name_$name";
 
         $self->$method($elem);
 
@@ -60,37 +107,11 @@ sub _handle_elem_of_name_s
     $self->_write_scene({scene => $elem});
 }
 
-sub _handle_elem_of_name_b
-{
-    my ($self, $elem) = @_;
-
-    $self->_output_tag_with_childs(
-        {
-            start => [$self->_bold_tag_name()],
-            elem => $elem,
-        }
-    );
-}
-
 sub _handle_elem_of_name_br
 {
     my ($self, $elem) = @_;
 
     $self->_writer->emptyTag("br");
-
-    return;
-}
-
-sub _handle_elem_of_name_i
-{
-    my ($self, $elem) = @_;
-
-    $self->_output_tag_with_childs(
-        {
-            start => [$self->_italics_tag_name],
-            elem => $elem,
-        }
-    );
 
     return;
 }
@@ -171,11 +192,11 @@ to XML converters.
 
 =head1 VERSION
 
-version 0.12.2
+version 0.12.3
 
 =head1 VERSION
 
-Version 0.12.2
+Version 0.12.3
 
 =head2 meta()
 

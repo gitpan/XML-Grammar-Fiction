@@ -41,11 +41,11 @@ use in XML::Grammar::Fiction::FromProto.
 
 =head1 VERSION
 
-version 0.12.2
+version 0.12.3
 
 =head1 VERSION
 
-Version 0.12.2
+Version 0.12.3
 
 =head1 METHODS
 
