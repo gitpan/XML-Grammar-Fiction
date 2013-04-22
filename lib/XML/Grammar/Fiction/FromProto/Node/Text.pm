@@ -3,7 +3,7 @@ package XML::Grammar::Fiction::FromProto::Node::Text;
 use strict;
 use warnings;
 
-our $VERSION = '0.12.3';
+our $VERSION = '0.12.4';
 
 use MooX 'late';
 
@@ -27,7 +27,7 @@ __END__
 
 =head1 VERSION
 
-version 0.12.3
+version 0.12.4
 
 =head1 METHODS
 

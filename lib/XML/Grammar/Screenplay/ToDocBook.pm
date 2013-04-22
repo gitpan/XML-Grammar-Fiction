@@ -7,7 +7,7 @@ extends('XML::Grammar::Screenplay::XSLT::Base');
 has '+xslt_transform_basename' => (default => "screenplay-xml-to-docbook.xslt");
 
 
-our $VERSION = '0.12.3';
+our $VERSION = '0.12.4';
 
 
 
@@ -33,7 +33,7 @@ XML to DocBook.
 
 =head1 VERSION
 
-version 0.12.3
+version 0.12.4
 
 =head1 METHODS
 
@@ -43,7 +43,7 @@ Inherited - (to settle pod-coverage).
 
 =head1 VERSION
 
-Version 0.12.3
+Version 0.12.4
 
 =head2 new()
 

@@ -12,7 +12,7 @@ extends ("XML::Grammar::Fiction::RNG_Renderer");
 has '+xslt_transform_basename' => (default => "fiction-xml-to-docbook.xslt");
 
 
-our $VERSION = '0.12.3';
+our $VERSION = '0.12.4';
 
 
 
@@ -40,11 +40,11 @@ DocBook 5.
 
 =head1 VERSION
 
-version 0.12.3
+version 0.12.4
 
 =head1 VERSION
 
-Version 0.12.3
+Version 0.12.4
 
 =head1 METHODS
 
