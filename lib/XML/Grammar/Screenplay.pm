@@ -4,7 +4,7 @@ use warnings;
 use strict;
 
 
-our $VERSION = '0.12.4';
+our $VERSION = '0.12.5';
 
 
 1;
@@ -22,7 +22,7 @@ screenplays.
 
 =head1 VERSION
 
-version 0.12.4
+version 0.12.5
 
 =head1 SYNOPSIS
 
@@ -54,7 +54,7 @@ The rest of this page will document the syntax of the custom textual format.
 
 =head1 VERSION
 
-Version 0.12.4
+Version 0.12.5
 
 =head1 FORMAT
 

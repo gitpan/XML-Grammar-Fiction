@@ -10,7 +10,7 @@ extends('XML::Grammar::Screenplay::XSLT::Base');
 has '+xslt_transform_basename' => (default => "screenplay-xml-to-tei.xslt");
 
 
-our $VERSION = '0.12.4';
+our $VERSION = '0.12.5';
 
 
 sub translate_to_tei
@@ -35,11 +35,11 @@ XML to TEI (Text Encoding Initiative).
 
 =head1 VERSION
 
-version 0.12.4
+version 0.12.5
 
 =head1 VERSION
 
-Version 0.12.4
+Version 0.12.5
 
 =head2 new()
 

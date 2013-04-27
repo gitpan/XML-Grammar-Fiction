@@ -17,7 +17,7 @@ use XML::Grammar::Fiction::FromProto::Parser::QnD;
 
 
 
-our $VERSION = '0.12.4';
+our $VERSION = '0.12.5';
 
 
 sub run
@@ -65,7 +65,7 @@ to convert from a well-formed plaintext format to Fiction-XML.
 
 =head1 VERSION
 
-version 0.12.4
+version 0.12.5
 
 =head1 SYNOPSIS
 
@@ -74,7 +74,7 @@ version 0.12.4
 
 =head1 VERSION
 
-Version 0.12.4
+Version 0.12.5
 
 =head1 FUNCTIONS
 

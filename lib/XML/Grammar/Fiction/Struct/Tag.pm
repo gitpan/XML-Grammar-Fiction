@@ -10,7 +10,7 @@ use List::MoreUtils;
 use XML::Grammar::Fiction::FromProto::Nodes;
 
 
-our $VERSION = '0.12.4';
+our $VERSION = '0.12.5';
 
 has 'name' => (is => "rw", isa => "Str");
 has 'line' => (is => "rw", isa => "Int");
@@ -78,11 +78,11 @@ B<For internal use only>.
 
 =head1 VERSION
 
-version 0.12.4
+version 0.12.5
 
 =head1 VERSION
 
-Version 0.12.4
+Version 0.12.5
 
 =head1 METHODS
 

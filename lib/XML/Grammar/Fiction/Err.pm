@@ -5,7 +5,7 @@ use warnings;
 
 
 
-our $VERSION = '0.12.4';
+our $VERSION = '0.12.5';
 
 use Exception::Class
     (
@@ -70,7 +70,7 @@ XML::Grammar::Fiction
 
 =head1 VERSION
 
-version 0.12.4
+version 0.12.5
 
 =head1 SYNOPSIS
 
@@ -91,7 +91,7 @@ These are exceptions for L<XML::Grammar::Fiction> based on L<Exception::Class>
 
 =head1 VERSION
 
-Version 0.12.4
+Version 0.12.5
 
 =head1 AUTHOR
 

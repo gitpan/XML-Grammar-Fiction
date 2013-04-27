@@ -2,7 +2,7 @@ package XML::Grammar::Screenplay::XSLT::Base;
 
 use MooX 'late';
 
-our $VERSION = '0.12.4';
+our $VERSION = '0.12.5';
 
 extends('XML::Grammar::FictionBase::XSLT::Converter');
 
@@ -23,11 +23,11 @@ XSLT conversions.
 
 =head1 VERSION
 
-version 0.12.4
+version 0.12.5
 
 =head1 VERSION
 
-Version 0.12.4
+Version 0.12.5
 
 =head1 METHODS
 
