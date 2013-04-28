@@ -897,7 +897,7 @@ sub _main_loop_iter_body
 }
 
 
-our $VERSION = '0.12.5';
+our $VERSION = '0.14.0';
 
 
 sub process_text
@@ -927,7 +927,7 @@ B<For internal use only>.
 
 =head1 VERSION
 
-version 0.12.5
+version 0.14.0
 
 =head1 SYNOPSIS
 
@@ -969,7 +969,7 @@ XML-like grammars.
 
 =head1 VERSION
 
-Version 0.12.5
+Version 0.14.0
 
 =head1 METHODS
 

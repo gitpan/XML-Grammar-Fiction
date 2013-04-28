@@ -14,7 +14,7 @@ use XML::Grammar::Fiction::Err;
 use XML::Grammar::FictionBase::Event;
 
 
-our $VERSION = '0.12.5';
+our $VERSION = '0.14.0';
 
 sub _non_tag_text_unit_consume_regex {
     return qr{(?:[\<]|^\n?$)}ms;
@@ -190,11 +190,11 @@ B<For internal use only>.
 
 =head1 VERSION
 
-version 0.12.5
+version 0.14.0
 
 =head1 VERSION
 
-Version 0.12.5
+Version 0.14.0
 
 =head1 METHODS
 

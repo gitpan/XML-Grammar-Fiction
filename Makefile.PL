@@ -31,7 +31,6 @@ my %WriteMakefileArgs = (
   "NAME" => "XML::Grammar::Fiction",
   "PREREQ_PM" => {
     "Carp" => 0,
-    "Data::Dumper" => 0,
     "Exception::Class" => 0,
     "Exporter" => 0,
     "File::ShareDir" => 0,
@@ -42,6 +41,9 @@ my %WriteMakefileArgs = (
     "List::Util" => 0,
     "MooX" => 0,
     "MooX::late" => "0.010",
+    "Test::XML::Ordered" => "v0.0.5",
+    "XML::GrammarBase::Role::RelaxNG" => 0,
+    "XML::GrammarBase::Role::XSLT" => "v0.2.1",
     "XML::LibXML" => 0,
     "XML::LibXSLT" => 0,
     "XML::Writer" => 0,
@@ -50,7 +52,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.12.5",
+  "VERSION" => "0.14.0",
   "test" => {
     "TESTS" => "t/*.t t/base/*.t t/fiction/*.t t/screenplay/*.t"
   }

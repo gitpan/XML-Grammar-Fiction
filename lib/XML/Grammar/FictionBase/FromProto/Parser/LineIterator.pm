@@ -13,7 +13,7 @@ has "_curr_line_idx" => (isa => "Int", is => "rw", reader => "line_idx",);
 has "_lines" => (isa => "ArrayRef", is => "rw");
 
 
-our $VERSION = '0.12.5';
+our $VERSION = '0.14.0';
 
 
 sub setup_text
@@ -253,7 +253,7 @@ B<For internal use only>.
 
 =head1 VERSION
 
-version 0.12.5
+version 0.14.0
 
 =head1 SYNOPSIS
 
@@ -266,7 +266,7 @@ and process it incrementally.
 
 =head1 VERSION
 
-Version 0.12.5
+Version 0.14.0
 
 =head1 METHODS
 

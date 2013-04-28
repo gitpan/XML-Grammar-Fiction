@@ -23,7 +23,6 @@ meta-spec:
 name: XML-Grammar-Fiction
 requires:
   Carp: 0
-  Data::Dumper: 0
   Exception::Class: 0
   Exporter: 0
   File::ShareDir: 0
@@ -34,6 +33,9 @@ requires:
   List::Util: 0
   MooX: 0
   MooX::late: 0.010
+  Test::XML::Ordered: v0.0.5
+  XML::GrammarBase::Role::RelaxNG: 0
+  XML::GrammarBase::Role::XSLT: v0.2.1
   XML::LibXML: 0
   XML::LibXSLT: 0
   XML::Writer: 0
@@ -44,4 +46,4 @@ requires:
 resources:
   bugtracker: http://rt.cpan.org/NoAuth/Bugs.html?Dist=XML-Grammar-Fiction
   repository: ssh://hg@bitbucket.org/shlomif/perl-XML-Grammar-Fiction
-version: 0.12.5
+version: 0.14.0

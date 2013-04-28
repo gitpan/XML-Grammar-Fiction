@@ -5,25 +5,17 @@ use warnings;
 use autodie;
 
 use Carp;
-use HTML::Entities ();
-use XML::Writer;
 
 use MooX 'late';
 
 extends("XML::Grammar::FictionBase::TagsTree2XML");
 
-use List::Util (qw(first));
-
 my $fiction_ns = q{http://web-cpan.berlios.de/modules/XML-Grammar-Fortune/fiction-xml-0.2/};
-my $xml_ns = "http://www.w3.org/XML/1998/namespace";
-my $xlink_ns = "http://www.w3.org/1999/xlink";
 
 
-our $VERSION = '0.12.5';
+our $VERSION = '0.14.0';
 
 
-
-use Data::Dumper;
 
 my %lookup = (map { $_ => $_ } qw( li ol ul ));
 
@@ -40,34 +32,6 @@ around '_calc_passthrough_cb' => sub
 
     return $orig->($self, @_);
 };
-
-sub _output_tag
-{
-    my ($self, $args) = @_;
-
-    my @start = @{$args->{start}};
-    $self->_writer->startTag([$fiction_ns,$start[0]], @start[1..$#start]);
-
-    $args->{in}->($self, $args);
-
-    $self->_writer->endTag();
-}
-
-sub _output_tag_with_childs
-{
-    my ($self, $args) = @_;
-
-    return
-        $self->_output_tag({
-            %$args,
-            'in' => sub {
-                foreach my $child (@{$args->{elem}->_get_childs()})
-                {
-                    $self->_write_elem({elem => $child,});
-                }
-            },
-        });
-}
 
 sub _output_tag_with_childs_and_common_attributes
 {
@@ -88,12 +52,12 @@ sub _output_tag_with_childs_and_common_attributes
     }
     else
     {
-        push @attr, ([$xml_ns, "id"] => $id);
+        push @attr, ([$self->_get_xml_xml_ns, "id"] => $id);
     }
 
     if (defined($lang))
     {
-        push @attr, ([$xml_ns, 'lang'] => $lang);
+        push @attr, ([$self->_get_xml_xml_ns, 'lang'] => $lang);
     }
 
     if (! defined($href))
@@ -107,7 +71,7 @@ sub _output_tag_with_childs_and_common_attributes
     }
     else
     {
-        push @attr, ([$xlink_ns, 'href'] => $href);
+        push @attr, ([$self->_get_xlink_xml_ns(), 'href'] => $href);
     }
 
     return $self->_output_tag_with_childs(
@@ -116,24 +80,6 @@ sub _output_tag_with_childs_and_common_attributes
             elem => $elem,
         }
     );
-}
-
-sub _get_text_start
-{
-    my ($self, $elem) = @_;
-
-    if ($elem->_short_isa("Saying"))
-    {
-        return ["saying", 'character' => $elem->character()];
-    }
-    elsif ($elem->_short_isa("Description"))
-    {
-        return ["description"];
-    }
-    else
-    {
-        Carp::confess ("Unknown element class - " . ref($elem) . "!");
-    }
 }
 
 sub _paragraph_tag
@@ -247,6 +193,7 @@ sub _handle_elem_of_name_title
     # TODO :
     # Eliminate the Law-of-Demeter-syndrome here.
     my $list = $elem->_get_childs()->[0];
+
     $self->_output_tag(
         {
             start => ["title"],
@@ -273,116 +220,42 @@ sub _italics_tag_name
     return "i";
 }
 
-sub _handle_text_start
+sub _write_Element_Text
+{
+    return shift->_write_elem_childs(@_);
+}
+
+sub _write_Element_List
 {
     my ($self, $elem) = @_;
 
-    $self->_output_tag_with_childs(
-        {
-            start => $self->_get_text_start($elem),
-            elem => $elem,
-        },
+    foreach my $child (@{$elem->contents()})
+    {
+        $self->_write_elem({elem => $child, });
+    }
+
+    return;
+}
+
+around '_calc_write_elem_obj_classes' => sub
+{
+    my $orig = shift;
+    my $self = shift;
+
+    return ['List', @{$orig->($self)}];
+};
+
+sub _write_scene_main
+{
+    my ($self, $scene) = @_;
+
+    $self->_output_tag_with_childs_and_common_attributes(
+        $scene,
+        "section",
+        { missing_id_msg => "Unspecified id for scene!", },
     );
 
     return;
-}
-
-sub _write_elem
-{
-    my ($self, $args) = @_;
-
-    my $elem = $args->{elem};
-
-    if (ref($elem) eq "")
-    {
-        $self->_writer->characters($elem);
-    }
-    elsif ($elem->_short_isa("Text"))
-    {
-        foreach my $child (@{$elem->_get_childs()})
-        {
-            $self->_write_elem({ elem => $child,},);
-        }
-    }
-    elsif ($elem->_short_isa("Paragraph"))
-    {
-        $self->_output_tag_with_childs(
-            {
-                start => [$self->_paragraph_tag()],
-                elem => $elem,
-            },
-        );
-    }
-    elsif ($elem->_short_isa("List"))
-    {
-        foreach my $child (@{$elem->contents()})
-        {
-            $self->_write_elem({elem => $child, });
-        }
-    }
-    elsif ($elem->_short_isa("Element"))
-    {
-        $self->_write_Element_elem($elem);
-    }
-    elsif ($elem->_short_isa("Text"))
-    {
-        $self->_handle_text_start($elem);
-    }
-    elsif ($elem->_short_isa("Comment"))
-    {
-        $self->_writer->comment($elem->text());
-    }
-}
-
-sub _write_scene
-{
-    my ($self, $args) = @_;
-
-    my $scene = $args->{scene};
-
-    my $tag = $scene->name;
-
-    if (($tag eq "s") || ($tag eq "scene"))
-    {
-        $self->_output_tag_with_childs_and_common_attributes(
-            $scene,
-            "section",
-            { missing_id_msg => "Unspecified id for scene!", },
-        );
-    }
-    else
-    {
-        confess "Improper scene tag - should be '<s>' or '<scene>'!";
-    }
-
-    return;
-}
-
-sub _read_file
-{
-    my ($self, $filename) = @_;
-
-    open my $in, "<", $filename or
-        confess "Could not open the file \"$filename\" for slurping.";
-    binmode $in, ":utf8";
-    my $contents;
-    {
-        local $/;
-        $contents = <$in>;
-    }
-    close($in);
-
-    return $contents;
-}
-
-sub _calc_tree
-{
-    my ($self, $args) = @_;
-
-    my $filename = $args->{source}->{file} or
-        confess "Wrong filename given.";
-
-    return $self->_parser->process_text($self->_read_file($filename));
 }
 
 sub _write_body
@@ -393,11 +266,11 @@ sub _write_body
     my $body = $args->{'body'};
 
     my $tag = $body->name;
+
     if ($tag ne "body")
     {
         confess "Improper body tag - should be '<body>'!";
     }
-
 
     $self->_output_tag_with_childs_and_common_attributes(
         $body,
@@ -408,50 +281,26 @@ sub _write_body
     return;
 }
 
-sub convert
+sub _get_default_xml_ns
 {
-    my ($self, $args) = @_;
+    return $fiction_ns;
+}
 
-    # These should be un-commented for debugging.
-    # local $::RD_HINT = 1;
-    # local $::RD_TRACE = 1;
+sub _convert_write_content
+{
+    my ($self, $tree) = @_;
 
-    # We need this so P::RD won't skip leading whitespace at lines
-    # which are siginificant.
+    my $writer = $self->_writer;
 
-    my $tree = $self->_calc_tree($args);
-
-    if (!defined($tree))
-    {
-        Carp::confess("Parsing failed.");
-    }
-
-    my $buffer = "";
-    my $writer = XML::Writer->new(
-        OUTPUT => \$buffer,
-        ENCODING => "utf-8",
-        NAMESPACES => 1,
-        PREFIX_MAP =>
-        {
-             $fiction_ns => q{},
-             $xml_ns => 'xml',
-             $xlink_ns => 'xlink',
-        }
-    );
-
-    $writer->xmlDecl("utf-8");
     $writer->startTag([$fiction_ns, "document"], "version" => "0.2");
     $writer->startTag([$fiction_ns, "head"]);
     $writer->endTag();
-
-    # Now we're inside the body.
-    $self->_writer($writer);
 
     $self->_write_body({body => $tree});
 
     $writer->endTag();
 
-    return $buffer;
+    return;
 }
 
 1;
@@ -469,11 +318,11 @@ text representing prose to an XML format.
 
 =head1 VERSION
 
-version 0.12.5
+version 0.14.0
 
 =head1 VERSION
 
-Version 0.12.5
+Version 0.14.0
 
 =head2 new()
 
@@ -488,23 +337,6 @@ Internal - (to settle pod-coverage.).
 
 Converts the file $path_to_file to XML and returns it. Throws an exception
 on failure.
-
-=begin foo
-
-    my $title =
-        first
-        { $_->name() eq "title" }
-        @{$body->_get_childs()}
-        ;
-
-    my @t =
-    (
-          defined($title)
-        ? (title => $title->_get_childs()->[0])
-        : ()
-    );
-
-=end foo
 
 =head1 AUTHOR
 

@@ -13,28 +13,38 @@ use XML::LibXSLT;
 
 use MooX 'late';
 
-has '_data_dir' => (isa => 'Str', is => 'rw');
-has '_data_dir_from_input' => (isa => 'Str', is => 'rw', init_arg => 'data_dir',);
-has '_rng' => (isa => 'XML::LibXML::RelaxNG', is => 'rw');
-has '_xml_parser' => (isa => "XML::LibXML", is => 'rw');
-has '_stylesheet' => (isa => "XML::LibXSLT::StylesheetWrapper", is => 'rw');
-has 'rng_schema_basename' => (is => 'ro', isa => 'Str', required => 1,);
-has 'xslt_transform_basename' => (is => 'ro', isa => 'Str', required => 1,);
+has '_data_dir' =>
+(
+    isa => 'Str',
+    is => 'rw',
+    lazy => 1,
+    default => sub {
+        return shift->_calc_data_dir();
+    },
+);
 
+has '_data_dir_from_input' =>
+(
+    isa => 'Str',
+    is => 'rw',
+    init_arg => 'data_dir',
+);
 
-our $VERSION = '0.12.5';
+has '_rng' =>
+(
+    isa => 'XML::LibXML::RelaxNG',
+    is => 'rw',
+    lazy => 1,
+    default => sub {
+        return shift->_calc_rng();
+    },
+);
 
-
-sub BUILD
+sub _calc_rng
 {
-    my ($self) = @_;
+    my $self = shift;
 
-    my $data_dir = $self->_data_dir_from_input() ||
-        dist_dir( 'XML-Grammar-Fiction');
-
-    $self->_data_dir($data_dir);
-
-    my $rngschema =
+    return
         XML::LibXML::RelaxNG->new(
             location =>
             File::Spec->catfile(
@@ -42,12 +52,55 @@ sub BUILD
                 $self->rng_schema_basename(),
             ),
         );
+}
 
-    $self->_rng($rngschema);
+has '_xml_parser' =>
+(
+    isa => 'XML::LibXML',
+    is => 'rw',
+    lazy => 1,
+    default => sub {
+        return shift->_calc_xml_parser();
+    },
+);
 
-    $self->_xml_parser(XML::LibXML->new());
+sub _calc_xml_parser
+{
+    my $self = shift;
 
-    my $xslt = XML::LibXSLT->new();
+    return XML::LibXML->new();
+}
+
+has '_xslt_processor' =>
+(
+    isa => "XML::LibXSLT",
+    is => 'rw',
+    lazy => 1,
+    default => sub {
+        return shift->_calc_xslt_processor();
+    },
+);
+
+sub _calc_xslt_processor
+{
+    my ($self) = @_;
+
+    return XML::LibXSLT->new();
+}
+
+has '_stylesheet' =>
+(
+    isa => "XML::LibXSLT::StylesheetWrapper",
+    is => 'rw',
+    lazy => 1,
+    default => sub {
+        return shift->_calc_stylesheet();
+    },
+);
+
+sub _calc_stylesheet
+{
+    my ($self) = @_;
 
     my $style_doc = $self->_xml_parser()->parse_file(
             File::Spec->catfile(
@@ -56,9 +109,21 @@ sub BUILD
             ),
         );
 
-    $self->_stylesheet($xslt->parse_stylesheet($style_doc));
+    return $self->_xslt_processor->parse_stylesheet($style_doc);
+}
 
-    return 0;
+has 'rng_schema_basename' => (is => 'ro', isa => 'Str', required => 1,);
+has 'xslt_transform_basename' => (is => 'ro', isa => 'Str', required => 1,);
+
+
+our $VERSION = '0.14.0';
+
+
+sub _calc_data_dir
+{
+    my ($self) = @_;
+
+    return $self->_data_dir_from_input() || dist_dir( 'XML-Grammar-Fiction');
 }
 
 
@@ -154,11 +219,11 @@ file to a different XML file using an XSLT transform.
 
 =head1 VERSION
 
-version 0.12.5
+version 0.14.0
 
 =head1 VERSION
 
-Version 0.12.5
+Version 0.14.0
 
 =head1 METHODS
 
@@ -168,10 +233,6 @@ Accepts no arguments so far. May take some time as the grammar is compiled
 at that point.
 
 =head2 meta()
-
-Internal - (to settle pod-coverage.).
-
-=head2 BUILD()
 
 Internal - (to settle pod-coverage.).
 

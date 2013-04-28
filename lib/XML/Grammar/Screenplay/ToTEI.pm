@@ -5,19 +5,31 @@ use warnings;
 
 use MooX 'late';
 
-extends('XML::Grammar::Screenplay::XSLT::Base');
+use XML::GrammarBase::Role::RelaxNG;
+use XML::GrammarBase::Role::XSLT;
 
-has '+xslt_transform_basename' => (default => "screenplay-xml-to-tei.xslt");
+with ('XML::GrammarBase::Role::RelaxNG');
+with XSLT(output_format => 'tei');
+
+has '+module_base' => (default => 'XML-Grammar-Fiction');
+has '+rng_schema_basename' => (default => 'screenplay-xml.rng');
+
+has '+to_tei_xslt_transform_basename' =>
+(
+    default => 'screenplay-xml-to-tei.xslt',
+);
 
 
-our $VERSION = '0.12.5';
+our $VERSION = '0.14.0';
 
 
 sub translate_to_tei
 {
     my ($self, $args) = @_;
 
-    return $self->perform_translation($args);
+    return $self->perform_xslt_translation(
+        {output_format => 'tei', %{$args}}
+    );
 }
 
 1;
@@ -35,11 +47,11 @@ XML to TEI (Text Encoding Initiative).
 
 =head1 VERSION
 
-version 0.12.5
+version 0.14.0
 
 =head1 VERSION
 
-Version 0.12.5
+Version 0.14.0
 
 =head2 new()
 

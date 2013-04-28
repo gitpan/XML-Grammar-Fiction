@@ -1,6 +1,10 @@
 package XML::Grammar::Screenplay::FromProto;
 
-use XML::Writer;
+use strict;
+use warnings;
+use autodie;
+
+use Carp;
 
 use MooX 'late';
 
@@ -9,55 +13,11 @@ extends("XML::Grammar::FictionBase::TagsTree2XML");
 my $screenplay_ns = q{http://web-cpan.berlios.de/modules/XML-Grammar-Screenplay/screenplay-xml-0.2/};
 
 
-our $VERSION = '0.12.5';
+our $VERSION = '0.14.0';
 
 
-sub _init
-{
-    my ($self, $args) = @_;
 
-    local $Parse::RecDescent::skip = "";
-
-    my $parser_class =
-        ($args->{parser_class} || "XML::Grammar::Screenplay::FromProto::Parser::QnD");
-
-    $self->_parser(
-        $parser_class->new()
-    );
-
-    return 0;
-}
-
-
-sub _output_tag
-{
-    my ($self, $args) = @_;
-
-    my @start = @{$args->{start}};
-    $self->_writer->startTag([$screenplay_ns,$start[0]], @start[1..$#start]);
-
-    $args->{in}->($self, $args);
-
-    $self->_writer->endTag();
-}
-
-sub _output_tag_with_childs
-{
-    my ($self, $args) = @_;
-
-    return
-        $self->_output_tag({
-            %$args,
-            'in' => sub {
-                foreach my $child (@{$args->{elem}->_get_childs()})
-                {
-                    $self->_write_elem({elem => $child,});
-                }
-            },
-        });
-}
-
-sub _handle_text_start
+sub _write_Element_Text
 {
     my ($self, $elem) = @_;
 
@@ -69,6 +29,8 @@ sub _handle_text_start
                 elem => $elem,
             },
         );
+
+        return;
     }
     elsif ($elem->_short_isa("Description"))
     {
@@ -78,17 +40,14 @@ sub _handle_text_start
                 elem => $elem,
             },
         );
-    }
-    elsif ($elem->_short_isa("Text"))
-    {
-        foreach my $child (@{$elem->_get_childs()})
-        {
-            $self->_write_elem({ elem => $child,},);
-        }
+
+        return;
     }
     else
     {
-        Carp::confess ("Unknown element class - " . ref($elem) . "!");
+        $self->_write_elem_childs($elem);
+
+        return;
     }
 }
 
@@ -147,142 +106,45 @@ sub _italics_tag_name
     return "italics";
 }
 
-sub _write_elem
+sub _write_scene_main
 {
-    my ($self, $args) = @_;
+    my ($self, $scene) = @_;
 
-    my $elem = $args->{elem};
+    my $id = $scene->lookup_attr("id");
 
-    if (ref($elem) eq "")
+    if (!defined($id))
     {
-        $self->_writer->characters($elem);
+        Carp::confess("Unspecified id for scene!");
     }
-    elsif ($elem->_short_isa("Paragraph"))
-    {
-        $self->_output_tag_with_childs(
-            {
-               start => [$self->_paragraph_tag()],
-                elem => $elem,
-            },
-        );
-    }
-    elsif ($elem->_short_isa("Element"))
-    {
-        $self->_write_Element_elem($elem);
-    }
-    elsif ($elem->_short_isa("Text"))
-    {
-        $self->_handle_text_start($elem);
-    }
-    elsif ($elem->_short_isa("Comment"))
-    {
-        $self->_writer->comment($elem->text());
-    }
-}
 
-sub _write_scene
-{
-    my ($self, $args) = @_;
+    my $title = $scene->lookup_attr("title");
+    my @t = (defined($title) ? (title => $title) : ());
 
-    my $scene = $args->{scene};
-
-    my $tag = $scene->name;
-
-    if (($tag eq "s") || ($tag eq "scene"))
-    {
-        my $id = $scene->lookup_attr("id");
-
-        if (!defined($id))
+    $self->_output_tag_with_childs(
         {
-            Carp::confess("Unspecified id for scene!");
+            'start' => ["scene", id => $id, @t],
+            elem => $scene,
         }
-
-        my $title = $scene->lookup_attr("title");
-        my @t = (defined($title) ? (title => $title) : ());
-
-        $self->_output_tag_with_childs(
-            {
-                'start' => ["scene", id => $id, @t],
-                elem => $scene,
-            }
-        );
-    }
-    else
-    {
-        confess "Improper scene tag - should be '<s>' or '<scene>'!";
-    }
+    );
 
     return;
 }
 
-sub _read_file
+sub _get_default_xml_ns
 {
-    my ($self, $filename) = @_;
-
-    open my $in, "<", $filename or
-        confess "Could not open the file \"$filename\" for slurping.";
-    binmode $in, ":utf8";
-    my $contents;
-    {
-        local $/;
-        $contents = <$in>;
-    }
-    close($in);
-
-    return $contents;
+    return $screenplay_ns;
 }
 
-sub _calc_tree
+sub _convert_write_content
 {
-    my ($self, $args) = @_;
+    my ($self, $tree) = @_;
 
-    my $filename = $args->{source}->{file} or
-        confess "Wrong filename given.";
+    my $writer = $self->_writer;
 
-    return $self->_parser->process_text($self->_read_file($filename));
-}
-
-has '_buffer' => (is => "rw");
-
-sub convert
-{
-    my ($self, $args) = @_;
-
-    # These should be un-commented for debugging.
-    # local $::RD_HINT = 1;
-    # local $::RD_TRACE = 1;
-
-    # We need this so P::RD won't skip leading whitespace at lines
-    # which are siginificant.
-
-    my $tree = $self->_calc_tree($args);
-
-    if (!defined($tree))
-    {
-        Carp::confess("Parsing failed.");
-    }
-
-    my $buffer = "";
-    $self->_buffer(\$buffer);
-
-    my $writer = XML::Writer->new(
-        OUTPUT => $self->_buffer(),
-        ENCODING => "utf-8",
-        NAMESPACES => 1,
-        PREFIX_MAP =>
-        {
-             $screenplay_ns => "",
-        }
-    );
-
-    $writer->xmlDecl("utf-8");
     $writer->startTag([$screenplay_ns, "document"]);
     $writer->startTag([$screenplay_ns, "head"]);
     $writer->endTag();
     $writer->startTag([$screenplay_ns, "body"], "id" => "index",);
-
-    # Now we're inside the body.
-    $self->_writer($writer);
 
     $self->_write_scene({scene => $tree});
 
@@ -291,7 +153,7 @@ sub convert
 
     $writer->endTag();
 
-    return ${$self->_buffer()};
+    return;
 }
 
 1;
@@ -309,11 +171,11 @@ text representing a screenplay to an XML format.
 
 =head1 VERSION
 
-version 0.12.5
+version 0.14.0
 
 =head1 VERSION
 
-Version 0.12.5
+Version 0.14.0
 
 =head2 new()
 

@@ -13,7 +13,7 @@ use Getopt::Long;
 use XML::Grammar::Screenplay::FromProto;
 use XML::Grammar::Screenplay::FromProto::Parser::QnD;
 
-our $VERSION = '0.12.5';
+our $VERSION = '0.14.0';
 
 
 sub run
@@ -63,7 +63,7 @@ Screenplay XML.
 
 =head1 VERSION
 
-version 0.12.5
+version 0.14.0
 
 =head1 SYNOPSIS
 

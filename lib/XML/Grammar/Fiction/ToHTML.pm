@@ -7,20 +7,30 @@ use Carp;
 
 use MooX 'late';
 
-extends( 'XML::Grammar::Fiction::RNG_Renderer' );
+use XML::GrammarBase::Role::RelaxNG;
+use XML::GrammarBase::Role::XSLT;
+
+with ('XML::GrammarBase::Role::RelaxNG');
+with XSLT(output_format => 'html');
+
+has '+module_base' => (default => 'XML-Grammar-Fiction');
+has '+rng_schema_basename' => (default => 'fiction-xml.rng');
+
+has '+to_html_xslt_transform_basename' =>
+(
+    default => 'fiction-xml-to-html.xslt',
+);
 
 
-our $VERSION = '0.12.5';
+our $VERSION = '0.14.0';
 
-
-has '+xslt_transform_basename' => (default => "fiction-xml-to-html.xslt", );
 
 
 sub translate_to_html
 {
     my ($self, $args) = @_;
 
-    return $self->perform_translation($args);
+    return $self->perform_xslt_translation({output_format => 'html', %{$args}});
 }
 
 1;
@@ -37,11 +47,11 @@ XML::Grammar::Fiction::ToHTML - module that converts the Fiction-XML to HTML.
 
 =head1 VERSION
 
-version 0.12.5
+version 0.14.0
 
 =head1 VERSION
 
-Version 0.12.5
+Version 0.14.0
 
 =head1 METHODS
 
@@ -57,6 +67,10 @@ at that point.
 =head2 meta()
 
 Internal - (to settle pod-coverage.).
+
+=head2 perform_xslt_translation
+
+See L<XML::GrammarBase::Role::XSLT> . The output_format is C<'html'> .
 
 =head2 translate_to_html
 
