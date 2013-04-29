@@ -7,14 +7,12 @@ use MooX 'late';
 
 extends("XML::Grammar::FictionBase::FromProto::Parser::XmlIterator");
 
-use XML::Grammar::Fiction::FromProto::Nodes;
-
 use XML::Grammar::Fiction::Struct::Tag;
 use XML::Grammar::Fiction::Err;
 use XML::Grammar::FictionBase::Event;
 
 
-our $VERSION = '0.14.0';
+our $VERSION = '0.14.1';
 
 sub _non_tag_text_unit_consume_regex {
     return qr{(?:[\<]|^\n?$)}ms;
@@ -190,11 +188,11 @@ B<For internal use only>.
 
 =head1 VERSION
 
-version 0.14.0
+version 0.14.1
 
 =head1 VERSION
 
-Version 0.14.0
+Version 0.14.1
 
 =head1 METHODS
 

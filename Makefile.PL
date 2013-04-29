@@ -16,8 +16,10 @@ my %WriteMakefileArgs = (
     "File::Find" => 0,
     "File::Temp" => 0,
     "Module::Build" => "0.3601",
+    "MooX::late" => "0.010",
     "Test::More" => 0,
-    "Test::XML::Ordered" => 0,
+    "Test::XML::Ordered" => "v0.0.5",
+    "XML::GrammarBase::Role::XSLT" => "v0.2.1",
     "parent" => 0,
     "utf8" => 0
   },
@@ -40,10 +42,8 @@ my %WriteMakefileArgs = (
     "List::MoreUtils" => 0,
     "List::Util" => 0,
     "MooX" => 0,
-    "MooX::late" => "0.010",
-    "Test::XML::Ordered" => "v0.0.5",
     "XML::GrammarBase::Role::RelaxNG" => 0,
-    "XML::GrammarBase::Role::XSLT" => "v0.2.1",
+    "XML::GrammarBase::Role::XSLT" => 0,
     "XML::LibXML" => 0,
     "XML::LibXSLT" => 0,
     "XML::Writer" => 0,
@@ -52,7 +52,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.14.0",
+  "VERSION" => "0.14.1",
   "test" => {
     "TESTS" => "t/*.t t/base/*.t t/fiction/*.t t/screenplay/*.t"
   }

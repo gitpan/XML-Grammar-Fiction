@@ -37,10 +37,8 @@ lib/XML/Grammar/Fiction/FromProto/Node/Paragraph.pm
 lib/XML/Grammar/Fiction/FromProto/Node/Saying.pm
 lib/XML/Grammar/Fiction/FromProto/Node/Text.pm
 lib/XML/Grammar/Fiction/FromProto/Node/WithContent.pm
-lib/XML/Grammar/Fiction/FromProto/Nodes.pm
 lib/XML/Grammar/Fiction/FromProto/Parser.pm
 lib/XML/Grammar/Fiction/FromProto/Parser/QnD.pm
-lib/XML/Grammar/Fiction/RNG_Renderer.pm
 lib/XML/Grammar/Fiction/Struct/Tag.pm
 lib/XML/Grammar/Fiction/ToDocBook.pm
 lib/XML/Grammar/Fiction/ToHTML.pm
@@ -60,10 +58,12 @@ lib/XML/Grammar/Screenplay/FromProto/Parser/QnD.pm
 lib/XML/Grammar/Screenplay/ToDocBook.pm
 lib/XML/Grammar/Screenplay/ToHTML.pm
 lib/XML/Grammar/Screenplay/ToTEI.pm
-lib/XML/Grammar/Screenplay/XSLT/Base.pm
 rejects/Fiction_FromProto.pm
 rejects/QnD.pm
 rejects/Screenplay_Parser_QnD.pm
+rejects/XML/Grammar/Fiction/RNG_Renderer.pm
+rejects/XML/Grammar/Screenplay/XSLT/Base.pm
+rejects/lib/XML/Grammar/Fiction/FromProto/Nodes.pm
 rejects/lib/XML/Grammar/Fiction/FromProto/Parser/PRD.pm
 rejects/lib/XML/Grammar/Fiction/RendererBase.pm
 rejects/lib/XML/Grammar/Fiction/RendererBase.pm.2

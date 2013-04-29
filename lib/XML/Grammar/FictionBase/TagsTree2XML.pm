@@ -2,12 +2,10 @@ package XML::Grammar::FictionBase::TagsTree2XML;
 
 use MooX 'late';
 
-our $VERSION = '0.14.0';
+our $VERSION = '0.14.1';
 
 use XML::Writer;
 use HTML::Entities ();
-
-use XML::Grammar::Fiction::FromProto::Nodes;
 
 sub _get_xml_xml_ns
 {
@@ -426,11 +424,11 @@ to XML converters.
 
 =head1 VERSION
 
-version 0.14.0
+version 0.14.1
 
 =head1 VERSION
 
-Version 0.14.0
+Version 0.14.1
 
 =head2 $self->convert({ source => { file => $path_to_file } })
 

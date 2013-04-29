@@ -7,14 +7,13 @@ use MooX 'late';
 
 extends( 'XML::Grammar::FictionBase::FromProto::Parser::XmlIterator' );
 
-use XML::Grammar::Fiction::FromProto::Nodes;
 use XML::Grammar::Fiction::Struct::Tag;
 use XML::Grammar::FictionBase::Event;
 
 use List::Util ();
 use List::MoreUtils ();
 
-our $VERSION = '0.14.0';
+our $VERSION = '0.14.1';
 
 has "_in_saying" => (isa => "Bool", is => "rw");
 has "_prev_line_is_empty" => (isa => "Bool", is => "rw", default => 1);
@@ -619,7 +618,7 @@ B<For internal use only>.
 
 =head1 VERSION
 
-version 0.14.0
+version 0.14.1
 
 =head1 VERSION
 

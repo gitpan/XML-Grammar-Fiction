@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 
-our $VERSION = '0.14.0';
+our $VERSION = '0.14.1';
 
 use MooX 'late';
 
@@ -34,16 +34,16 @@ __END__
 
 =head1 NAME
 
-XML::Grammar::Fiction::FromProto::Nodes - contains several nodes for
-use in XML::Grammar::Fiction::FromProto.
+XML::Grammar::Fiction::FromProto::Node::WithContent - contains a node
+with content.
 
 =head1 VERSION
 
-version 0.14.0
+version 0.14.1
 
 =head1 VERSION
 
-Version 0.14.0
+Version 0.14.1
 
 =head1 AUTHOR
 
