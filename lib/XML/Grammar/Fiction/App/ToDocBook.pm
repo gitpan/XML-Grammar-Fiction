@@ -13,7 +13,7 @@ use Getopt::Long;
 use XML::Grammar::Fiction::ToDocBook;
 
 
-our $VERSION = '0.14.1';
+our $VERSION = '0.14.2';
 
 
 sub run
@@ -60,7 +60,7 @@ to convert a Fiction XML file to DocBook 5.
 
 =head1 VERSION
 
-version 0.14.1
+version 0.14.2
 
 =head1 SYNOPSIS
 
@@ -69,7 +69,7 @@ version 0.14.1
 
 =head1 VERSION
 
-Version 0.14.1
+Version 0.14.2
 
 =head1 FUNCTIONS
 

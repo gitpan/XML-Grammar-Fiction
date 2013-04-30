@@ -7,19 +7,9 @@ use lib qw{inc}; use XML::Grammar::Builder;
 
 my %module_build_args = (
   "build_requires" => {
-    "Config" => 0,
-    "File::Find" => 0,
-    "File::Temp" => 0,
-    "Module::Build" => "0.3601",
-    "MooX::late" => "0.010",
-    "Test::More" => 0,
-    "Test::XML::Ordered" => "v0.0.5",
-    "XML::GrammarBase::Role::XSLT" => "v0.2.1",
-    "parent" => 0,
-    "utf8" => 0
+    "Module::Build" => "0.3601"
   },
   "configure_requires" => {
-    "ExtUtils::MakeMaker" => "6.30",
     "Module::Build" => "0.3601"
   },
   "dist_abstract" => "CPAN distribution implementing an XML grammar\nand a lightweight markup language for stories, novels and other fiction.",
@@ -27,7 +17,7 @@ my %module_build_args = (
     "Shlomi Fish <shlomif\@cpan.org>"
   ],
   "dist_name" => "XML-Grammar-Fiction",
-  "dist_version" => "0.14.1",
+  "dist_version" => "0.14.2",
   "license" => "mit",
   "module_name" => "XML::Grammar::Fiction",
   "recommends" => {},
@@ -43,8 +33,9 @@ my %module_build_args = (
     "List::MoreUtils" => 0,
     "List::Util" => 0,
     "MooX" => 0,
+    "MooX::late" => "0.010",
     "XML::GrammarBase::Role::RelaxNG" => 0,
-    "XML::GrammarBase::Role::XSLT" => 0,
+    "XML::GrammarBase::Role::XSLT" => "v0.2.1",
     "XML::LibXML" => 0,
     "XML::LibXSLT" => 0,
     "XML::Writer" => 0,
@@ -53,9 +44,31 @@ my %module_build_args = (
     "strict" => 0,
     "warnings" => 0
   },
-  "script_files" => []
+  "script_files" => [],
+  "test_requires" => {
+    "Config" => 0,
+    "File::Find" => 0,
+    "File::Temp" => 0,
+    "Test::More" => 0,
+    "Test::XML::Ordered" => "v0.0.5",
+    "parent" => 0,
+    "utf8" => 0
+  }
 );
 
+
+unless ( eval { Module::Build->VERSION(0.4004) } ) {
+  my $tr = delete $module_build_args{test_requires};
+  my $br = $module_build_args{build_requires};
+  for my $mod ( keys %$tr ) {
+    if ( exists $br->{$mod} ) {
+      $br->{$mod} = $tr->{$mod} if $tr->{$mod} > $br->{$mod};
+    }
+    else {
+      $br->{$mod} = $tr->{$mod};
+    }
+  }
+}
 
 my $build = XML::Grammar::Builder->new(%module_build_args);
 

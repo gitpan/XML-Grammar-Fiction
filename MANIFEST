@@ -4,7 +4,6 @@ LICENSE
 MANIFEST
 MANIFEST.SKIP
 META.yml
-Makefile.PL
 README
 TODO.quicktask
 contrib/docbook-to-fiction-xml-txt.pl
@@ -18,6 +17,7 @@ extradata/screenplay-xml-to-tei.xslt
 extradata/screenplay-xml-to-xsl-fo.xslt
 extradata/screenplay-xml.dtd
 extradata/screenplay-xml.rng
+hg.log
 inc/Test/Run/Builder.pm
 inc/XML/Grammar/Builder.pm
 inc/XML/Grammar/Fiction/Builder.pm

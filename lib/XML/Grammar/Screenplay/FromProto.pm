@@ -13,7 +13,7 @@ extends("XML::Grammar::FictionBase::TagsTree2XML");
 my $screenplay_ns = q{http://web-cpan.berlios.de/modules/XML-Grammar-Screenplay/screenplay-xml-0.2/};
 
 
-our $VERSION = '0.14.1';
+our $VERSION = '0.14.2';
 
 
 
@@ -171,11 +171,11 @@ text representing a screenplay to an XML format.
 
 =head1 VERSION
 
-version 0.14.1
+version 0.14.2
 
 =head1 VERSION
 
-Version 0.14.1
+Version 0.14.2
 
 =head2 new()
 
