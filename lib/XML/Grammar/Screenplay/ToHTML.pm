@@ -17,7 +17,7 @@ has '+to_html_xslt_transform_basename' =>
 );
 
 
-our $VERSION = '0.14.2';
+our $VERSION = '0.14.3';
 
 
 sub translate_to_html
@@ -44,11 +44,11 @@ XML to HTML.
 
 =head1 VERSION
 
-version 0.14.2
+version 0.14.3
 
 =head1 VERSION
 
-Version 0.14.2
+Version 0.14.3
 
 =head1 METHODS
 

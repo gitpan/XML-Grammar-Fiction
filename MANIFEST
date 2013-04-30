@@ -17,7 +17,6 @@ extradata/screenplay-xml-to-tei.xslt
 extradata/screenplay-xml-to-xsl-fo.xslt
 extradata/screenplay-xml.dtd
 extradata/screenplay-xml.rng
-hg.log
 inc/Test/Run/Builder.pm
 inc/XML/Grammar/Builder.pm
 inc/XML/Grammar/Fiction/Builder.pm
@@ -138,6 +137,7 @@ t/lib/XmlGrammarTestXML.pm
 t/lib/run-test-1/XML/Grammar/Fiction/ConfigData.pm
 t/pod-coverage.t
 t/pod.t
+t/release-cpan-changes.t
 t/release-pod-coverage.t
 t/release-pod-syntax.t
 t/screenplay/00-load.t

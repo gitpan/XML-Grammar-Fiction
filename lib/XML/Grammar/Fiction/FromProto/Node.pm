@@ -6,7 +6,7 @@ use warnings;
 use List::Util ();
 
 
-our $VERSION = '0.14.2';
+our $VERSION = '0.14.3';
 
 use MooX 'late';
 
@@ -36,7 +36,7 @@ use in XML::Grammar::Fiction::FromProto.
 
 =head1 VERSION
 
-version 0.14.2
+version 0.14.3
 
 =head1 DESCRIPTION
 
@@ -44,7 +44,7 @@ Contains several nodes.
 
 =head1 VERSION
 
-Version 0.14.2
+Version 0.14.3
 
 =head1 AUTHOR
 
