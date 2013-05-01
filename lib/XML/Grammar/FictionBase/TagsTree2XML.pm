@@ -2,7 +2,7 @@ package XML::Grammar::FictionBase::TagsTree2XML;
 
 use MooX 'late';
 
-our $VERSION = '0.14.3';
+our $VERSION = '0.14.4';
 
 use XML::Writer;
 use HTML::Entities ();
@@ -170,7 +170,17 @@ sub _write_Element_Comment
 {
     my ($self, $elem) = @_;
 
-    $self->_writer->comment($elem->text());
+    my $text = $elem->text();
+
+    # To avoid trailing space due to a problem in XML::Writer
+    $text =~ s{\A[\r\n]+}{}ms;
+
+    if ($text =~ m{\n\z})
+    {
+        $text .= ' ';
+    }
+
+    $self->_writer->comment($text);
 }
 
 sub _calc_write_elem_obj_classes
@@ -424,11 +434,11 @@ to XML converters.
 
 =head1 VERSION
 
-version 0.14.3
+version 0.14.4
 
 =head1 VERSION
 
-Version 0.14.3
+Version 0.14.4
 
 =head2 $self->convert({ source => { file => $path_to_file } })
 

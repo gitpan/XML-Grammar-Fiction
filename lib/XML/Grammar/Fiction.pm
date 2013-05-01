@@ -4,7 +4,7 @@ use warnings;
 use strict;
 
 
-our $VERSION = '0.14.3';
+our $VERSION = '0.14.4';
 
 
 1;
@@ -22,7 +22,7 @@ and a lightweight markup language for stories, novels and other fiction.
 
 =head1 VERSION
 
-version 0.14.3
+version 0.14.4
 
 =head1 SYNOPSIS
 
@@ -61,7 +61,7 @@ The rest of this page will document the syntax of the custom textual format.
 
 =head1 VERSION
 
-Version 0.14.3
+Version 0.14.4
 
 =head1 FORMAT
 

@@ -1,6 +1,6 @@
 package XML::Grammar::Fiction::FromProto::Node::Paragraph;
 
-our $VERSION = '0.14.3';
+our $VERSION = '0.14.4';
 
 use MooX 'late';
 
@@ -16,7 +16,7 @@ __END__
 
 =head1 VERSION
 
-version 0.14.3
+version 0.14.4
 
 =head1 AUTHOR
 

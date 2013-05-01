@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 
-our $VERSION = '0.14.3';
+our $VERSION = '0.14.4';
 
 use MooX 'late';
 
@@ -39,11 +39,11 @@ with content.
 
 =head1 VERSION
 
-version 0.14.3
+version 0.14.4
 
 =head1 VERSION
 
-Version 0.14.3
+Version 0.14.4
 
 =head1 AUTHOR
 

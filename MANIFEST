@@ -6,6 +6,7 @@ MANIFEST.SKIP
 META.yml
 README
 TODO.quicktask
+cmds.perldb
 contrib/docbook-to-fiction-xml-txt.pl
 dist.ini
 extradata/fiction-xml-to-docbook.xslt
@@ -152,6 +153,7 @@ t/screenplay/data/proto-text/scenes-with-titles.txt
 t/screenplay/data/proto-text/two-nested-s.txt
 t/screenplay/data/proto-text/with-brs.txt
 t/screenplay/data/proto-text/with-colon-inside-description.txt
+t/screenplay/data/proto-text/with-comments-with-newlines.txt
 t/screenplay/data/proto-text/with-comments.txt
 t/screenplay/data/proto-text/with-description.txt
 t/screenplay/data/proto-text/with-dialogue.txt
@@ -187,6 +189,7 @@ t/screenplay/data/xml/scenes-with-titles.xml
 t/screenplay/data/xml/two-nested-s.xml
 t/screenplay/data/xml/with-brs.xml
 t/screenplay/data/xml/with-colon-inside-description.xml
+t/screenplay/data/xml/with-comments-with-newlines.xml
 t/screenplay/data/xml/with-comments.xml
 t/screenplay/data/xml/with-description.xml
 t/screenplay/data/xml/with-dialogue.xml

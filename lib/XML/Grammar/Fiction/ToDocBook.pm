@@ -22,7 +22,7 @@ has '+to_docbook_xslt_transform_basename' =>
 );
 
 
-our $VERSION = '0.14.3';
+our $VERSION = '0.14.4';
 
 
 
@@ -48,11 +48,11 @@ DocBook 5.
 
 =head1 VERSION
 
-version 0.14.3
+version 0.14.4
 
 =head1 VERSION
 
-Version 0.14.3
+Version 0.14.4
 
 =head1 METHODS
 
