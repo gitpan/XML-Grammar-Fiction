@@ -2,8 +2,8 @@ package XML::Grammar::Screenplay::ToDocBook;
 
 use MooX 'late';
 
-use XML::GrammarBase::Role::RelaxNG;
-use XML::GrammarBase::Role::XSLT;
+use XML::GrammarBase::Role::RelaxNG v0.2.2;
+use XML::GrammarBase::Role::XSLT v0.2.2;
 
 with ('XML::GrammarBase::Role::RelaxNG');
 with XSLT(output_format => 'docbook');
@@ -17,7 +17,7 @@ has '+to_docbook_xslt_transform_basename' =>
 );
 
 
-our $VERSION = '0.14.4';
+our $VERSION = '0.14.5';
 
 
 
@@ -45,7 +45,7 @@ XML to DocBook.
 
 =head1 VERSION
 
-version 0.14.4
+version 0.14.5
 
 =head1 METHODS
 
@@ -55,7 +55,7 @@ Inherited - (to settle pod-coverage).
 
 =head1 VERSION
 
-Version 0.14.4
+Version 0.14.5
 
 =head2 new()
 

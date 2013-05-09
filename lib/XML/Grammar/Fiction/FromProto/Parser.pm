@@ -6,7 +6,7 @@ use warnings;
 use MooX 'late';
 
 
-our $VERSION = '0.14.4';
+our $VERSION = '0.14.5';
 
 1;
 
@@ -25,11 +25,11 @@ B<For internal use only>.
 
 =head1 VERSION
 
-version 0.14.4
+version 0.14.5
 
 =head1 VERSION
 
-Version 0.14.4
+Version 0.14.5
 
 =head1 AUTHOR
 

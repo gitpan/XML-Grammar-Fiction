@@ -1,7 +1,0 @@
-b 69 ($fn =~ /with-comments-with-newlines/)
-c
-b XML::Grammar::FictionBase::TagsTree2XML::_write_Element_Comment
-c
-c
-b 183
-b XML::Writer::comment
