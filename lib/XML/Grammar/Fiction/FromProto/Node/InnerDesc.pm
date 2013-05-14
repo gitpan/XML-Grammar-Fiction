@@ -2,7 +2,7 @@ package XML::Grammar::Fiction::FromProto::Node::InnerDesc;
 
 use MooX 'late';
 
-our $VERSION = '0.14.5';
+our $VERSION = '0.14.6';
 
 extends("XML::Grammar::Fiction::FromProto::Node::Element");
 
@@ -22,7 +22,7 @@ __END__
 
 =head1 VERSION
 
-version 0.14.5
+version 0.14.6
 
 =head1 METHODS
 

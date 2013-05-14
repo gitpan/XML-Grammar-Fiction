@@ -8,7 +8,7 @@ use MooX 'late';
 use List::MoreUtils;
 
 
-our $VERSION = '0.14.5';
+our $VERSION = '0.14.6';
 
 has 'name' => (is => "rw", isa => "Str");
 has 'line' => (is => "rw", isa => "Int");
@@ -76,11 +76,11 @@ B<For internal use only>.
 
 =head1 VERSION
 
-version 0.14.5
+version 0.14.6
 
 =head1 VERSION
 
-Version 0.14.5
+Version 0.14.6
 
 =head1 METHODS
 
