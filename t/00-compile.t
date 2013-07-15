@@ -18,7 +18,7 @@ find(
     $found =~ s{^lib/}{};
     $found =~ s{[/\\]}{::}g;
     $found =~ s/\.pm$//;
-    return if $found =~ /bump-ver/;
+    return if $found =~ /bump-ver|tag-release|run_agg_tests/;
     push @modules, $found;
   },
   'lib',
@@ -32,7 +32,7 @@ sub _find_scripts {
       sub {
         return unless -f;
         my $found = $File::Find::name;
-        return if $found =~ /bump-ver/;
+        return if $found =~ /bump-ver|tag-release|run_agg_tests/;
         open my $FH, '<', $_ or do {
           note( "Unable to open $found in ( $! ), skipping" );
           return;
@@ -70,4 +70,5 @@ $plan ? (plan tests => $plan) : (plan skip_all => "no tests to run");
             script_compiles( $file, "$script script compiles" );
         }
     }
+
 }

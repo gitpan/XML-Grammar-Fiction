@@ -2,7 +2,7 @@ package XML::Grammar::Fiction::FromProto::Node::Comment;
 
 use MooX 'late';
 
-our $VERSION = '0.14.6';
+our $VERSION = '0.14.7';
 
 extends("XML::Grammar::Fiction::FromProto::Node");
 
@@ -18,7 +18,7 @@ __END__
 
 =head1 VERSION
 
-version 0.14.6
+version 0.14.7
 
 =head1 AUTHOR
 

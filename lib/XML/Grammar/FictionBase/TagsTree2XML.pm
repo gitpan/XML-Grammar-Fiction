@@ -2,7 +2,7 @@ package XML::Grammar::FictionBase::TagsTree2XML;
 
 use MooX 'late';
 
-our $VERSION = '0.14.6';
+our $VERSION = '0.14.7';
 
 use XML::Writer;
 use HTML::Entities ();
@@ -434,11 +434,11 @@ to XML converters.
 
 =head1 VERSION
 
-version 0.14.6
+version 0.14.7
 
 =head1 VERSION
 
-Version 0.14.6
+Version 0.14.7
 
 =head2 $self->convert({ source => { file => $path_to_file } })
 

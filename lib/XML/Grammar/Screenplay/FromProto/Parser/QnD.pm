@@ -13,7 +13,7 @@ use XML::Grammar::FictionBase::Event;
 use List::Util ();
 use List::MoreUtils ();
 
-our $VERSION = '0.14.6';
+our $VERSION = '0.14.7';
 
 has "_in_saying" => (isa => "Bool", is => "rw");
 has "_prev_line_is_empty" => (isa => "Bool", is => "rw", default => 1);
@@ -618,7 +618,7 @@ B<For internal use only>.
 
 =head1 VERSION
 
-version 0.14.6
+version 0.14.7
 
 =head1 VERSION
 

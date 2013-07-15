@@ -17,7 +17,7 @@ my %module_build_args = (
     "Shlomi Fish <shlomif\@cpan.org>"
   ],
   "dist_name" => "XML-Grammar-Fiction",
-  "dist_version" => "0.14.6",
+  "dist_version" => "0.14.7",
   "license" => "mit",
   "module_name" => "XML::Grammar::Fiction",
   "recommends" => {},

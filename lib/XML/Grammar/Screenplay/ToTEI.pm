@@ -20,7 +20,7 @@ has '+to_tei_xslt_transform_basename' =>
 );
 
 
-our $VERSION = '0.14.6';
+our $VERSION = '0.14.7';
 
 
 sub translate_to_tei
@@ -47,11 +47,11 @@ XML to TEI (Text Encoding Initiative).
 
 =head1 VERSION
 
-version 0.14.6
+version 0.14.7
 
 =head1 VERSION
 
-Version 0.14.6
+Version 0.14.7
 
 =head2 new()
 
