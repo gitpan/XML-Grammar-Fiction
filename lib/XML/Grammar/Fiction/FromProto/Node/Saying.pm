@@ -1,8 +1,11 @@
 package XML::Grammar::Fiction::FromProto::Node::Saying;
 
+use strict;
+use warnings;
+
 use MooX 'late';
 
-our $VERSION = '0.14.7';
+our $VERSION = '0.14.8';
 
 extends("XML::Grammar::Fiction::FromProto::Node::Text");
 
@@ -18,7 +21,7 @@ __END__
 
 =head1 VERSION
 
-version 0.14.7
+version 0.14.8
 
 =head1 AUTHOR
 

@@ -1,9 +1,12 @@
 package XML::Grammar::Fiction::FromProto::Node::Element;
 
+use strict;
+use warnings;
+
 
 use MooX 'late';
 
-our $VERSION = '0.14.7';
+our $VERSION = '0.14.8';
 
 extends("XML::Grammar::Fiction::FromProto::Node::WithContent");
 
@@ -42,7 +45,7 @@ XML::Grammar::Fiction::FromProto::Node::Element - an XML element node.
 
 =head1 VERSION
 
-version 0.14.7
+version 0.14.8
 
 =head1 METHODS
 

@@ -22,7 +22,7 @@ has '+to_html_xslt_transform_basename' =>
 );
 
 
-our $VERSION = '0.14.7';
+our $VERSION = '0.14.8';
 
 
 
@@ -47,11 +47,11 @@ XML::Grammar::Fiction::ToHTML - module that converts the Fiction-XML to HTML.
 
 =head1 VERSION
 
-version 0.14.7
+version 0.14.8
 
 =head1 VERSION
 
-Version 0.14.7
+Version 0.14.8
 
 =head1 METHODS
 

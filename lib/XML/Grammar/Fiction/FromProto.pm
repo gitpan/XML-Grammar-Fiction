@@ -13,7 +13,7 @@ extends("XML::Grammar::FictionBase::TagsTree2XML");
 my $fiction_ns = q{http://web-cpan.berlios.de/modules/XML-Grammar-Fortune/fiction-xml-0.2/};
 
 
-our $VERSION = '0.14.7';
+our $VERSION = '0.14.8';
 
 
 
@@ -318,11 +318,11 @@ text representing prose to an XML format.
 
 =head1 VERSION
 
-version 0.14.7
+version 0.14.8
 
 =head1 VERSION
 
-Version 0.14.7
+Version 0.14.8
 
 =head2 new()
 

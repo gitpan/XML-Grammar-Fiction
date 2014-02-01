@@ -1,74 +1,87 @@
-#!perl
-
 use strict;
 use warnings;
 
-use Test::More;
+# this test was generated with Dist::Zilla::Plugin::Test::Compile 2.036
+
+use Test::More  tests => 37 + ($ENV{AUTHOR_TESTING} ? 1 : 0);
 
 
 
-use File::Find;
-use File::Temp qw{ tempdir };
-
-my @modules;
-find(
-  sub {
-    return if $File::Find::name !~ /\.pm\z/;
-    my $found = $File::Find::name;
-    $found =~ s{^lib/}{};
-    $found =~ s{[/\\]}{::}g;
-    $found =~ s/\.pm$//;
-    return if $found =~ /bump-ver|tag-release|run_agg_tests/;
-    push @modules, $found;
-  },
-  'lib',
+my @module_files = (
+    'XML/Grammar/Fiction.pm',
+    'XML/Grammar/Fiction/App/FromProto.pm',
+    'XML/Grammar/Fiction/App/ToDocBook.pm',
+    'XML/Grammar/Fiction/App/ToHTML.pm',
+    'XML/Grammar/Fiction/Err.pm',
+    'XML/Grammar/Fiction/FromProto.pm',
+    'XML/Grammar/Fiction/FromProto/Node.pm',
+    'XML/Grammar/Fiction/FromProto/Node/Comment.pm',
+    'XML/Grammar/Fiction/FromProto/Node/Description.pm',
+    'XML/Grammar/Fiction/FromProto/Node/Element.pm',
+    'XML/Grammar/Fiction/FromProto/Node/InnerDesc.pm',
+    'XML/Grammar/Fiction/FromProto/Node/List.pm',
+    'XML/Grammar/Fiction/FromProto/Node/Paragraph.pm',
+    'XML/Grammar/Fiction/FromProto/Node/Saying.pm',
+    'XML/Grammar/Fiction/FromProto/Node/Text.pm',
+    'XML/Grammar/Fiction/FromProto/Node/WithContent.pm',
+    'XML/Grammar/Fiction/FromProto/Parser.pm',
+    'XML/Grammar/Fiction/FromProto/Parser/QnD.pm',
+    'XML/Grammar/Fiction/Struct/Tag.pm',
+    'XML/Grammar/Fiction/ToDocBook.pm',
+    'XML/Grammar/Fiction/ToHTML.pm',
+    'XML/Grammar/FictionBase/Event.pm',
+    'XML/Grammar/FictionBase/FromProto/Parser/LineIterator.pm',
+    'XML/Grammar/FictionBase/FromProto/Parser/XmlIterator.pm',
+    'XML/Grammar/FictionBase/TagsTree2XML.pm',
+    'XML/Grammar/FictionBase/XSLT/Converter.pm',
+    'XML/Grammar/Screenplay.pm',
+    'XML/Grammar/Screenplay/App/FromProto.pm',
+    'XML/Grammar/Screenplay/App/ToDocBook.pm',
+    'XML/Grammar/Screenplay/App/ToHTML.pm',
+    'XML/Grammar/Screenplay/Base.pm',
+    'XML/Grammar/Screenplay/FromProto.pm',
+    'XML/Grammar/Screenplay/FromProto/Parser.pm',
+    'XML/Grammar/Screenplay/FromProto/Parser/QnD.pm',
+    'XML/Grammar/Screenplay/ToDocBook.pm',
+    'XML/Grammar/Screenplay/ToHTML.pm',
+    'XML/Grammar/Screenplay/ToTEI.pm'
 );
 
-sub _find_scripts {
-    my $dir = shift @_;
 
-    my @found_scripts = ();
-    find(
-      sub {
-        return unless -f;
-        my $found = $File::Find::name;
-        return if $found =~ /bump-ver|tag-release|run_agg_tests/;
-        open my $FH, '<', $_ or do {
-          note( "Unable to open $found in ( $! ), skipping" );
-          return;
-        };
-        my $shebang = <$FH>;
-        return unless $shebang =~ /^#!.*?\bperl\b\s*$/;
-        push @found_scripts, $found;
-      },
-      $dir,
-    );
 
-    return @found_scripts;
-}
+# fake home for cpan-testers
+use File::Temp;
+local $ENV{HOME} = File::Temp::tempdir( CLEANUP => 1 );
 
-my @scripts;
-do { push @scripts, _find_scripts($_) if -d $_ }
-    for qw{ bin script scripts };
 
-my $plan = scalar(@modules) + scalar(@scripts);
-$plan ? (plan tests => $plan) : (plan skip_all => "no tests to run");
+my $inc_switch = q[-Mblib];
 
+use File::Spec;
+use IPC::Open3;
+use IO::Handle;
+
+my @warnings;
+for my $lib (@module_files)
 {
-    # fake home for cpan-testers
-     local $ENV{HOME} = tempdir( CLEANUP => 1 );
+    # see L<perlfaq8/How can I capture STDERR from an external command?>
+    open my $stdin, '<', File::Spec->devnull or die "can't open devnull: $!";
+    my $stderr = IO::Handle->new;
 
-    like( qx{ $^X -Ilib -e "require $_; print '$_ ok'" }, qr/^\s*$_ ok/s, "$_ loaded ok" )
-        for sort @modules;
+    my $pid = open3($stdin, '>&STDERR', $stderr, $^X, $inc_switch, '-e', "require q[$lib]");
+    binmode $stderr, ':crlf' if $^O eq 'MSWin32';
+    my @_warnings = <$stderr>;
+    waitpid($pid, 0);
+    is($?, 0, "$lib loaded ok");
 
-    SKIP: {
-        eval "use Test::Script 1.05; 1;";
-        skip "Test::Script needed to test script compilation", scalar(@scripts) if $@;
-        foreach my $file ( @scripts ) {
-            my $script = $file;
-            $script =~ s!.*/!!;
-            script_compiles( $file, "$script script compiles" );
-        }
+    if (@_warnings)
+    {
+        warn @_warnings;
+        push @warnings, @_warnings;
     }
-
 }
+
+
+
+is(scalar(@warnings), 0, 'no warnings found') if $ENV{AUTHOR_TESTING};
+
+
