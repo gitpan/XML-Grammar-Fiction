@@ -13,7 +13,7 @@ use Getopt::Long;
 use XML::Grammar::Screenplay::FromProto;
 use XML::Grammar::Screenplay::FromProto::Parser::QnD;
 
-our $VERSION = '0.14.8';
+our $VERSION = '0.14.9';
 
 
 sub run
@@ -53,7 +53,7 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
@@ -63,7 +63,7 @@ Screenplay XML.
 
 =head1 VERSION
 
-version 0.14.8
+version 0.14.9
 
 =head1 SYNOPSIS
 

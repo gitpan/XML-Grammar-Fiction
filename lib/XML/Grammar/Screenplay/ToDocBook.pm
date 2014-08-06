@@ -20,7 +20,7 @@ has '+to_docbook_xslt_transform_basename' =>
 );
 
 
-our $VERSION = '0.14.8';
+our $VERSION = '0.14.9';
 
 
 
@@ -39,7 +39,7 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
@@ -48,7 +48,7 @@ XML to DocBook.
 
 =head1 VERSION
 
-version 0.14.8
+version 0.14.9
 
 =head1 METHODS
 
@@ -58,7 +58,7 @@ Inherited - (to settle pod-coverage).
 
 =head1 VERSION
 
-Version 0.14.8
+Version 0.14.9
 
 =head2 new()
 

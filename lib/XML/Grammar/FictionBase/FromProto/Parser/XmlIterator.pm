@@ -907,7 +907,7 @@ sub _main_loop_iter_body
 }
 
 
-our $VERSION = '0.14.8';
+our $VERSION = '0.14.9';
 
 
 sub process_text
@@ -926,7 +926,7 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
@@ -937,7 +937,7 @@ B<For internal use only>.
 
 =head1 VERSION
 
-version 0.14.8
+version 0.14.9
 
 =head1 SYNOPSIS
 
@@ -979,7 +979,7 @@ XML-like grammars.
 
 =head1 VERSION
 
-Version 0.14.8
+Version 0.14.9
 
 =head1 METHODS
 

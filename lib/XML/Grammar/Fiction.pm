@@ -4,7 +4,7 @@ use warnings;
 use strict;
 
 
-our $VERSION = '0.14.8';
+our $VERSION = '0.14.9';
 
 
 1;
@@ -13,7 +13,7 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
@@ -22,7 +22,7 @@ and a lightweight markup language for stories, novels and other fiction.
 
 =head1 VERSION
 
-version 0.14.8
+version 0.14.9
 
 =head1 SYNOPSIS
 
@@ -61,7 +61,7 @@ The rest of this page will document the syntax of the custom textual format.
 
 =head1 VERSION
 
-Version 0.14.8
+Version 0.14.9
 
 =head1 FORMAT
 

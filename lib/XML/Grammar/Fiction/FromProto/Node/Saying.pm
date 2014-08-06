@@ -5,7 +5,7 @@ use warnings;
 
 use MooX 'late';
 
-our $VERSION = '0.14.8';
+our $VERSION = '0.14.9';
 
 extends("XML::Grammar::Fiction::FromProto::Node::Text");
 
@@ -17,11 +17,11 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 VERSION
 
-version 0.14.8
+version 0.14.9
 
 =head1 AUTHOR
 

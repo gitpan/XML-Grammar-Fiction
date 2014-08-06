@@ -12,7 +12,7 @@ use XML::Grammar::Fiction::Err;
 use XML::Grammar::FictionBase::Event;
 
 
-our $VERSION = '0.14.8';
+our $VERSION = '0.14.9';
 
 sub _non_tag_text_unit_consume_regex {
     return qr{(?:[\<]|^\n?$)}ms;
@@ -177,7 +177,7 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
@@ -188,11 +188,11 @@ B<For internal use only>.
 
 =head1 VERSION
 
-version 0.14.8
+version 0.14.9
 
 =head1 VERSION
 
-Version 0.14.8
+Version 0.14.9
 
 =head1 METHODS
 

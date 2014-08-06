@@ -3,7 +3,7 @@ package XML::Grammar::Fiction::FromProto::Node::Paragraph;
 use strict;
 use warnings;
 
-our $VERSION = '0.14.8';
+our $VERSION = '0.14.9';
 
 use MooX 'late';
 
@@ -15,11 +15,11 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 VERSION
 
-version 0.14.8
+version 0.14.9
 
 =head1 AUTHOR
 
