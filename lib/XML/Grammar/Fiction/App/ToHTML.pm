@@ -13,7 +13,7 @@ use Getopt::Long;
 use XML::Grammar::Fiction::ToHTML;
 
 
-our $VERSION = '0.14.9';
+our $VERSION = '0.14.10';
 
 
 sub run
@@ -60,7 +60,7 @@ Fiction-XML file to HTML
 
 =head1 VERSION
 
-version 0.14.9
+version 0.14.10
 
 =head1 SYNOPSIS
 
@@ -69,7 +69,7 @@ version 0.14.9
 
 =head1 VERSION
 
-Version 0.14.9
+Version 0.14.10
 
 =head1 FUNCTIONS
 

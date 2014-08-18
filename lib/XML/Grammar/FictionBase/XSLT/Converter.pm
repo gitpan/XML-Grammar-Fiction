@@ -32,7 +32,6 @@ has '_data_dir_from_input' =>
 
 has '_rng' =>
 (
-    isa => 'XML::LibXML::RelaxNG',
     is => 'rw',
     lazy => 1,
     default => sub {
@@ -56,7 +55,6 @@ sub _calc_rng
 
 has '_xml_parser' =>
 (
-    isa => 'XML::LibXML',
     is => 'rw',
     lazy => 1,
     default => sub {
@@ -73,7 +71,6 @@ sub _calc_xml_parser
 
 has '_xslt_processor' =>
 (
-    isa => "XML::LibXSLT",
     is => 'rw',
     lazy => 1,
     default => sub {
@@ -90,7 +87,6 @@ sub _calc_xslt_processor
 
 has '_stylesheet' =>
 (
-    isa => "XML::LibXSLT::StylesheetWrapper",
     is => 'rw',
     lazy => 1,
     default => sub {
@@ -116,7 +112,7 @@ has 'rng_schema_basename' => (is => 'ro', isa => 'Str', required => 1,);
 has 'xslt_transform_basename' => (is => 'ro', isa => 'Str', required => 1,);
 
 
-our $VERSION = '0.14.9';
+our $VERSION = '0.14.10';
 
 
 sub _calc_data_dir
@@ -219,11 +215,11 @@ file to a different XML file using an XSLT transform.
 
 =head1 VERSION
 
-version 0.14.9
+version 0.14.10
 
 =head1 VERSION
 
-Version 0.14.9
+Version 0.14.10
 
 =head1 METHODS
 

@@ -71,7 +71,7 @@ sub _pop_tag
 
 has "_events_queue" =>
 (
-    isa => "ArrayRef[XML::Grammar::FictionBase::Event]",
+    isa => "ArrayRef",
     # isa => "ArrayRef",
     is => "rw",
     default => sub { []; },
@@ -907,7 +907,7 @@ sub _main_loop_iter_body
 }
 
 
-our $VERSION = '0.14.9';
+our $VERSION = '0.14.10';
 
 
 sub process_text
@@ -937,7 +937,7 @@ B<For internal use only>.
 
 =head1 VERSION
 
-version 0.14.9
+version 0.14.10
 
 =head1 SYNOPSIS
 
@@ -979,7 +979,7 @@ XML-like grammars.
 
 =head1 VERSION
 
-Version 0.14.9
+Version 0.14.10
 
 =head1 METHODS
 

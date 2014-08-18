@@ -5,7 +5,7 @@ use warnings;
 
 use MooX 'late';
 
-our $VERSION = '0.14.9';
+our $VERSION = '0.14.10';
 
 use XML::Writer;
 use HTML::Entities ();
@@ -30,7 +30,6 @@ has '_parser_class' =>
 );
 
 has "_parser" => (
-    'isa' => "XML::Grammar::Fiction::FromProto::Parser",
     'is' => "rw",
     lazy => 1,
     default => sub {
@@ -61,7 +60,6 @@ sub _get_initial_writer
 }
 
 has "_writer" => (
-    'isa' => "Maybe[XML::Writer]",
     'is' => "rw",
     lazy => 1,
     default => sub { return shift->_get_initial_writer(); },
@@ -437,11 +435,11 @@ to XML converters.
 
 =head1 VERSION
 
-version 0.14.9
+version 0.14.10
 
 =head1 VERSION
 
-Version 0.14.9
+Version 0.14.10
 
 =head2 $self->convert({ source => { file => $path_to_file } })
 
