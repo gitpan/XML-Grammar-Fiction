@@ -6,7 +6,7 @@ use warnings;
 
 use MooX 'late';
 
-our $VERSION = '0.14.10';
+our $VERSION = '0.14.11';
 
 extends("XML::Grammar::Fiction::FromProto::Node::WithContent");
 
@@ -45,7 +45,7 @@ XML::Grammar::Fiction::FromProto::Node::Element - an XML element node.
 
 =head1 VERSION
 
-version 0.14.10
+version 0.14.11
 
 =head1 METHODS
 

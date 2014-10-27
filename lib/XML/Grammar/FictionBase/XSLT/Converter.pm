@@ -112,7 +112,7 @@ has 'rng_schema_basename' => (is => 'ro', isa => 'Str', required => 1,);
 has 'xslt_transform_basename' => (is => 'ro', isa => 'Str', required => 1,);
 
 
-our $VERSION = '0.14.10';
+our $VERSION = '0.14.11';
 
 
 sub _calc_data_dir
@@ -215,11 +215,11 @@ file to a different XML file using an XSLT transform.
 
 =head1 VERSION
 
-version 0.14.10
+version 0.14.11
 
 =head1 VERSION
 
-Version 0.14.10
+Version 0.14.11
 
 =head1 METHODS
 

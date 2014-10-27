@@ -4,7 +4,7 @@ use warnings;
 use strict;
 
 
-our $VERSION = '0.14.10';
+our $VERSION = '0.14.11';
 
 
 1;
@@ -22,7 +22,7 @@ and a lightweight markup language for stories, novels and other fiction.
 
 =head1 VERSION
 
-version 0.14.10
+version 0.14.11
 
 =head1 SYNOPSIS
 
@@ -57,11 +57,9 @@ L<XML::Grammar::Screenplay> .
 
 The rest of this page will document the syntax of the custom textual format.
 
-=encoding utf8
-
 =head1 VERSION
 
-Version 0.14.10
+Version 0.14.11
 
 =head1 FORMAT
 
